@@ -1,41 +1,46 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import { INPUT_ARRAY_WIDTH, width } from '../sorting/bubble/Constants';
-
-interface IProps{
-    onPress:(arrayForSort:string)=>void;
-    arrayForSort:string;
+import { OrientationState } from '../../context/OrientationState';
+import { INPUT_ARRAY_WIDTH_LANDSCAPE, INPUT_ARRAY_WIDTH_PORTRAIT, MARGIN_LEFT_LANDSCAPE, MARGIN_LEFT_PORTRAIT } from '../sorting/bubble/Constants';
+interface IProps {
+    onPress: (arrayForSort: string) => void;
+    arrayForSort: string;
 }
 
-const InputArray = ({onPress,arrayForSort}:IProps) => {
+const InputArray = ({ onPress, arrayForSort }: IProps) => {
+    const { orientation } = useContext(OrientationState);
+    const widthDependOnOrientation = (): number => {
+        return orientation === 'PORTRAIT' ? INPUT_ARRAY_WIDTH_PORTRAIT : INPUT_ARRAY_WIDTH_LANDSCAPE
+    }
+    const marginLeftDependOnOrientation = (): number => {
+        return orientation === 'PORTRAIT' ? MARGIN_LEFT_PORTRAIT : MARGIN_LEFT_LANDSCAPE;
+    }
     return (
-        <View style={styles.inputArrayContainer}>
+        <View style={[styles.inputArrayContainer, { width: widthDependOnOrientation(), marginLeft: marginLeftDependOnOrientation() }]}>
             <Text style={styles.labelText}>Array: </Text>
-            <TextInput value={arrayForSort} onChangeText={(arrayForSort)=>onPress(arrayForSort)} style={styles.textInput} placeholder={"1, 2, 3, 4, 5, 6"}/>
+            <TextInput value={arrayForSort} onChangeText={(arrayForSort) => onPress(arrayForSort)} style={styles.textInput} placeholder={"1, 2, 3, 4, 5, 6"} />
         </View>
     )
 }
 const styles = StyleSheet.create({
     inputArrayContainer: {
-        width: INPUT_ARRAY_WIDTH,
         borderWidth: 1,
         borderRadius: 10,
         height: 50,
-        left: (width - INPUT_ARRAY_WIDTH) / 2,
-        alignItems:'center',
-        flexDirection:'row',
-        overflow:'hidden'
+        alignItems: 'center',
+        flexDirection: 'row',
+        overflow: 'hidden'
     },
-    labelText:{
-        fontSize:18,
-        fontWeight:'bold',
-        letterSpacing:1.4,
-        marginLeft:10,
-        width:60,
+    labelText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        letterSpacing: 1.4,
+        marginLeft: 10,
+        width: 60,
     },
-    textInput:{
-        fontSize:18,
+    textInput: {
+        fontSize: 18,
     }
 })
 export default InputArray;

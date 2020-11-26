@@ -13,7 +13,7 @@ type setArrayForSort = {
     readonly payload: string;
 }
 
-export type Actions = setIsModalOpen | setArrayForSort;
+export type Actions = setIsModalOpen | setArrayForSort ;
 
 export const reducer = (state: IState, actions: Actions): IState => {
     switch (actions.type) {

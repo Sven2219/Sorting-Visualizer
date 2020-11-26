@@ -8,12 +8,13 @@ import Feather from 'react-native-vector-icons/Feather';
 import InputArray from '../components/inputArray/InputArray';
 
 
+
 interface IProps {
     navigation: NavigationScreenProp<NavigationState, NavigationParams>;
 }
 
 const BubbleSort = ({ navigation }: IProps) => {
-    const [state, dispatch] = useReducer<React.Reducer<IState, Actions>>(reducer, { isModalOpen: false, arrayForSort:"" })
+    const [state, dispatch] = useReducer<React.Reducer<IState, Actions>>(reducer, { isModalOpen: false, arrayForSort: "" })
 
     return (
         <View style={styles.mainContainer}>
@@ -22,7 +23,7 @@ const BubbleSort = ({ navigation }: IProps) => {
                 <Text style={styles.headerText}>Bubble Sort</Text>
                 <Feather name="book" size={35} color="#000" />
             </View>
-            <InputArray arrayForSort={state.arrayForSort} onPress={(arrayForSort:string)=>dispatch({type:"setArrayForSort",payload:arrayForSort})}/>
+            <InputArray arrayForSort={state.arrayForSort} onPress={(arrayForSort: string) => dispatch({ type: "setArrayForSort", payload: arrayForSort })} />
         </View>
     )
 }

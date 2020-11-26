@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, StyleSheet, StatusBar } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, StatusBar, Dimensions } from 'react-native';
 import SortingType from '../components/menu/SortingType';
 import { NavigationParams, NavigationScreenProp, NavigationState } from 'react-navigation';
 interface IProps {
@@ -7,6 +7,7 @@ interface IProps {
 }
 
 const Menu = ({ navigation }: IProps) => {
+
   return (
     <View style={styles.mainContainer}>
       <StatusBar hidden />
@@ -18,7 +19,7 @@ const Menu = ({ navigation }: IProps) => {
       <View style={styles.sortingContainer}>
         <SortingType onPress={() => navigation.navigate('MergeSort')} sortingType="Merge Sort" />
         <SortingType onPress={() => navigation.navigate('QuickSort')} sortingType="Quick Sort" />
-        <SortingType onPress={() => navigation.navigate('BubbleSort')} sortingType="Bubble Sort" />
+        <SortingType onPress={() => navigation.navigate('BubbleSort')} sortingType="Bubble Sort"/>
         <SortingType onPress={() => navigation.navigate('HeapSort')} sortingType="Heap Sort" />
       </View>
 
