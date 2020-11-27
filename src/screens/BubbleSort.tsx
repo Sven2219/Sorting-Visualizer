@@ -16,16 +16,18 @@ interface IProps {
 }
 
 const BubbleSort = ({ navigation }: IProps) => {
-    const [state, dispatch] = useReducer<React.Reducer<IState, Actions>>(reducer, { isModalOpen: false, arrayForSort: "", procedureOfSorting: {indexes:[],procedure:[]} })
+    const [state, dispatch] = useReducer<React.Reducer<IState, Actions>>(reducer, { isModalOpen: false, arrayForSort: "", procedureOfSorting: { indexes: [], procedure: [] } })
     const transformStringToArray = () => {
         const array: number[] = state.arrayForSort.split(",").map(Number);
         bubbleSort(array);
     }
-
     const bubbleSort = (items: number[]) => {
+        
         let procedure: number[][] = [];
         let indexes: number[] = [];
         let length: number = items.length;
+        procedure.push([...items]);
+        indexes.push(0);
         for (let i = 0; i < length; i++) {
             for (let j = 0; j < (length - i - 1); j++) {
                 indexes.push(j);
@@ -37,8 +39,9 @@ const BubbleSort = ({ navigation }: IProps) => {
                 procedure.push([...items]);
             }
         }
-        const payload:{procedure:number[][],indexes:number[]} = {procedure,indexes}
-        dispatch({ type: "setProcedureOfSorting", payload:payload })
+        procedure.push([...items])
+        const payload: { procedure: number[][], indexes: number[] } = { procedure, indexes }
+        dispatch({ type: "setProcedureOfSorting", payload: payload })
     }
     return (
         <View style={styles.mainContainer}>

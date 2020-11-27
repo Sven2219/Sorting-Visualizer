@@ -4,11 +4,12 @@ import { View, Text, StyleSheet } from 'react-native';
 interface IProps {
     procedureOfSorting: {
         procedure: number[][];
-        indexes: number[];//0->4,0->3,0->2,0->1,0
+        indexes: number[];
     };
 }
 
 const Charts = ({ procedureOfSorting }: IProps) => {
+    console.log(procedureOfSorting.procedure)
     const [partOfProcedure, setPartOfProcedure] = useState<{ index: number, oneElement: number[] }>({ index: 0, oneElement: [] });
     const prevData = useRef(partOfProcedure.oneElement);
     useEffect(() => {
@@ -25,17 +26,24 @@ const Charts = ({ procedureOfSorting }: IProps) => {
             }, 1000 * (index))
         }))
     }
+    //Problem ? Kako saznat da je kraj ?!
     const checkBackgroundColor = (element: number, index: number) => {
-        //walking
-
-        if (element !== prevData.current[index] && prevData.current.length > 0) {
+        if (partOfProcedure.index < 1) {//pocetak
+            return "#228b22";//zelena
+        }
+        if (partOfProcedure.index + 1 === procedureOfSorting.procedure.length) {//kraj
+            prevData.current = [];
+            setPartOfProcedure({ index: 0,oneElement:partOfProcedure.oneElement});
+            return "#228b22"//zelena
+        }
+        else if (element !== prevData.current[index] && prevData.current.length > 0) {
             return "#b22222";//crvena
         }
         else if (index == procedureOfSorting.indexes[partOfProcedure.index]) {
             return "#483d8b";//plava
         }
         else {
-            return "#228b22"
+            return "#228b22"//zelena
         }
     }
     //Moram skaliart height-> napravit formulu za skaliranje
@@ -45,7 +53,6 @@ const Charts = ({ procedureOfSorting }: IProps) => {
 
                 return (
                     <View key={index}>
-
                         <View style={[styles.oneChartContainer, { height: 50 + element * 5, backgroundColor: checkBackgroundColor(element, index) }]} />
                         <Text style={styles.chartLabelText}>{element}</Text>
                     </View>
@@ -80,5 +87,6 @@ const styles = StyleSheet.create({
 })
 
 export default React.memo(Charts, (prevState, currentState) => {
+
     return prevState.procedureOfSorting == currentState.procedureOfSorting;
 });
