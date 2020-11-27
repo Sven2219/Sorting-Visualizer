@@ -9,7 +9,6 @@ interface IProps {
 }
 
 const Charts = ({ procedureOfSorting }: IProps) => {
-    console.log(procedureOfSorting.procedure)
     const [partOfProcedure, setPartOfProcedure] = useState<{ index: number, oneElement: number[] }>({ index: 0, oneElement: [] });
     const prevData = useRef(partOfProcedure.oneElement);
     useEffect(() => {
