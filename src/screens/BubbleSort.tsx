@@ -82,8 +82,8 @@ const styles = StyleSheet.create({
     },
     startButtonPosition: {
         alignItems: 'flex-end',
-        right: START_BUTTON_SIZE/2-5,
-        top: START_BUTTON_SIZE/2,
+        right: START_BUTTON_SIZE / 2 - 5,
+        top: START_BUTTON_SIZE / 2,
         zIndex: 2
     },
     shadow: {
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     startButtonContainer: {
         width: START_BUTTON_SIZE,
         height: START_BUTTON_SIZE,
-        borderRadius: START_BUTTON_SIZE/2,
+        borderRadius: START_BUTTON_SIZE / 2,
         backgroundColor: "#b22222",
         alignItems: 'center',
         justifyContent: 'center'
