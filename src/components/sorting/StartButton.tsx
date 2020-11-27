@@ -7,7 +7,7 @@ interface IProps {
 
 const StartButton = ({ onPress }: IProps) => {
     return (<TouchableOpacity onPress={onPress} style={styles.positionCenter}>
-        <Ionicons name="caret-back-circle-outline" size={40} onPress={onPress}/>
+        <Ionicons name="caret-forward" size={40} onPress={onPress} color={"#fff"}/>
     </TouchableOpacity>)
 }
 const styles = StyleSheet.create({
@@ -15,11 +15,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 20
+        left:2
     },
-    text: {
-        fontSize: 18,
-        letterSpacing: 1.5
-    }
 })
 export default StartButton;

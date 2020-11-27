@@ -6,7 +6,7 @@ import { Actions, IState, reducer } from '../reducers/bubbleSort';
 import Feather from 'react-native-vector-icons/Feather';
 import InputArray from '../components/inputArray/InputArray';
 import StartButton from '../components/sorting/StartButton';
-import Charts from '../components/sorting/bubble/Charts';
+import Charts from '../components/sorting/bubble/Vizualization';
 import Theory from '../components/sorting/Theory';
 
 
@@ -14,7 +14,7 @@ import Theory from '../components/sorting/Theory';
 interface IProps {
     navigation: NavigationScreenProp<NavigationState, NavigationParams>;
 }
-
+const START_BUTTON_SIZE = 50;
 const BubbleSort = ({ navigation }: IProps) => {
     const [state, dispatch] = useReducer<React.Reducer<IState, Actions>>(reducer, { isModalOpen: false, arrayForSort: "", procedureOfSorting: { indexes: [], procedure: [] } })
     const transformStringAndCallBubble = (): void => {
@@ -54,7 +54,11 @@ const BubbleSort = ({ navigation }: IProps) => {
                 <Feather name="book" size={35} color="#000" onPress={() => dispatch({ type: "setIsModalOpen", payload: true })} />
             </View>
             <InputArray arrayForSort={state.arrayForSort} onPress={(arrayForSort: string) => dispatch({ type: "setArrayForSort", payload: arrayForSort })} />
-            <StartButton onPress={transformStringAndCallBubble} />
+            <View style={styles.startButtonPosition}>
+                <View style={[styles.startButtonContainer, styles.shadow]}>
+                    <StartButton onPress={transformStringAndCallBubble} />
+                </View>
+            </View>
             <Charts procedureOfSorting={state.procedureOfSorting} />
             {state.isModalOpen && <Theory onPress={() => dispatch({ type: "setIsModalOpen", payload: false })} />}
         </ScrollView>
@@ -76,11 +80,29 @@ const styles = StyleSheet.create({
         fontFamily: 'Sura-Bold',
         letterSpacing: 2
     },
-    procedureContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+    startButtonPosition: {
+        alignItems: 'flex-end',
+        right: START_BUTTON_SIZE/2-5,
+        top: START_BUTTON_SIZE/2,
+        zIndex: 2
+    },
+    shadow: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 12,
+        },
+        shadowOpacity: 0.58,
+        shadowRadius: 16.00,
+        elevation: 24,
+    },
+    startButtonContainer: {
+        width: START_BUTTON_SIZE,
+        height: START_BUTTON_SIZE,
+        borderRadius: START_BUTTON_SIZE/2,
+        backgroundColor: "#b22222",
         alignItems: 'center',
-        marginTop: 40
+        justifyContent: 'center'
     }
 })
 export default BubbleSort;

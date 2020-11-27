@@ -15,4 +15,4 @@ export const MARGIN_LEFT_PORTRAIT = (portraitWidth - INPUT_ARRAY_WIDTH_PORTRAIT)
 export const MARGIN_LEFT_LANDSCAPE = (portraitHeight - INPUT_ARRAY_WIDTH_LANDSCAPE) / 2;
 export const CHART_MIN_HEIGHT = portraitHeight/10;
 export const CHART_MAX_HEIGHT = portraitHeight/4;
-export const CHARTS_HEIGHT = portraitWidth * 0.5;
+export const CHARTS_HEIGHT = portraitWidth * 0.6;
