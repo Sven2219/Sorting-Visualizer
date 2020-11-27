@@ -1,6 +1,5 @@
-import React, { useEffect, useReducer } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { bubbleSort } from '../components/sorting/bubble/helper/bubbleSort';
+import React, { useReducer } from 'react';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { NavigationParams, NavigationScreenProp, NavigationState } from 'react-navigation';
 import { Actions, IState, reducer } from '../reducers/bubbleSort';
@@ -8,6 +7,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import InputArray from '../components/inputArray/InputArray';
 import StartButton from '../components/sorting/StartButton';
 import Charts from '../components/sorting/bubble/Charts';
+import Theory from '../components/sorting/Theory';
 
 
 
@@ -17,12 +17,13 @@ interface IProps {
 
 const BubbleSort = ({ navigation }: IProps) => {
     const [state, dispatch] = useReducer<React.Reducer<IState, Actions>>(reducer, { isModalOpen: false, arrayForSort: "", procedureOfSorting: { indexes: [], procedure: [] } })
-    const transformStringToArray = () => {
-        const array: number[] = state.arrayForSort.split(",").map(Number);
-        bubbleSort(array);
+    const transformStringAndCallBubble = (): void => {
+        if (state.arrayForSort !== "") {
+            const array: number[] = state.arrayForSort.split(",").map(Number);//transforming
+            bubbleSort(array);//calling bubble
+        }
     }
-    const bubbleSort = (items: number[]) => {
-
+    const bubbleSort = (items: number[]): void => {
         let procedure: number[][] = [];
         let indexes: number[] = [];
         let length: number = items.length;
@@ -37,7 +38,6 @@ const BubbleSort = ({ navigation }: IProps) => {
                     let temp: number = items[j];
                     items[j] = items[j + 1];
                     items[j + 1] = temp;
-
                 }
                 procedure.push([...items]);
             }
@@ -47,21 +47,23 @@ const BubbleSort = ({ navigation }: IProps) => {
         dispatch({ type: "setProcedureOfSorting", payload: payload })
     }
     return (
-        <View style={styles.mainContainer}>
+        <ScrollView style={styles.mainContainer}>
             <View style={styles.headerContainer}>
                 <Ionicons name="arrow-back" size={35} color="#000" onPress={() => navigation.goBack()} />
                 <Text style={styles.headerText}>Bubble Sort</Text>
-                <Feather name="book" size={35} color="#000" />
+                <Feather name="book" size={35} color="#000" onPress={() => dispatch({ type: "setIsModalOpen", payload: true })} />
             </View>
             <InputArray arrayForSort={state.arrayForSort} onPress={(arrayForSort: string) => dispatch({ type: "setArrayForSort", payload: arrayForSort })} />
-            <StartButton onPress={transformStringToArray} />
+            <StartButton onPress={transformStringAndCallBubble} />
             <Charts procedureOfSorting={state.procedureOfSorting} />
-        </View>
+            {state.isModalOpen && <Theory onPress={() => dispatch({ type: "setIsModalOpen", payload: false })} />}
+        </ScrollView>
     )
 }
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
+        backgroundColor: '#fff'
     },
     headerContainer: {
         flexDirection: 'row',
@@ -71,7 +73,7 @@ const styles = StyleSheet.create({
     },
     headerText: {
         fontSize: 24,
-        fontWeight: 'bold',
+        fontFamily: 'Sura-Bold',
         letterSpacing: 2
     },
     procedureContainer: {

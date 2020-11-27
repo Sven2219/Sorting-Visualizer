@@ -15,9 +15,10 @@ const SortingType = ({ onPress, sortingType }: IProps) => {
 }
 
 const styles = StyleSheet.create({
-    sortingTypeText:{
-        fontSize:20,
-        letterSpacing:1.4
+    sortingTypeText: {
+        fontSize: 20,
+        letterSpacing: 1.4,
+        fontFamily: 'Sura-Regular'
     }
 })
 

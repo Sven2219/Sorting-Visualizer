@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 22,
-    fontWeight: 'bold',
+    fontFamily:'Sura-Bold',
     letterSpacing: 2
   },
   sortingContainer: {

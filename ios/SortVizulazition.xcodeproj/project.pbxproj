@@ -32,6 +32,8 @@
 		813CFE13BE264A52ACD677F8 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DCE2B22581147C58C5B2AE4 /* Octicons.ttf */; };
 		8FD28FD5BB41459EA77A5417 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9154D862F59F4A05A5FBD974 /* SimpleLineIcons.ttf */; };
 		F4C099CC1ACF42ACBC621DEA /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 180D120133CA4BFFB27BAA90 /* Zocial.ttf */; };
+		92D8DB748BC14430A41CEB51 /* Sura-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AAD495A514E24908B15653B8 /* Sura-Bold.ttf */; };
+		142B88ECF5544997A2616418 /* Sura-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D6A1FA5DED3243EEA729A315 /* Sura-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +85,8 @@
 		3DCE2B22581147C58C5B2AE4 /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		9154D862F59F4A05A5FBD974 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		180D120133CA4BFFB27BAA90 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		AAD495A514E24908B15653B8 /* Sura-Bold.ttf */ = {isa = PBXFileReference; name = "Sura-Bold.ttf"; path = "../assets/fonts/Sura-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D6A1FA5DED3243EEA729A315 /* Sura-Regular.ttf */ = {isa = PBXFileReference; name = "Sura-Regular.ttf"; path = "../assets/fonts/Sura-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,6 +213,8 @@
 				3DCE2B22581147C58C5B2AE4 /* Octicons.ttf */,
 				9154D862F59F4A05A5FBD974 /* SimpleLineIcons.ttf */,
 				180D120133CA4BFFB27BAA90 /* Zocial.ttf */,
+				AAD495A514E24908B15653B8 /* Sura-Bold.ttf */,
+				D6A1FA5DED3243EEA729A315 /* Sura-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -368,6 +374,8 @@
 				813CFE13BE264A52ACD677F8 /* Octicons.ttf in Resources */,
 				8FD28FD5BB41459EA77A5417 /* SimpleLineIcons.ttf in Resources */,
 				F4C099CC1ACF42ACBC621DEA /* Zocial.ttf in Resources */,
+				92D8DB748BC14430A41CEB51 /* Sura-Bold.ttf in Resources */,
+				142B88ECF5544997A2616418 /* Sura-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
