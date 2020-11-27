@@ -10,10 +10,10 @@ import Charts from '../components/sorting/bubble/Vizualization';
 import Theory from '../components/sorting/Theory';
 
 
-
 interface IProps {
     navigation: NavigationScreenProp<NavigationState, NavigationParams>;
 }
+
 const START_BUTTON_SIZE = 50;
 const BubbleSort = ({ navigation }: IProps) => {
     const [state, dispatch] = useReducer<React.Reducer<IState, Actions>>(reducer, { isModalOpen: false, arrayForSort: "", procedureOfSorting: { indexes: [], procedure: [] } })

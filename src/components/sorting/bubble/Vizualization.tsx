@@ -10,14 +10,17 @@ interface IProps {
 }
 
 const Charts = ({ procedureOfSorting }: IProps) => {
-    const [procedure, setProcedure] = useState<number[][]>([]);
-    const currentIndex = useRef(0);
-    const prevData = useRef<number[]>(procedureOfSorting.procedure[0]);//previous state
+    const [currentField, setCurrentField] = useState<number[]>([]);
+    const currentFieldIndex = useRef<number>(0);
+    const prevData = useRef<number[]>([]);//previous state
+
     //for scaling height
-    const maxRange = useRef(10);
-    const minRange = useRef(0);
+    const maxRange = useRef<number>(10);
+    const minRange = useRef<number>(0);
     const swapedValue = useRef<number[][]>([]);
-    const isEqual = useRef(true);
+    //edge scenario for scaling
+    const isWholeArraySame = useRef<boolean>(true);
+
 
     useEffect(() => {
         swapedValue.current = [];
@@ -27,59 +30,56 @@ const Charts = ({ procedureOfSorting }: IProps) => {
     }, [procedureOfSorting])
 
     useEffect(() => {
-        setSwapedValue();
-        prevData.current = procedure[currentIndex.current];
-    }, [procedure])
+        setSwapedValues();
+        prevData.current = currentField;
+    }, [currentField])
 
 
     const showProcedure = () => {
-        return (procedureOfSorting.procedure.map((element, index) => {
+        return (procedureOfSorting.procedure.map((field, index) => {
             setTimeout(() => {
-                currentIndex.current = index
-                setProcedure((prevState) => (
-                    [...prevState, element]
-                ))
+                currentFieldIndex.current = index
+                setCurrentField(field)
             }, 1000 * (index))
         }))
     }
     const checkBackgroundColor = (element: number, index: number): string => {
-        if (currentIndex.current < 1) {//start
+        if (currentFieldIndex.current < 1) {//start
             return "#228b22";//green
         }
-        if (currentIndex.current + 1 === procedureOfSorting.procedure.length) {//end
+        if (currentFieldIndex.current + 1 === procedureOfSorting.procedure.length) {//end
             prevData.current = [];
-            isEqual.current = false;
-            currentIndex.current = 0;
+            isWholeArraySame.current = false;
+            currentFieldIndex.current = 0;
             return "#228b22"//green
         }
         else if (element !== prevData.current[index]) {
             return "#b22222";//red
         }
-        else if (index == procedureOfSorting.indexes[currentIndex.current]) {
+        else if (index == procedureOfSorting.indexes[currentFieldIndex.current]) {
             return "#483d8b";//blue
         }
         else {
             return "#228b22"//green
         }
     }
-    const scalingHeight = (element: number): number => {
-        if (currentIndex.current === 0 && procedure[currentIndex.current].length > 0) {
-            isEqual.current = procedure[0].every((val, i, arr) => val === arr[0]);
+    const scaleHeight = (element: number): number => {
+        if (currentFieldIndex.current === 0 && procedureOfSorting.procedure[currentFieldIndex.current].length > 0) {
+            isWholeArraySame.current = currentField.every((val, i, arr) => val === arr[0]);
         }
-        if (!isEqual.current) {
-            if (procedure[currentIndex.current].length > 1) {
-                const val = scaleBetween(element, CHART_MIN_HEIGHT, CHART_MAX_HEIGHT, minRange.current, maxRange.current);
-                return val;
+        if (!isWholeArraySame.current) {
+            if (currentField.length > 1) {
+                return scaleBetween(element, CHART_MIN_HEIGHT, CHART_MAX_HEIGHT, minRange.current, maxRange.current);
             }
             return CHART_MAX_HEIGHT;
         }
         return CHART_MIN_HEIGHT;
     }
-    const setSwapedValue = () => {
+    const setSwapedValues = () => {
         let swaped: number[] = [];
-        if (procedure.length > 0 && Array.isArray(prevData.current)) {
-            for (let i = 0; i < procedure[currentIndex.current].length; i++) {
-                if (procedure[currentIndex.current][i] != prevData.current[i]) {
+        if (currentField.length > 0 && Array.isArray(prevData.current)) {
+            for (let i = 0; i < currentField.length; i++) {
+                if (currentField[i] != prevData.current[i]) {
                     swaped.push(prevData.current[i])
                 }
             }
@@ -89,23 +89,30 @@ const Charts = ({ procedureOfSorting }: IProps) => {
         }
     }
     return (
-        <View style={{ zIndex: 1 }}>
+        <View style={styles.mainContainer}>
             <View style={[styles.chartsContainer, styles.shadow]}>
-                {procedureOfSorting.procedure.length > 0 && procedure[currentIndex.current]?.map((element, index) => {
+                {procedureOfSorting.procedure.length > 0 && currentField?.map((element, index) => {
                     return (
                         <View key={index}>
-                            <View style={[styles.oneChartContainer, { height: scalingHeight(element), backgroundColor: checkBackgroundColor(element, index) }]} />
-                            <Text style={styles.chartLabelText}>{element}</Text>
+                            <View style={[styles.oneChartContainer,
+                            {
+                                height: scaleHeight(element),
+                                backgroundColor: checkBackgroundColor(element, index)
+                            }]}
+                            />
+                                <Text style={styles.chartLabelText}>{element}</Text>
                         </View>
                     )
                 })}
             </View>
             <View style={styles.procedureContainer}>
-                <Text style={styles.originalArrayText}>Original array: [{procedure.length > 0 && procedure[0].join(", ")}]</Text>
-                {swapedValue.current.length > 0 && swapedValue.current.map((element, index) => {
+                <Text style={styles.originalArrayText}>
+                    Original array: [{currentField.length > 0 && procedureOfSorting.procedure[0].join(", ")}]
+                </Text>
+                {swapedValue.current.length > 0 && swapedValue.current.map((field, index) => {
                     return (
                         <Text key={index} style={styles.swapingText}>
-                            {`Swaping ${element.join(" and ")}`}
+                            {`Swaping ${field.join(" and ")}`}
                         </Text>
                     )
                 })}
@@ -116,6 +123,9 @@ const Charts = ({ procedureOfSorting }: IProps) => {
 }
 
 const styles = StyleSheet.create({
+    mainContainer: {
+        zIndex: 1
+    },
     chartsContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
