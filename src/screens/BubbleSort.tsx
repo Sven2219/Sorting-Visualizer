@@ -59,7 +59,7 @@ const BubbleSort = ({ navigation }: IProps) => {
                     <StartButton onPress={transformStringAndCallBubble} />
                 </View>
             </View>
-            <Charts procedureOfSorting={state.procedureOfSorting} />
+            {state.procedureOfSorting.procedure.length > 0 && <Charts procedureOfSorting={state.procedureOfSorting} />}
             {state.isModalOpen && <Theory onPress={() => dispatch({ type: "setIsModalOpen", payload: false })} />}
         </ScrollView>
     )

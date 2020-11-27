@@ -14,7 +14,7 @@ const Charts = ({ procedureOfSorting }: IProps) => {
     const prevData = useRef<number[]>([]);//previous state
 
     //for scaling height
-    const maxRange = useRef<number>(0);
+    const maxRange = useRef<number>(10);
     const minRange = useRef<number>(0);
     const swapedValue = useRef<number[][]>([]);
     //edge scenario for scaling
@@ -25,9 +25,16 @@ const Charts = ({ procedureOfSorting }: IProps) => {
         if (procedureOfSorting.procedure.length !== 0) {
             swapedValue.current = [];
             maxRange.current = Math.max.apply(Math, procedureOfSorting.procedure[0]);
-            minRange.current = Math.min.apply(Math, procedureOfSorting.procedure[0]);
-            showProcedure();
+            minRange.current = Math.min.apply(Math, procedureOfSorting.procedure[0])
+            let timers = showProcedure();
+            //delete subscriptions
+            return () => {
+                for (let i = 0; i < procedureOfSorting.procedure.length; i++) {
+                    clearTimeout(timers[i])
+                }
+            }
         }
+
     }, [procedureOfSorting])
 
     useEffect(() => {
@@ -35,12 +42,13 @@ const Charts = ({ procedureOfSorting }: IProps) => {
             setSwapedValues();
             prevData.current = procedureOfSorting.procedure[currentFieldIndex];
         }
+
     }, [currentFieldIndex])
 
 
     const showProcedure = () => {
         return (procedureOfSorting.procedure.map((field, index) => {
-            setTimeout(() => {
+            return setTimeout(() => {
                 setCurrentFieldIndex(index);
             }, 1000 * (index))
         }))
@@ -68,7 +76,7 @@ const Charts = ({ procedureOfSorting }: IProps) => {
         if (currentFieldIndex === 0 && procedureOfSorting.procedure[currentFieldIndex].length > 0) {
             isWholeArraySame.current = procedureOfSorting.procedure[0].every((val, i, arr) => val === arr[0]);
         }
-        if (!isWholeArraySame.current) {
+        if (!isWholeArraySame.current && procedureOfSorting.procedure[currentFieldIndex].length > 0) {
             if (procedureOfSorting.procedure[0].length > 1) {
                 return scaleBetween(element, CHART_MIN_HEIGHT, CHART_MAX_HEIGHT, minRange.current, maxRange.current);
             }
