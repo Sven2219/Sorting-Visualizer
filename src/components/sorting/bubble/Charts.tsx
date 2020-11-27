@@ -10,13 +10,13 @@ interface IProps {
 
 const Charts = ({ procedureOfSorting }: IProps) => {
     const [partOfProcedure, setPartOfProcedure] = useState<{ index: number, oneElement: number[] }>({ index: 0, oneElement: [] });
-    const prevData = useRef(partOfProcedure);
+    const prevData = useRef(partOfProcedure.oneElement);
     useEffect(() => {
         showProcedure()
     }, [procedureOfSorting])
 
     useEffect(() => {
-        prevData.current = partOfProcedure;
+        prevData.current = partOfProcedure.oneElement;
     }, [partOfProcedure])
     const showProcedure = () => {
         return (procedureOfSorting.procedure.map((oneElement, index) => {
@@ -26,8 +26,16 @@ const Charts = ({ procedureOfSorting }: IProps) => {
         }))
     }
     const checkBackgroundColor = (element: number, index: number) => {
-        if (index == procedureOfSorting.indexes[partOfProcedure.index]) {
-            return "#b22222";
+        //walking
+
+        if (element !== prevData.current[index] && prevData.current.length > 0) {
+            return "#b22222";//crvena
+        }
+        else if (index == procedureOfSorting.indexes[partOfProcedure.index]) {
+            return "#483d8b";//plava
+        }
+        else {
+            return "#228b22"
         }
     }
     //Moram skaliart height-> napravit formulu za skaliranje
