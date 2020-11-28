@@ -6,6 +6,7 @@ export interface IState {
         procedure: number[][];
         indexes: number[];
     };
+    isPaused: boolean;
 }
 type setIsModalOpen = {
     readonly type: "setIsModalOpen";
@@ -22,7 +23,11 @@ type setProcedureOfSorting = {
         indexes: number[];
     };
 }
-export type Actions = setIsModalOpen | setArrayForSort | setProcedureOfSorting;
+type setIsPaused = {
+    readonly type: "setIsPaused";
+    readonly payload: boolean;
+}
+export type Actions = setIsModalOpen | setArrayForSort | setProcedureOfSorting | setIsPaused;
 
 export const reducer = (state: IState, actions: Actions): IState => {
     switch (actions.type) {
@@ -31,8 +36,9 @@ export const reducer = (state: IState, actions: Actions): IState => {
         case "setArrayForSort":
             return { ...state, arrayForSort: actions.payload };
         case "setProcedureOfSorting":
-            return { ...state, procedureOfSorting: actions.payload };
-
+            return { ...state, procedureOfSorting: actions.payload, isPaused: false };
+        case "setIsPaused":
+            return { ...state, isPaused: actions.payload };
         default:
             return state;
     }

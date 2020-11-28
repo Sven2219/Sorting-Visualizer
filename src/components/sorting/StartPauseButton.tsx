@@ -3,11 +3,12 @@ import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 interface IProps {
     onPress: () => void;
+    iconName: string;
 }
 
-const StartButton = ({ onPress }: IProps) => {
+const StartPauseButton = ({ onPress, iconName }: IProps) => {
     return (<TouchableOpacity onPress={onPress} style={styles.positionCenter}>
-        <Ionicons name="caret-forward" size={40} onPress={onPress} color={"#fff"}/>
+        <Ionicons name={iconName} size={40} onPress={onPress} color={"#fff"} />
     </TouchableOpacity>)
 }
 const styles = StyleSheet.create({
@@ -15,7 +16,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        left:2
+        left: 2
     },
 })
-export default StartButton;
+export default StartPauseButton;

@@ -1,13 +1,15 @@
-import React, { useReducer } from 'react';
+import React, { useMemo, useReducer } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { NavigationParams, NavigationScreenProp, NavigationState } from 'react-navigation';
 import { Actions, IState, reducer } from '../reducers/bubbleSort';
 import Feather from 'react-native-vector-icons/Feather';
 import InputArray from '../components/inputArray/InputArray';
-import StartButton from '../components/sorting/StartButton';
-import Charts from '../components/sorting/bubble/Vizualization';
+import StartPauseButton from '../components/sorting/StartPauseButton';
+import Vizualization from '../components/sorting/bubble/Vizualization';
 import Theory from '../components/sorting/Theory';
+import { BubbleDispatch } from '../context/BubbleDispatch';
+import { BubbleState } from '../context/BubbleState';
 
 
 interface IProps {
@@ -16,13 +18,15 @@ interface IProps {
 
 const START_BUTTON_SIZE = 50;
 const BubbleSort = ({ navigation }: IProps) => {
-    const [state, dispatch] = useReducer<React.Reducer<IState, Actions>>(reducer, { isModalOpen: false, arrayForSort: "", procedureOfSorting: { indexes: [], procedure: [] } })
+    const [state, dispatch] = useReducer<React.Reducer<IState, Actions>>(reducer, { isPaused: true, isModalOpen: false, arrayForSort: "", procedureOfSorting: { indexes: [], procedure: [] } })
     const transformStringAndCallBubble = (): void => {
         if (state.arrayForSort !== "") {
             const array: number[] = state.arrayForSort.split(",").map(Number);//transforming
             bubbleSort(array);//calling bubble
         }
     }
+    const memoizedState = React.useMemo(() => ({ state }), [state.isPaused])
+    const memoizedDispatch = React.useMemo(() => ({ dispatch }), [state.isPaused])
     const bubbleSort = (items: number[]): void => {
         let procedure: number[][] = [];
         let indexes: number[] = [];
@@ -46,6 +50,18 @@ const BubbleSort = ({ navigation }: IProps) => {
         const payload: { procedure: number[][], indexes: number[] } = { procedure, indexes }
         dispatch({ type: "setProcedureOfSorting", payload: payload })
     }
+    const showButton = () => {
+        if (state.isPaused) {
+            return <StartPauseButton onPress={transformStringAndCallBubble} iconName={"caret-forward"} />
+        }
+        return <StartPauseButton onPress={() => dispatch({ type: "setIsPaused", payload: true })} iconName={"pause"} />
+    }
+
+    const memoizedVizualziation = useMemo(() =>
+        <Vizualization />
+        , [state.isPaused]
+    )
+
     return (
         <ScrollView style={styles.mainContainer}>
             <View style={styles.headerContainer}>
@@ -55,11 +71,16 @@ const BubbleSort = ({ navigation }: IProps) => {
             </View>
             <InputArray arrayForSort={state.arrayForSort} onPress={(arrayForSort: string) => dispatch({ type: "setArrayForSort", payload: arrayForSort })} />
             <View style={styles.startButtonPosition}>
-                <View style={[styles.startButtonContainer, styles.shadow]}>
-                    <StartButton onPress={transformStringAndCallBubble} />
+                <View style={[styles.startButtonContainer, styles.shadow, { backgroundColor: state.isPaused ? "#228b22" : "#b22222" }]}>
+                    {showButton()}
                 </View>
             </View>
-            <Charts procedureOfSorting={state.procedureOfSorting} />
+            <BubbleDispatch.Provider value={memoizedDispatch}>
+                <BubbleState.Provider value={memoizedState}>
+                    {memoizedVizualziation}
+                </BubbleState.Provider>
+            </BubbleDispatch.Provider>
+
             {state.isModalOpen && <Theory onPress={() => dispatch({ type: "setIsModalOpen", payload: false })} />}
         </ScrollView>
     )
@@ -99,7 +120,6 @@ const styles = StyleSheet.create({
         width: START_BUTTON_SIZE,
         height: START_BUTTON_SIZE,
         borderRadius: START_BUTTON_SIZE / 2,
-        backgroundColor: "#228b22",
         alignItems: 'center',
         justifyContent: 'center'
     }

@@ -1,53 +1,77 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { BubbleDispatch } from '../../../context/BubbleDispatch';
+import { BubbleState } from '../../../context/BubbleState';
 import { CHARTS_HEIGHT, CHART_MAX_HEIGHT, CHART_MIN_HEIGHT } from './Constants';
 import { scaleBetween } from './scalingHelper';
-interface IProps {
-    procedureOfSorting: {
-        procedure: number[][];
-        indexes: number[];
-    };
-}
 
-const Vizualization = ({ procedureOfSorting }: IProps) => {
+const Vizualization = () => {
     //I used this approach because if I use currentFieldIndex for state it will give me flickering effect
     //The reason for flickering effect is when this component get new procedureOfSorting the index is not able to change on time
+    const { state: { isPaused, procedureOfSorting } } = useContext(BubbleState);
+    const { dispatch } = useContext(BubbleDispatch);
     const [currentField, setCurrentField] = useState<number[]>([]);
     const currentFieldIndex = useRef<number>(0);
     const prevData = useRef<number[]>([]);//previous state
-
     //for scaling height
     const maxRange = useRef<number>(10);
     const minRange = useRef<number>(0);
     const swapedValue = useRef<number[][]>([]);
     //edge scenario for scaling
     const isWholeArraySame = useRef<boolean>(true);
-
+    const timers = useRef<NodeJS.Timeout[]>([])
+    const [isFinished, setIsFinished] = useState(false);
+    useEffect(() => {
+        if (isFinished) {
+            dispatch({ type: "setIsPaused", payload: true })
+        }
+    }, [isFinished])
 
     useEffect(() => {
-        swapedValue.current = [];
-        maxRange.current = Math.max.apply(Math, procedureOfSorting.procedure[0]);
-        minRange.current = Math.min.apply(Math, procedureOfSorting.procedure[0])
-        const timers = showProcedure();
+        if (currentFieldIndex.current === 0) {
+            swapedValue.current = [];
+            maxRange.current = Math.max.apply(Math, procedureOfSorting.procedure[0]);
+            minRange.current = Math.min.apply(Math, procedureOfSorting.procedure[0]);
+            setIsFinished(false);
+        }
+        timers.current = startProcedure();
         return () => {
             for (let i = 0; i < procedureOfSorting.procedure.length; i++) {
-                clearTimeout(timers[i])
+                clearTimeout(timers.current[i])
             }
         }
     }, [procedureOfSorting])
-
     useEffect(() => {
-        setSwapedValues();
-        prevData.current = currentField;
+        if (isPaused) {
+            for (let i = 0; i < procedureOfSorting.procedure.length; i++) {
+                clearTimeout(timers.current[i])
+            }
+        }
+    }, [isPaused])
+    useEffect(() => {
+        if (!isPaused) {
+            setSwapedValues();
+            prevData.current = currentField;
+        }
     }, [currentField])
-    
-    const showProcedure = () => {
-        return (procedureOfSorting.procedure.map((field, index) => {
+
+    const startProcedure = () => {
+        const start = currentFieldIndex.current > 0 ? currentFieldIndex.current + 1 : currentFieldIndex.current;
+        const slicedData = procedureOfSorting.procedure.slice(start, procedureOfSorting.procedure.length);
+        return (slicedData.map((field, index) => {
             return setTimeout(() => {
-                currentFieldIndex.current = index
-                setCurrentField(field)
+                if (!isPaused) {
+                    if (start > 0) {
+                        currentFieldIndex.current = currentFieldIndex.current + 1;
+                    }
+                    else {
+                        currentFieldIndex.current = index;
+                    }
+                    setCurrentField(field)
+                }
             }, 800 * (index))
         }))
+
     }
     const checkBackgroundColor = (element: number, index: number): string => {
         if (currentFieldIndex.current < 1) {//start
@@ -57,6 +81,7 @@ const Vizualization = ({ procedureOfSorting }: IProps) => {
             prevData.current = [];
             isWholeArraySame.current = false;
             currentFieldIndex.current = 0;
+            setIsFinished(true)
             return "#228b22"//green
         }
         else if (element !== prevData.current[index]) {
@@ -70,7 +95,6 @@ const Vizualization = ({ procedureOfSorting }: IProps) => {
         }
     }
     const scaleHeight = (element: number): number => {
-        console.log("max-min", maxRange.current, minRange.current)
         if (currentFieldIndex.current === 0 && procedureOfSorting.procedure[currentFieldIndex.current].length > 0) {
             isWholeArraySame.current = currentField.every((val, i, arr) => val === arr[0]);
         }
@@ -124,6 +148,7 @@ const Vizualization = ({ procedureOfSorting }: IProps) => {
                     )
                 })}
             </View>
+
         </View>
     )
 
@@ -180,6 +205,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default React.memo(Vizualization, (prevState, currentState) => {
-    return prevState.procedureOfSorting == currentState.procedureOfSorting;
-});
+export default Vizualization
