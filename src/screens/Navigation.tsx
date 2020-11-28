@@ -14,7 +14,7 @@ import { OrientationState } from '../context/OrientationState';
 const Stack = createStackNavigator();
 
 
-const Navigation = () => {
+const Navigation = (): JSX.Element => {
     return (<NavigationContainer >
         <Stack.Navigator initialRouteName={"Menu"} headerMode="none">
             <Stack.Screen component={Menu} name="Menu" />
@@ -25,8 +25,8 @@ const Navigation = () => {
         </Stack.Navigator>
     </NavigationContainer>)
 }
-const App = () => {
-    const [orientation, setOrientation] = useState("");
+const App = (): JSX.Element => {
+    const [orientation, setOrientation] = useState<string>("");
     useEffect(() => {
         const { width, height } = Dimensions.get("window");
         if (width < height) {

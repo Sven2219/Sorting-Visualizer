@@ -5,7 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 interface IProps {
     onPress: () => void;
 }
-const Theory = ({ onPress }: IProps) => {
+const Theory = ({ onPress }: IProps): JSX.Element => {
     return (
         <Modal >
             <View style={styles.mainModalContainer}>

@@ -9,7 +9,7 @@ interface IProps {
     editable: boolean;
 }
 
-const InputArray = ({ onPress, arrayForSort,editable }: IProps) => {
+const InputArray = ({ onPress, arrayForSort, editable }: IProps): JSX.Element => {
     const { orientation } = useContext(OrientationState);
     const widthDependOnOrientation = (): number => {
         return orientation === 'PORTRAIT' ? INPUT_ARRAY_WIDTH_PORTRAIT : INPUT_ARRAY_WIDTH_LANDSCAPE

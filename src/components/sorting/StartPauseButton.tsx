@@ -6,7 +6,7 @@ interface IProps {
     iconName: string;
 }
 
-const StartPauseButton = ({ onPress, iconName }: IProps) => {
+const StartPauseButton = ({ onPress, iconName }: IProps): JSX.Element => {
     return (<TouchableOpacity onPress={onPress} style={styles.positionCenter}>
         <Ionicons name={iconName} size={40} onPress={onPress} color={"#fff"} />
     </TouchableOpacity>)

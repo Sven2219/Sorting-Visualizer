@@ -22,7 +22,7 @@ const MergeSort = ({ navigation }: IProps) => {
                 <Text style={styles.headerText}>Merge Sort</Text>
                 <Feather name="book" size={35} color="#000" />
             </View>
-            <InputArray arrayForSort={state.arrayForSort} onPress={(arrayForSort: string) => dispatch({ type: "setArrayForSort", payload: arrayForSort })} />
+            
         </View>
     )
 }

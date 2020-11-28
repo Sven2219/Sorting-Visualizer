@@ -11,16 +11,16 @@ import Theory from '../components/sorting/Theory';
 import { BubbleDispatch } from '../context/BubbleDispatch';
 import { BubbleState } from '../context/BubbleState';
 
-
 interface IProps {
     navigation: NavigationScreenProp<NavigationState, NavigationParams>;
 }
 
 const START_BUTTON_SIZE = 50;
-const BubbleSort = ({ navigation }: IProps) => {
+
+const BubbleSort = ({ navigation }: IProps): JSX.Element => {
     const [state, dispatch] = useReducer<React.Reducer<IState, Actions>>(reducer, {
-        isPaused: true,
-        isModalOpen: false, arrayForSort: "", isFinished: true,
+        isVizualizationPaused: true,
+        isModalOpen: false, arrayForSort: "", isVizualizationFinished: true,
         procedureOfSorting: { indexes: [], procedure: [] }
     })
     const transformStringAndCallBubble = (): void => {
@@ -29,8 +29,9 @@ const BubbleSort = ({ navigation }: IProps) => {
             bubbleSort(array);//calling bubble
         }
     }
-    const memoizedState = React.useMemo(() => ({ state }), [state.isPaused])
-    const memoizedDispatch = React.useMemo(() => ({ dispatch }), [state.isPaused])
+    const memoizedState = React.useMemo(() => ({ state }), [state.isVizualizationPaused])
+    const memoizedDispatch = React.useMemo(() => ({ dispatch }), [state.isVizualizationPaused])
+    
     const bubbleSort = (items: number[]): void => {
         let procedure: number[][] = [];
         let indexes: number[] = [];
@@ -54,16 +55,16 @@ const BubbleSort = ({ navigation }: IProps) => {
         const payload: { procedure: number[][], indexes: number[] } = { procedure, indexes }
         dispatch({ type: "setProcedureOfSorting", payload: payload })
     }
-    const showButton = () => {
-        if (state.isPaused) {
+    const showButton = (): JSX.Element => {
+        if (state.isVizualizationPaused) {
             return <StartPauseButton onPress={transformStringAndCallBubble} iconName={"caret-forward"} />
         }
-        return <StartPauseButton onPress={() => dispatch({ type: "setIsPaused", isPaused: true })} iconName={"pause"} />
+        return <StartPauseButton onPress={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true })} iconName={"pause"} />
     }
 
     const memoizedVizualziation = useMemo(() =>
         <Vizualization />
-        , [state.isPaused]
+        , [state.isVizualizationPaused]
     )
 
     return (
@@ -75,10 +76,10 @@ const BubbleSort = ({ navigation }: IProps) => {
             </View>
             <InputArray arrayForSort={state.arrayForSort}
                 onPress={(arrayForSort: string) => dispatch({ type: "setArrayForSort", payload: arrayForSort })}
-                editable={state.isFinished}
+                editable={state.isVizualizationFinished}
             />
             <View style={styles.startButtonPosition}>
-                <View style={[styles.startButtonContainer, styles.shadow, { backgroundColor: state.isPaused ? "#228b22" : "#b22222" }]}>
+                <View style={[styles.startButtonContainer, styles.shadow, { backgroundColor: state.isVizualizationPaused ? "#228b22" : "#b22222" }]}>
                     {showButton()}
                 </View>
             </View>

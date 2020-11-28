@@ -6,7 +6,7 @@ interface IProps {
   navigation: NavigationScreenProp<NavigationState, NavigationParams>;
 }
 
-const Menu = ({ navigation }: IProps) => {
+const Menu = ({ navigation }: IProps): JSX.Element => {
 
   return (
     <View style={styles.mainContainer}>
@@ -19,7 +19,7 @@ const Menu = ({ navigation }: IProps) => {
       <View style={styles.sortingContainer}>
         <SortingType onPress={() => navigation.navigate('MergeSort')} sortingType="Merge Sort" />
         <SortingType onPress={() => navigation.navigate('QuickSort')} sortingType="Quick Sort" />
-        <SortingType onPress={() => navigation.navigate('BubbleSort')} sortingType="Bubble Sort"/>
+        <SortingType onPress={() => navigation.navigate('BubbleSort')} sortingType="Bubble Sort" />
         <SortingType onPress={() => navigation.navigate('HeapSort')} sortingType="Heap Sort" />
       </View>
 
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 22,
-    fontFamily:'Sura-Bold',
+    fontFamily: 'Sura-Bold',
     letterSpacing: 2
   },
   sortingContainer: {

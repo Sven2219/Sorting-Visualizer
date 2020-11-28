@@ -6,8 +6,8 @@ export interface IState {
         procedure: number[][];
         indexes: number[];
     };
-    isPaused: boolean;
-    isFinished: boolean;
+    isVizualizationPaused: boolean;
+    isVizualizationFinished: boolean;
 }
 type setIsModalOpen = {
     readonly type: "setIsModalOpen";
@@ -26,8 +26,8 @@ type setProcedureOfSorting = {
 }
 type setIsPaused = {
     readonly type: "setIsPaused";
-    readonly isPaused: boolean;
-    readonly IsFinished?: boolean;
+    readonly isVizualizationPaused: boolean;
+    readonly isVizualizationFinished?: boolean;
 }
 
 export type Actions = setIsModalOpen | setArrayForSort | setProcedureOfSorting | setIsPaused;
@@ -39,12 +39,12 @@ export const reducer = (state: IState, actions: Actions): IState => {
         case "setArrayForSort":
             return { ...state, arrayForSort: actions.payload };
         case "setProcedureOfSorting":
-            return { ...state, procedureOfSorting: actions.payload, isPaused: false,isFinished:false };
+            return { ...state, procedureOfSorting: actions.payload, isVizualizationPaused: false,isVizualizationFinished:false };
         case "setIsPaused":
-            if (actions.IsFinished !== undefined) {
-                return { ...state, isPaused: actions.isPaused, isFinished: actions.IsFinished };
+            if (actions.isVizualizationFinished !== undefined) {
+                return { ...state, isVizualizationPaused: actions.isVizualizationPaused, isVizualizationFinished: actions.isVizualizationFinished };
             }
-            return { ...state, isPaused: actions.isPaused };
+            return { ...state, isVizualizationPaused: actions.isVizualizationPaused };
         default:
             return state;
     }
