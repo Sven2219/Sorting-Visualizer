@@ -23,22 +23,28 @@ const Vizualization = () => {
     const [isFinished, setIsFinished] = useState(false);
     useEffect(() => {
         if (isFinished) {
-            dispatch({ type: "setIsPaused", payload: true })
+            dispatch({ type: "setIsPaused", isPaused: true, IsFinished: true })
         }
     }, [isFinished])
-
+    const delayToAvoidFlickering = () => {
+        return setTimeout(() => {
+            setIsFinished(false);
+        }, 100)
+    }
     useEffect(() => {
         if (currentFieldIndex.current === 0) {
             swapedValue.current = [];
             maxRange.current = Math.max.apply(Math, procedureOfSorting.procedure[0]);
             minRange.current = Math.min.apply(Math, procedureOfSorting.procedure[0]);
-            setIsFinished(false);
+            delayToAvoidFlickering();
         }
         timers.current = startProcedure();
         return () => {
             for (let i = 0; i < procedureOfSorting.procedure.length; i++) {
                 clearTimeout(timers.current[i])
             }
+            clearTimeout(delayToAvoidFlickering());
+
         }
     }, [procedureOfSorting])
     useEffect(() => {

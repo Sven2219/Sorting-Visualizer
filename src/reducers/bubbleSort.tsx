@@ -7,6 +7,7 @@ export interface IState {
         indexes: number[];
     };
     isPaused: boolean;
+    isFinished: boolean;
 }
 type setIsModalOpen = {
     readonly type: "setIsModalOpen";
@@ -25,8 +26,10 @@ type setProcedureOfSorting = {
 }
 type setIsPaused = {
     readonly type: "setIsPaused";
-    readonly payload: boolean;
+    readonly isPaused: boolean;
+    readonly IsFinished?: boolean;
 }
+
 export type Actions = setIsModalOpen | setArrayForSort | setProcedureOfSorting | setIsPaused;
 
 export const reducer = (state: IState, actions: Actions): IState => {
@@ -36,9 +39,12 @@ export const reducer = (state: IState, actions: Actions): IState => {
         case "setArrayForSort":
             return { ...state, arrayForSort: actions.payload };
         case "setProcedureOfSorting":
-            return { ...state, procedureOfSorting: actions.payload, isPaused: false };
+            return { ...state, procedureOfSorting: actions.payload, isPaused: false,isFinished:false };
         case "setIsPaused":
-            return { ...state, isPaused: actions.payload };
+            if (actions.IsFinished !== undefined) {
+                return { ...state, isPaused: actions.isPaused, isFinished: actions.IsFinished };
+            }
+            return { ...state, isPaused: actions.isPaused };
         default:
             return state;
     }

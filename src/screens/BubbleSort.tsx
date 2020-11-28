@@ -18,7 +18,11 @@ interface IProps {
 
 const START_BUTTON_SIZE = 50;
 const BubbleSort = ({ navigation }: IProps) => {
-    const [state, dispatch] = useReducer<React.Reducer<IState, Actions>>(reducer, { isPaused: true, isModalOpen: false, arrayForSort: "", procedureOfSorting: { indexes: [], procedure: [] } })
+    const [state, dispatch] = useReducer<React.Reducer<IState, Actions>>(reducer, {
+        isPaused: true,
+        isModalOpen: false, arrayForSort: "", isFinished: true,
+        procedureOfSorting: { indexes: [], procedure: [] }
+    })
     const transformStringAndCallBubble = (): void => {
         if (state.arrayForSort !== "") {
             const array: number[] = state.arrayForSort.split(",").map(Number);//transforming
@@ -54,7 +58,7 @@ const BubbleSort = ({ navigation }: IProps) => {
         if (state.isPaused) {
             return <StartPauseButton onPress={transformStringAndCallBubble} iconName={"caret-forward"} />
         }
-        return <StartPauseButton onPress={() => dispatch({ type: "setIsPaused", payload: true })} iconName={"pause"} />
+        return <StartPauseButton onPress={() => dispatch({ type: "setIsPaused", isPaused: true })} iconName={"pause"} />
     }
 
     const memoizedVizualziation = useMemo(() =>
@@ -69,7 +73,10 @@ const BubbleSort = ({ navigation }: IProps) => {
                 <Text style={styles.headerText}>Bubble Sort</Text>
                 <Feather name="book" size={35} color="#000" onPress={() => dispatch({ type: "setIsModalOpen", payload: true })} />
             </View>
-            <InputArray arrayForSort={state.arrayForSort} onPress={(arrayForSort: string) => dispatch({ type: "setArrayForSort", payload: arrayForSort })} />
+            <InputArray arrayForSort={state.arrayForSort}
+                onPress={(arrayForSort: string) => dispatch({ type: "setArrayForSort", payload: arrayForSort })}
+                editable={state.isFinished}
+            />
             <View style={styles.startButtonPosition}>
                 <View style={[styles.startButtonContainer, styles.shadow, { backgroundColor: state.isPaused ? "#228b22" : "#b22222" }]}>
                     {showButton()}

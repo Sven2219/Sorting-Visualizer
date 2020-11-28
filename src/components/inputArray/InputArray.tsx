@@ -6,9 +6,10 @@ import { INPUT_ARRAY_WIDTH_LANDSCAPE, INPUT_ARRAY_WIDTH_PORTRAIT, MARGIN_LEFT_LA
 interface IProps {
     onPress: (arrayForSort: string) => void;
     arrayForSort: string;
+    editable: boolean;
 }
 
-const InputArray = ({ onPress, arrayForSort }: IProps) => {
+const InputArray = ({ onPress, arrayForSort,editable }: IProps) => {
     const { orientation } = useContext(OrientationState);
     const widthDependOnOrientation = (): number => {
         return orientation === 'PORTRAIT' ? INPUT_ARRAY_WIDTH_PORTRAIT : INPUT_ARRAY_WIDTH_LANDSCAPE
@@ -19,7 +20,7 @@ const InputArray = ({ onPress, arrayForSort }: IProps) => {
     return (
         <View style={[styles.inputArrayContainer, { width: widthDependOnOrientation(), marginLeft: marginLeftDependOnOrientation() }]}>
             <Text style={styles.labelText}>Array: </Text>
-            <TextInput value={arrayForSort} onChangeText={(arrayForSort) => onPress(arrayForSort)} style={styles.textInput} placeholder={"1, 2, 3, 4, 5, 6"} />
+            <TextInput editable={editable} value={arrayForSort} onChangeText={(arrayForSort) => onPress(arrayForSort)} style={styles.textInput} placeholder={"1, 2, 3, 4, 5, 6"} />
         </View>
     )
 }
