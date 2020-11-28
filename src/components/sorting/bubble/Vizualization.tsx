@@ -9,8 +9,11 @@ interface IProps {
     };
 }
 
-const Charts = ({ procedureOfSorting }: IProps) => {
-    const [currentFieldIndex, setCurrentFieldIndex] = useState(0);
+const Vizualization = ({ procedureOfSorting }: IProps) => {
+    //I used this approach because if I use currentFieldIndex for state it will give me flickering effect
+    //The reason for flickering effect is when this component get new procedureOfSorting the index is not able to change on time
+    const [currentField, setCurrentField] = useState<number[]>([]);
+    const currentFieldIndex = useRef<number>(0);
     const prevData = useRef<number[]>([]);//previous state
 
     //for scaling height
@@ -22,50 +25,44 @@ const Charts = ({ procedureOfSorting }: IProps) => {
 
 
     useEffect(() => {
-        if (procedureOfSorting.procedure.length !== 0) {
-            swapedValue.current = [];
-            maxRange.current = Math.max.apply(Math, procedureOfSorting.procedure[0]);
-            minRange.current = Math.min.apply(Math, procedureOfSorting.procedure[0])
-            let timers = showProcedure();
-            //delete subscriptions
-            return () => {
-                for (let i = 0; i < procedureOfSorting.procedure.length; i++) {
-                    clearTimeout(timers[i])
-                }
+        swapedValue.current = [];
+        maxRange.current = Math.max.apply(Math, procedureOfSorting.procedure[0]);
+        minRange.current = Math.min.apply(Math, procedureOfSorting.procedure[0])
+        const timers = showProcedure();
+        return () => {
+            for (let i = 0; i < procedureOfSorting.procedure.length; i++) {
+                clearTimeout(timers[i])
             }
         }
-
     }, [procedureOfSorting])
 
     useEffect(() => {
-        if (procedureOfSorting.procedure.length !== 0) {
-            setSwapedValues();
-            prevData.current = procedureOfSorting.procedure[currentFieldIndex];
-        }
-
-    }, [currentFieldIndex])
-
-
+        setSwapedValues();
+        prevData.current = currentField;
+    }, [currentField])
+    
     const showProcedure = () => {
         return (procedureOfSorting.procedure.map((field, index) => {
             return setTimeout(() => {
-                setCurrentFieldIndex(index);
-            }, 1000 * (index))
+                currentFieldIndex.current = index
+                setCurrentField(field)
+            }, 800 * (index))
         }))
     }
     const checkBackgroundColor = (element: number, index: number): string => {
-        if (currentFieldIndex < 1) {//start
+        if (currentFieldIndex.current < 1) {//start
             return "#228b22";//green
         }
-        if (currentFieldIndex + 1 === procedureOfSorting.procedure.length) {//end
+        if (currentFieldIndex.current + 1 === procedureOfSorting.procedure.length) {//end
             prevData.current = [];
             isWholeArraySame.current = false;
+            currentFieldIndex.current = 0;
             return "#228b22"//green
         }
         else if (element !== prevData.current[index]) {
             return "#b22222";//red
         }
-        else if (index == procedureOfSorting.indexes[currentFieldIndex]) {
+        else if (index == procedureOfSorting.indexes[currentFieldIndex.current]) {
             return "#483d8b";//blue
         }
         else {
@@ -73,11 +70,12 @@ const Charts = ({ procedureOfSorting }: IProps) => {
         }
     }
     const scaleHeight = (element: number): number => {
-        if (currentFieldIndex === 0 && procedureOfSorting.procedure[currentFieldIndex].length > 0) {
-            isWholeArraySame.current = procedureOfSorting.procedure[0].every((val, i, arr) => val === arr[0]);
+        console.log("max-min", maxRange.current, minRange.current)
+        if (currentFieldIndex.current === 0 && procedureOfSorting.procedure[currentFieldIndex.current].length > 0) {
+            isWholeArraySame.current = currentField.every((val, i, arr) => val === arr[0]);
         }
-        if (!isWholeArraySame.current && procedureOfSorting.procedure[currentFieldIndex].length > 0) {
-            if (procedureOfSorting.procedure[0].length > 1) {
+        if (!isWholeArraySame.current) {
+            if (currentField.length > 1) {
                 return scaleBetween(element, CHART_MIN_HEIGHT, CHART_MAX_HEIGHT, minRange.current, maxRange.current);
             }
             return CHART_MAX_HEIGHT;
@@ -86,9 +84,9 @@ const Charts = ({ procedureOfSorting }: IProps) => {
     }
     const setSwapedValues = () => {
         let swaped: number[] = [];
-        if (Array.isArray(prevData.current)) {
-            for (let i = 0; i < procedureOfSorting.procedure[0].length; i++) {
-                if (procedureOfSorting.procedure[currentFieldIndex][i] != prevData.current[i]) {
+        if (currentField.length > 0 && Array.isArray(prevData.current)) {
+            for (let i = 0; i < currentField.length; i++) {
+                if (currentField[i] != prevData.current[i]) {
                     swaped.push(prevData.current[i])
                 }
             }
@@ -100,7 +98,7 @@ const Charts = ({ procedureOfSorting }: IProps) => {
     return (
         <View style={styles.mainContainer}>
             <View style={[styles.chartsContainer, styles.shadow]}>
-                {procedureOfSorting.procedure.length > 0 && procedureOfSorting.procedure[currentFieldIndex]?.map((element, index) => {
+                {procedureOfSorting.procedure.length > 0 && currentField?.map((element, index) => {
                     return (
                         <View key={index}>
                             <View style={[styles.oneChartContainer,
@@ -116,7 +114,7 @@ const Charts = ({ procedureOfSorting }: IProps) => {
             </View>
             <View style={styles.procedureContainer}>
                 <Text style={styles.originalArrayText}>
-                    Original array: [{procedureOfSorting.procedure.length > 0 && procedureOfSorting.procedure[0].join(", ")}]
+                    Original array: [{currentField.length > 0 && procedureOfSorting.procedure[0].join(", ")}]
                 </Text>
                 {swapedValue.current.length > 0 && swapedValue.current.map((field, index) => {
                     return (
@@ -182,7 +180,6 @@ const styles = StyleSheet.create({
     }
 })
 
-export default React.memo(Charts, (prevState, currentState) => {
-
+export default React.memo(Vizualization, (prevState, currentState) => {
     return prevState.procedureOfSorting == currentState.procedureOfSorting;
 });

@@ -1,7 +1,8 @@
 /**
  * @format
  */
-
+import { YellowBox } from 'react-native';
+YellowBox.ignoreWarnings(['Setting a timer']);
 import {AppRegistry} from 'react-native';
 import Navigation from './src/screens/Navigation';
 import {name as appName} from './app.json';

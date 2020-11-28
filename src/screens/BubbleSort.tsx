@@ -59,7 +59,7 @@ const BubbleSort = ({ navigation }: IProps) => {
                     <StartButton onPress={transformStringAndCallBubble} />
                 </View>
             </View>
-            {state.procedureOfSorting.procedure.length > 0 && <Charts procedureOfSorting={state.procedureOfSorting} />}
+            <Charts procedureOfSorting={state.procedureOfSorting} />
             {state.isModalOpen && <Theory onPress={() => dispatch({ type: "setIsModalOpen", payload: false })} />}
         </ScrollView>
     )
@@ -67,7 +67,6 @@ const BubbleSort = ({ navigation }: IProps) => {
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        backgroundColor: '#fff'
     },
     headerContainer: {
         flexDirection: 'row',
@@ -100,7 +99,7 @@ const styles = StyleSheet.create({
         width: START_BUTTON_SIZE,
         height: START_BUTTON_SIZE,
         borderRadius: START_BUTTON_SIZE / 2,
-        backgroundColor: "#b22222",
+        backgroundColor: "#228b22",
         alignItems: 'center',
         justifyContent: 'center'
     }
