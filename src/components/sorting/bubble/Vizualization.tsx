@@ -17,6 +17,7 @@ const Vizualization = (): JSX.Element => {
     const maxRange = useRef<number>(10);
     const minRange = useRef<number>(0);
     const swapedValue = useRef<number[][]>([]);
+    
     //edge scenario for scaling
     const isWholeArraySame = useRef<boolean>(true);
 
@@ -39,7 +40,8 @@ const Vizualization = (): JSX.Element => {
             delayToAvoidFlickering();
         }
         timers.current = startProcedure();
-        //cleanup 
+        //cleanup
+
         return () => {
             for (let i = 0; i < procedureOfSorting.procedure.length; i++) {
                 clearTimeout(timers.current[i])
@@ -83,7 +85,7 @@ const Vizualization = (): JSX.Element => {
                     }
                     setCurrentField(field)
                 }
-            }, 800 * (index))
+            }, 700 * (index))
         }))
 
     }
@@ -110,7 +112,7 @@ const Vizualization = (): JSX.Element => {
     }
     const getScaledHeight = (element: number): number => {
         if (currentFieldIndex.current === 0 && procedureOfSorting.procedure[currentFieldIndex.current].length > 0) {
-            isWholeArraySame.current = currentField.every((val, i, arr) => val === arr[0]);
+            isWholeArraySame.current = currentField.every((val, _, arr) => val === arr[0]);
         }
         if (!isWholeArraySame.current) {
             if (currentField.length > 1) {

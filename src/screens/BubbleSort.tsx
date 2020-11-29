@@ -7,9 +7,10 @@ import Feather from 'react-native-vector-icons/Feather';
 import InputArray from '../components/inputArray/InputArray';
 import StartPauseButton from '../components/sorting/StartPauseButton';
 import Vizualization from '../components/sorting/bubble/Vizualization';
-import Theory from '../components/sorting/Theory';
+import Theory from '../components/sorting/bubble/Theory';
 import { BubbleDispatch } from '../context/BubbleDispatch';
 import { BubbleState } from '../context/BubbleState';
+
 
 interface IProps {
     navigation: NavigationScreenProp<NavigationState, NavigationParams>;
@@ -31,7 +32,7 @@ const BubbleSort = ({ navigation }: IProps): JSX.Element => {
     }
     const memoizedState = React.useMemo(() => ({ state }), [state.isVizualizationPaused])
     const memoizedDispatch = React.useMemo(() => ({ dispatch }), [state.isVizualizationPaused])
-    
+
     const bubbleSort = (items: number[]): void => {
         let procedure: number[][] = [];
         let indexes: number[] = [];
@@ -82,6 +83,7 @@ const BubbleSort = ({ navigation }: IProps): JSX.Element => {
                 <View style={[styles.startButtonContainer, styles.shadow, { backgroundColor: state.isVizualizationPaused ? "#228b22" : "#b22222" }]}>
                     {showButton()}
                 </View>
+
             </View>
             <BubbleDispatch.Provider value={memoizedDispatch}>
                 <BubbleState.Provider value={memoizedState}>
