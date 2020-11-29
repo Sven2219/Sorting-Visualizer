@@ -13,7 +13,7 @@ const CodeExample = (): JSX.Element => {
             <Text style={styles.loopsOrCondition}>          for</Text>{`(let j = 0; j < length - i - 1; j++) {\n`}
             <Text style={styles.loopsOrCondition}>               if</Text>{`(elements[j] > elements[j+1]) {\n`}
             {`                    let temp = elements[j];\n`}
-            {`                    elements[j] = elements[j+1];\n`}
+            {`                    elements[j] = elements[j+1] ;\n`}
             {`                    elements[j+1] = temp;\n`}
             {`               }\n`}
             {`          }\n`}

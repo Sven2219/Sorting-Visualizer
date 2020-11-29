@@ -1,4 +1,4 @@
-import React, { useMemo, useReducer } from 'react';
+import React, { useMemo, useReducer, useRef } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { NavigationParams, NavigationScreenProp, NavigationState } from 'react-navigation';
@@ -6,7 +6,7 @@ import { Actions, IState, reducer } from '../reducers/bubbleSort';
 import Feather from 'react-native-vector-icons/Feather';
 import InputArray from '../components/inputArray/InputArray';
 import StartPauseButton from '../components/sorting/StartPauseButton';
-import Vizualization from '../components/sorting/bubble/Vizualization';
+import Vizualization from '../components/sorting/Vizualization';
 import Theory from '../components/sorting/bubble/Theory';
 import { BubbleDispatch } from '../context/BubbleDispatch';
 import { BubbleState } from '../context/BubbleState';
@@ -24,14 +24,15 @@ const BubbleSort = ({ navigation }: IProps): JSX.Element => {
         isModalOpen: false, arrayForSort: "", isVizualizationFinished: true,
         procedureOfSorting: { indexes: [], procedure: [] }
     })
+    const isWholeArraySame = useRef<boolean>(false);
     const transformStringAndCallBubble = (): void => {
         if (state.arrayForSort !== "") {
             const array: number[] = state.arrayForSort.split(",").map(Number);//transforming
+            isWholeArraySame.current = array.every((val, _, arr) => val === arr[0]);
             bubbleSort(array);//calling bubble
         }
     }
-    const memoizedState = React.useMemo(() => ({ state }), [state.isVizualizationPaused])
-    const memoizedDispatch = React.useMemo(() => ({ dispatch }), [state.isVizualizationPaused])
+
 
     const bubbleSort = (items: number[]): void => {
         let procedure: number[][] = [];
@@ -52,7 +53,8 @@ const BubbleSort = ({ navigation }: IProps): JSX.Element => {
                 procedure.push([...items]);
             }
         }
-        procedure.push([...items])
+        procedure.push([...items]);
+        procedure.push([...items]);
         const payload: { procedure: number[][], indexes: number[] } = { procedure, indexes }
         dispatch({ type: "setProcedureOfSorting", payload: payload })
     }
@@ -62,11 +64,6 @@ const BubbleSort = ({ navigation }: IProps): JSX.Element => {
         }
         return <StartPauseButton onPress={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true })} iconName={"pause"} />
     }
-
-    const memoizedVizualziation = useMemo(() =>
-        <Vizualization />
-        , [state.isVizualizationPaused]
-    )
 
     return (
         <ScrollView style={styles.mainContainer}>
@@ -85,11 +82,11 @@ const BubbleSort = ({ navigation }: IProps): JSX.Element => {
                 </View>
 
             </View>
-            <BubbleDispatch.Provider value={memoizedDispatch}>
-                <BubbleState.Provider value={memoizedState}>
-                    {memoizedVizualziation}
-                </BubbleState.Provider>
-            </BubbleDispatch.Provider>
+
+            <Vizualization procedureOfSorting={state.procedureOfSorting} isVizualizationPaused={state.isVizualizationPaused}
+                vizualizationFinished={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true, isVizualizationFinished: true })}
+                isWholeArraySame={isWholeArraySame.current}
+            />
 
             {state.isModalOpen && <Theory onPress={() => dispatch({ type: "setIsModalOpen", payload: false })} />}
         </ScrollView>
