@@ -10,10 +10,9 @@ interface IProps {
     }
     isVizualizationPaused: boolean;
     vizualizationFinished: () => void;
-    isWholeArraySame: boolean;
 }
 
-const Vizualization = ({ procedureOfSorting, isVizualizationPaused, vizualizationFinished,isWholeArraySame }: IProps): JSX.Element => {
+const Vizualization = ({ procedureOfSorting, isVizualizationPaused, vizualizationFinished }: IProps): JSX.Element => {
     const { procedure } = procedureOfSorting;
     const [currentField, setCurrentField] = useState<number[]>([]);
     const currentFieldIndex = useRef<number>(0);
@@ -27,20 +26,20 @@ const Vizualization = ({ procedureOfSorting, isVizualizationPaused, vizualizatio
         }
         return () => {
             for (let i = 0; i < procedure.length; i++) {
-                clearTimeout(timers.current[i])
+                clearTimeout(timers.current[i]);
             }
         }
     }, [procedureOfSorting])
     useEffect(() => {
-
         maxRange.current = Math.max.apply(Math, procedure[0]);
         minRange.current = Math.min.apply(Math, procedure[0]);
         if (isVizualizationPaused) {
             for (let i = 0; i < procedure.length; i++) {
-                clearTimeout(timers.current[i])
+                clearTimeout(timers.current[i]);
             }
         }
     }, [isVizualizationPaused])
+
     useEffect(() => {
         setSwapedValues();
     }, [currentField])
@@ -93,12 +92,11 @@ const Vizualization = ({ procedureOfSorting, isVizualizationPaused, vizualizatio
                     currentField={currentField}
                     minRange={minRange.current}
                     maxRange={maxRange.current}
-                    isWholeArraySame={isWholeArraySame}
                 />}
             </View>
             <View style={styles.procedureContainer}>
                 <Text style={styles.originalArrayText}>
-                    Original array: [{currentField.length > 0 && procedureOfSorting.procedure[0].join(", ")}]
+                    Original array: [{currentField.length > 0 && procedure[0].join(", ")}]
                 </Text>
                 {swapedValue.current.length > 0 && swapedValue.current.map((field, index) => {
                     return (

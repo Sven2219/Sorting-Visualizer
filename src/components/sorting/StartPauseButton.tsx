@@ -7,9 +7,11 @@ interface IProps {
 }
 
 const StartPauseButton = ({ onPress, iconName }: IProps): JSX.Element => {
-    return (<TouchableOpacity onPress={onPress} style={styles.positionCenter}>
-        <Ionicons name={iconName} size={40} onPress={onPress} color={"#fff"} />
-    </TouchableOpacity>)
+    return (
+        <TouchableOpacity onPress={onPress} style={styles.positionCenter}>
+            <Ionicons name={iconName} size={40} onPress={onPress} color={"#fff"} />
+        </TouchableOpacity>
+    )
 }
 const styles = StyleSheet.create({
     positionCenter: {

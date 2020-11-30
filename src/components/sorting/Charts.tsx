@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View } from 'react-native'
 import { CHARTS_HEIGHT, CHART_MAX_HEIGHT, CHART_MIN_HEIGHT } from './bubble/Constants';
 import { scaleBetween } from './scalingHelper';
@@ -11,12 +11,12 @@ interface IProps {
     currentField: number[];
     maxRange: number;
     minRange: number;
-    isWholeArraySame: boolean;
 }
-const Charts = ({ procedureOfSorting: { indexes, procedure }, currentFieldIndex, currentField, maxRange, minRange, isWholeArraySame }: IProps): JSX.Element => {
+const Charts = ({ procedureOfSorting: { indexes, procedure },
+    currentFieldIndex, currentField, maxRange, minRange }: IProps): JSX.Element => {
 
     const getScaledHeight = (element: number): number => {
-        if (!isWholeArraySame && procedure[currentFieldIndex].length > 1) {
+        if (minRange !== maxRange && procedure[currentFieldIndex].length > 1) {
             return scaleBetween(element, CHART_MIN_HEIGHT, CHART_MAX_HEIGHT, minRange, maxRange);
         }
         return CHART_MIN_HEIGHT;
@@ -39,7 +39,7 @@ const Charts = ({ procedureOfSorting: { indexes, procedure }, currentFieldIndex,
         }
     }
     return (
-        <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+        <View style={styles.mainContainer}>
             { procedure.length > 0 && currentField?.map((element, index) => {
                 return (
                     <View key={index}>
@@ -57,7 +57,10 @@ const Charts = ({ procedureOfSorting: { indexes, procedure }, currentFieldIndex,
     )
 }
 const styles = StyleSheet.create({
-
+    mainContainer: {
+        flexDirection: 'row',
+        alignItems: 'flex-end'
+    },
     chartsContainer: {
         flexDirection: 'row',
         justifyContent: 'center',

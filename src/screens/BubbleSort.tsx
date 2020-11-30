@@ -1,4 +1,4 @@
-import React, { useMemo, useReducer, useRef } from 'react';
+import React, { useReducer } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { NavigationParams, NavigationScreenProp, NavigationState } from 'react-navigation';
@@ -8,8 +8,6 @@ import InputArray from '../components/inputArray/InputArray';
 import StartPauseButton from '../components/sorting/StartPauseButton';
 import Vizualization from '../components/sorting/Vizualization';
 import Theory from '../components/sorting/bubble/Theory';
-import { BubbleDispatch } from '../context/BubbleDispatch';
-import { BubbleState } from '../context/BubbleState';
 
 
 interface IProps {
@@ -24,11 +22,10 @@ const BubbleSort = ({ navigation }: IProps): JSX.Element => {
         isModalOpen: false, arrayForSort: "", isVizualizationFinished: true,
         procedureOfSorting: { indexes: [], procedure: [] }
     })
-    const isWholeArraySame = useRef<boolean>(false);
+
     const transformStringAndCallBubble = (): void => {
         if (state.arrayForSort !== "") {
             const array: number[] = state.arrayForSort.split(",").map(Number);//transforming
-            isWholeArraySame.current = array.every((val, _, arr) => val === arr[0]);
             bubbleSort(array);//calling bubble
         }
     }
@@ -80,12 +77,10 @@ const BubbleSort = ({ navigation }: IProps): JSX.Element => {
                 <View style={[styles.startButtonContainer, styles.shadow, { backgroundColor: state.isVizualizationPaused ? "#228b22" : "#b22222" }]}>
                     {showButton()}
                 </View>
-
             </View>
 
             <Vizualization procedureOfSorting={state.procedureOfSorting} isVizualizationPaused={state.isVizualizationPaused}
                 vizualizationFinished={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true, isVizualizationFinished: true })}
-                isWholeArraySame={isWholeArraySame.current}
             />
 
             {state.isModalOpen && <Theory onPress={() => dispatch({ type: "setIsModalOpen", payload: false })} />}
