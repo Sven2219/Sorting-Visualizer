@@ -1,73 +1,72 @@
 import React, { useReducer } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { NavigationParams, NavigationScreenProp, NavigationState } from 'react-navigation';
-import { Actions, IState, reducer } from '../reducers/bubbleSort';
+import { Actions, IState, reducer } from '../reducers/algorithms';
 import Feather from 'react-native-vector-icons/Feather';
-import InputArray from '../components/inputArray/InputArray';
-import StartPauseButton from '../components/sorting/StartPauseButton';
-import Vizualization from '../components/sorting/Vizualization';
-import Theory from '../components/sorting/bubble/Theory';
+import InputArray from '../components/InputArray';
+import StartPauseButton from '../components/StartPauseButton';
+import Vizualization from '../components/Vizualization';
+import Theory from '../components/bubble/Theory';
+import { bubbleSort } from '../components/bubble/bubbleSort';
+import {BUBLE_SORT,QUICK_SORT,MERGE_SORT,HEAP_SORT} from '../components/sortingTypes'
 
-
-interface IProps {
-    navigation: NavigationScreenProp<NavigationState, NavigationParams>;
-}
 
 const START_BUTTON_SIZE = 50;
 
-const BubbleSort = ({ navigation }: IProps): JSX.Element => {
+const Algorithms = (): JSX.Element => {
     const [state, dispatch] = useReducer<React.Reducer<IState, Actions>>(reducer, {
-        isVizualizationPaused: true,
-        isModalOpen: false, arrayForSort: "", isVizualizationFinished: true,
-        procedureOfSorting: { indexes: [], procedure: [] }
+        isVizualizationPaused: true, chosenSort: BUBLE_SORT, isChoseSortModalOpen: false,
+        isTheoryModalOpen: false, arrayForSort: "", isVizualizationFinished: true,
+        bubbleSortProcedure: { indexes: [], procedure: [] },
+        quickSortProcedure: { indexes: [], procedure: [], pivot: [] },
     })
 
-    const transformStringAndCallBubble = (): void => {
+    const transformArrayInput = (): number[] => {
         if (state.arrayForSort !== "") {
-            const array: number[] = state.arrayForSort.split(",").map(Number);//transforming
-            bubbleSort(array);//calling bubble
+            const elements: number[] = state.arrayForSort.split(",").map(Number);//transforming
+            return elements;
         }
+        return [];
     }
-
-
-    const bubbleSort = (items: number[]): void => {
-        let procedure: number[][] = [];
-        let indexes: number[] = [];
-        let length: number = items.length;
-        procedure.push([...items]);
-        indexes.push(0);
-        for (let i = 0; i < length; i++) {
-            for (let j = 0; j < (length - i - 1); j++) {
-                indexes.push(j);
-                if (items[j] > items[j + 1]) {
-                    procedure.push([...items]);
-                    indexes.push(j);
-                    let temp: number = items[j];
-                    items[j] = items[j + 1];
-                    items[j + 1] = temp;
-                }
-                procedure.push([...items]);
+    const callSortingAlgorithm = () => {
+        const elements = transformArrayInput();
+        if (elements.length > 0) {
+            switch (state.chosenSort) {
+                case BUBLE_SORT:
+                    const payload = bubbleSort(elements);
+                    dispatch({ type: "setBubbleSortProcedure", payload: payload });
+                case QUICK_SORT:
+                    return
+                case MERGE_SORT:
+                    return;
+                case HEAP_SORT:
+                    return;
+                default:
+                    return;
             }
         }
-        procedure.push([...items]);
-        procedure.push([...items]);
-        const payload: { procedure: number[][], indexes: number[] } = { procedure, indexes }
-        dispatch({ type: "setProcedureOfSorting", payload: payload })
     }
+
     const showButton = (): JSX.Element => {
         if (state.isVizualizationPaused) {
-            return <StartPauseButton onPress={transformStringAndCallBubble} iconName={"caret-forward"} />
+            return <StartPauseButton onPress={callSortingAlgorithm} iconName={"caret-forward"} />
         }
         return <StartPauseButton onPress={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true })} iconName={"pause"} />
     }
-
+    const chooseProcedure = () => {
+        switch (state.chosenSort) {
+            case BUBLE_SORT:
+                return state.bubbleSortProcedure;
+            default:
+                return state.bubbleSortProcedure
+        }
+    }
     return (
         <ScrollView style={styles.mainContainer}>
             <View style={styles.headerContainer}>
-                <Ionicons name="arrow-back" size={35} color="#000" onPress={() => navigation.goBack()} />
+                <Ionicons name="menu" size={35} color="#000" onPress={() => dispatch({ type: "setIsChoseSortModalOpen", payload: true })} />
                 <Text style={styles.headerText}>Bubble Sort</Text>
-                <Feather name="book" size={35} color="#000" onPress={() => dispatch({ type: "setIsModalOpen", payload: true })} />
+                <Feather name="book" size={35} color="#000" onPress={() => dispatch({ type: "setIsTheoryModalOpen", payload: true })} />
             </View>
             <InputArray arrayForSort={state.arrayForSort}
                 onPress={(arrayForSort: string) => dispatch({ type: "setArrayForSort", payload: arrayForSort })}
@@ -79,11 +78,11 @@ const BubbleSort = ({ navigation }: IProps): JSX.Element => {
                 </View>
             </View>
 
-            <Vizualization procedureOfSorting={state.procedureOfSorting} isVizualizationPaused={state.isVizualizationPaused}
+            <Vizualization procedureOfSorting={chooseProcedure()} isVizualizationPaused={state.isVizualizationPaused}
                 vizualizationFinished={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true, isVizualizationFinished: true })}
             />
 
-            {state.isModalOpen && <Theory onPress={() => dispatch({ type: "setIsModalOpen", payload: false })} />}
+            {state.isTheoryModalOpen && <Theory onPress={() => dispatch({ type: "setIsTheoryModalOpen", payload: false })} />}
         </ScrollView>
     )
 }
@@ -126,4 +125,4 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     }
 })
-export default BubbleSort;
+export default Algorithms;
