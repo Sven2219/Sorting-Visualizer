@@ -6,14 +6,15 @@ import Charts from './Charts';
 interface IProps {
     procedureOfSorting: {
         procedure: number[][];
-        indexes: number[]
+        indexes: number[];
+        pivots?: number[]
     }
     isVizualizationPaused: boolean;
     vizualizationFinished: () => void;
-    chosenSort:string;
+    chosenSort: string;
 }
 
-const Vizualization = ({ procedureOfSorting, isVizualizationPaused, vizualizationFinished,chosenSort }: IProps): JSX.Element => {
+const Vizualization = ({ procedureOfSorting, isVizualizationPaused, vizualizationFinished, chosenSort }: IProps): JSX.Element => {
     const { procedure } = procedureOfSorting;
     const [currentField, setCurrentField] = useState<number[]>([]);
     const currentFieldIndex = useRef<number>(0);

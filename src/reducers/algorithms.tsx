@@ -8,7 +8,7 @@ export interface IState {
     quickSortProcedure: {
         procedure: number[][];
         indexes: number[];
-        pivot: number[]
+        pivots: number[]
     }
     chosenSort: string;
     isVizualizationPaused: boolean;
@@ -40,7 +40,7 @@ type setQuickSortProcedure = {
     readonly payload: {
         procedure: number[][];
         indexes: number[];
-        pivot: number[];
+        pivots: number[];
     }
 }
 type setChosenSort = {

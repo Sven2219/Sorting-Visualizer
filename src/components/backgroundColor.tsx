@@ -2,12 +2,12 @@ export const getBubbleBg = (element: number, index: number, currentFieldIndex: n
     const bg = getBg(element, index, currentFieldIndex, procedure, indexes);
     return bg === "" ? "#228b22" : bg;
 }
-export const getQuickBg = (element: number, index: number, currentFieldIndex: number, procedure: number[][], indexes: number[], pivot: number[] | undefined): string => {
+export const getQuickBg = (element: number, index: number, currentFieldIndex: number, procedure: number[][], indexes: number[], pivots: number[] | undefined): string => {
     const bg = getBg(element, index, currentFieldIndex, procedure, indexes);
     if (bg !== "") {
         return bg;
     }
-    else if (pivot !== undefined && element === pivot[currentFieldIndex]) {
+    else if (pivots !== undefined && element === pivots[currentFieldIndex]) {
         return "#daa520";
     }
     return "#228b22";

@@ -15,7 +15,7 @@ import { AlgorithmsState } from '../context/AlgorithmsState';
 import { quickSort } from '../components/quick/quickSort';
 export interface IQuick {
     procedure: number[][];
-    pivot: number[];
+    pivots: number[];
     indexes: number[];
 }
 const START_BUTTON_SIZE = 50;
@@ -25,7 +25,7 @@ const Algorithms = (): JSX.Element => {
         isVizualizationPaused: true, chosenSort: BUBBLE_SORT, isChoseSortModalOpen: false,
         isTheoryModalOpen: false, arrayForSort: "", isVizualizationFinished: true,
         bubbleSortProcedure: { indexes: [], procedure: [] },
-        quickSortProcedure: { indexes: [], procedure: [], pivot: [] },
+        quickSortProcedure: { indexes: [], procedure: [], pivots: [] },
     })
 
     const transformArrayInput = (): number[] => {
@@ -35,25 +35,34 @@ const Algorithms = (): JSX.Element => {
         }
         return [];
     }
-
-    const callSortingAlgorithm = () => {
-        const elements = transformArrayInput();
+    const bubble = (elements: number[]) => {
+        const bubble: { procedure: number[][], indexes: number[] } = bubbleSort(elements);
+        dispatch({ type: "setBubbleSortProcedure", payload: bubble });
+    }
+    const quick = (elements: number[]) => {
+        const quick: IQuick = { procedure: [], pivots: [], indexes: [] };
+        const { procedure, pivots, indexes } = quick;
+        const high: number = elements.length - 1;
+        procedure.push([...elements]);
+        indexes.push(0);
+        pivots.push(elements[high]);
+        quickSort(elements, 0, high, quick);
+        procedure.push([...elements]);
+        procedure.push([...elements]);
+        dispatch({ type: "setQuickSortProcedure", payload: quick })
+    }
+    const callSortingAlgorithm = (): void => {
+        const elements: number[] = transformArrayInput();
         if (elements.length > 0) {
             switch (state.chosenSort) {
                 case BUBBLE_SORT:
-                    const bubble = bubbleSort(elements);
-                    dispatch({ type: "setBubbleSortProcedure", payload: bubble });
+                    bubble(elements);
+                    break;
                 case QUICK_SORT:
-                    const quick: IQuick = { procedure: [], pivot: [], indexes: [] };
-                    quickSort(elements, 0, elements.length - 1, quick);
-                    console.log(quick)
-                    dispatch({ type: "setQuickSortProcedure", payload: quick })
-                case MERGE_SORT:
-                    return;
-                case HEAP_SORT:
-                    return;
+                    quick(elements);
+                    break;
                 default:
-                    return;
+                    break;
             }
         }
     }

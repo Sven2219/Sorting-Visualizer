@@ -7,7 +7,7 @@ interface IProps {
     procedureOfSorting: {
         procedure: number[][];
         indexes: number[];
-        pivot?: number[];
+        pivots?: number[];
     }
     currentFieldIndex: number;
     currentField: number[];
@@ -15,9 +15,8 @@ interface IProps {
     minRange: number;
     chosenSort: string;
 }
-const Charts = ({ procedureOfSorting: { indexes, procedure, pivot },
+const Charts = ({ procedureOfSorting: { indexes, procedure, pivots},
     currentFieldIndex, currentField, maxRange, minRange, chosenSort }: IProps): JSX.Element => {
-
     const getScaledHeight = (element: number): number => {
         if (minRange !== maxRange && procedure[currentFieldIndex].length > 1) {
             return scaleBetween(element, CHART_MIN_HEIGHT, CHART_MAX_HEIGHT, minRange, maxRange);
@@ -29,11 +28,12 @@ const Charts = ({ procedureOfSorting: { indexes, procedure, pivot },
             case "Bubble Sort":
                 return getBubbleBg(element, index, currentFieldIndex, procedure, indexes);
             case "Quick Sort":
-                return getQuickBg(element, index, currentFieldIndex, procedure, indexes, pivot);
+                return getQuickBg(element, index, currentFieldIndex, procedure, indexes, pivots);
             default:
                 return "#000";
         }
     }
+
     return (
         <View style={styles.mainContainer}>
             { procedure.length > 0 && currentField?.map((element, index) => {

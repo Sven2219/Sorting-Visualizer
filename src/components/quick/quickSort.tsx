@@ -3,24 +3,26 @@ import { IQuick } from "../../screens/Algorithms";
 
 const partition = (arr: number[], low: number, high: number, quick: IQuick): number => {
     const pivot = arr[high];
-    quick.pivot.push(pivot);
+    const { pivots, indexes, procedure } = quick;
+    pivots.push(pivot);
     let i = low - 1;
     for (let j = low; j < high; j++) {
-        quick.indexes.push(j);
+        indexes.push(j);
         if (arr[j] < pivot) {
-            quick.procedure.push([...arr])
-            quick.indexes.push(j)
+            procedure.push([...arr]);
+            indexes.push(j);
+            pivots.push(pivot);
             i++;
             let temp: number = arr[i];
             arr[i] = arr[j];
             arr[j] = temp;
         }
-        quick.procedure.push([...arr]);
+        procedure.push([...arr]);
     }
     let temp = arr[i + 1];
     arr[i + 1] = arr[high];
     arr[high] = temp;
-    quick.procedure.push([...arr]);
+    procedure.push([...arr]);
     return i + 1;
 }
 
