@@ -70,7 +70,7 @@ export const reducer = (state: IState, actions: Actions): IState => {
             }
             return { ...state, isVizualizationPaused: actions.isVizualizationPaused };
         case "setChosenSort":
-            return { ...state, chosenSort: actions.payload };
+            return { ...state, chosenSort: actions.payload, isChoseSortModalOpen: false };
         case "setIsChoseSortModalOpen":
             return { ...state, isChoseSortModalOpen: actions.payload };
         default:

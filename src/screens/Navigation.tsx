@@ -49,4 +49,5 @@ const App = (): JSX.Element => {
         </OrientationState.Provider>
     )
 }
+
 export default App;

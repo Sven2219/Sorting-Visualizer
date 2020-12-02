@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, StatusBar, Image, Dimensions } from 'react-native';
+import { View, StyleSheet, StatusBar, Image, Dimensions } from 'react-native';
 import { NavigationParams, NavigationScreenProp, NavigationState } from 'react-navigation';
 interface IProps {
   navigation: NavigationScreenProp<NavigationState, NavigationParams>;
@@ -13,7 +13,7 @@ const Splash = ({ navigation }: IProps): JSX.Element => {
     return () => {
       clearTimeout(timer)
     }
-  }, [])
+  }, []);
   return (
     <View style={styles.mainContainer}>
       <StatusBar hidden />

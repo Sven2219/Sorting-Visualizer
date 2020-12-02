@@ -1,19 +1,22 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native'
+import { getBubbleBg, getQuickBg } from './backgroundColor';
 import { CHARTS_HEIGHT, CHART_MAX_HEIGHT, CHART_MIN_HEIGHT } from './bubble/Constants';
 import { scaleBetween } from './scalingHelper';
 interface IProps {
     procedureOfSorting: {
         procedure: number[][];
-        indexes: number[]
+        indexes: number[];
+        pivot?: number[];
     }
     currentFieldIndex: number;
     currentField: number[];
     maxRange: number;
     minRange: number;
+    chosenSort: string;
 }
-const Charts = ({ procedureOfSorting: { indexes, procedure },
-    currentFieldIndex, currentField, maxRange, minRange }: IProps): JSX.Element => {
+const Charts = ({ procedureOfSorting: { indexes, procedure, pivot },
+    currentFieldIndex, currentField, maxRange, minRange, chosenSort }: IProps): JSX.Element => {
 
     const getScaledHeight = (element: number): number => {
         if (minRange !== maxRange && procedure[currentFieldIndex].length > 1) {
@@ -21,21 +24,14 @@ const Charts = ({ procedureOfSorting: { indexes, procedure },
         }
         return CHART_MIN_HEIGHT;
     }
-    const getBackgroundColor = (element: number, index: number): string => {
-        if (currentFieldIndex < 1) {//start
-            return "#228b22";//green
-        }
-        else if (currentFieldIndex + 1 === procedure.length) {//end
-            return "#228b22"//green
-        }
-        else if (element != procedure[currentFieldIndex - 1][index]) {
-            return "#b22222";//red
-        }
-        else if (index == indexes[currentFieldIndex]) {
-            return "#483d8b";//blue
-        }
-        else {
-            return "#228b22"//green
+    const getBackgroundColor = (element: number, index: number) => {
+        switch (chosenSort) {
+            case "Bubble Sort":
+                return getBubbleBg(element, index, currentFieldIndex, procedure, indexes);
+            case "Quick Sort":
+                return getQuickBg(element, index, currentFieldIndex, procedure, indexes, pivot);
+            default:
+                return "#000";
         }
     }
     return (

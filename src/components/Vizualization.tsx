@@ -10,9 +10,10 @@ interface IProps {
     }
     isVizualizationPaused: boolean;
     vizualizationFinished: () => void;
+    chosenSort:string;
 }
 
-const Vizualization = ({ procedureOfSorting, isVizualizationPaused, vizualizationFinished }: IProps): JSX.Element => {
+const Vizualization = ({ procedureOfSorting, isVizualizationPaused, vizualizationFinished,chosenSort }: IProps): JSX.Element => {
     const { procedure } = procedureOfSorting;
     const [currentField, setCurrentField] = useState<number[]>([]);
     const currentFieldIndex = useRef<number>(0);
@@ -92,6 +93,7 @@ const Vizualization = ({ procedureOfSorting, isVizualizationPaused, vizualizatio
                     currentField={currentField}
                     minRange={minRange.current}
                     maxRange={maxRange.current}
+                    chosenSort={chosenSort}
                 />}
             </View>
             <View style={styles.procedureContainer}>

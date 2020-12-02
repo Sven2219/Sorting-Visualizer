@@ -6,16 +6,23 @@ import Feather from 'react-native-vector-icons/Feather';
 import InputArray from '../components/InputArray';
 import StartPauseButton from '../components/StartPauseButton';
 import Vizualization from '../components/Vizualization';
-import Theory from '../components/bubble/Theory';
+import Theory from '../components/Theory';
 import { bubbleSort } from '../components/bubble/bubbleSort';
-import {BUBLE_SORT,QUICK_SORT,MERGE_SORT,HEAP_SORT} from '../components/sortingTypes'
-
-
+import { BUBBLE_SORT, QUICK_SORT, MERGE_SORT, HEAP_SORT } from '../components/sortingTypes';
+import AlgoMenu from '../components/menu/AlgoMenu';
+import { AlgoritmhsDispatch } from '../context/AlgorithmsDispatch';
+import { AlgorithmsState } from '../context/AlgorithmsState';
+import { quickSort } from '../components/quick/quickSort';
+export interface IQuick {
+    procedure: number[][];
+    pivot: number[];
+    indexes: number[];
+}
 const START_BUTTON_SIZE = 50;
 
 const Algorithms = (): JSX.Element => {
     const [state, dispatch] = useReducer<React.Reducer<IState, Actions>>(reducer, {
-        isVizualizationPaused: true, chosenSort: BUBLE_SORT, isChoseSortModalOpen: false,
+        isVizualizationPaused: true, chosenSort: BUBBLE_SORT, isChoseSortModalOpen: false,
         isTheoryModalOpen: false, arrayForSort: "", isVizualizationFinished: true,
         bubbleSortProcedure: { indexes: [], procedure: [] },
         quickSortProcedure: { indexes: [], procedure: [], pivot: [] },
@@ -28,15 +35,19 @@ const Algorithms = (): JSX.Element => {
         }
         return [];
     }
+
     const callSortingAlgorithm = () => {
         const elements = transformArrayInput();
         if (elements.length > 0) {
             switch (state.chosenSort) {
-                case BUBLE_SORT:
-                    const payload = bubbleSort(elements);
-                    dispatch({ type: "setBubbleSortProcedure", payload: payload });
+                case BUBBLE_SORT:
+                    const bubble = bubbleSort(elements);
+                    dispatch({ type: "setBubbleSortProcedure", payload: bubble });
                 case QUICK_SORT:
-                    return
+                    const quick: IQuick = { procedure: [], pivot: [], indexes: [] };
+                    quickSort(elements, 0, elements.length - 1, quick);
+                    console.log(quick)
+                    dispatch({ type: "setQuickSortProcedure", payload: quick })
                 case MERGE_SORT:
                     return;
                 case HEAP_SORT:
@@ -46,7 +57,14 @@ const Algorithms = (): JSX.Element => {
             }
         }
     }
-
+    const showMenuIcon = () => {
+        if (state.isVizualizationFinished) {
+            return (
+                <Ionicons name="menu" size={35} color="#000" onPress={() => dispatch({ type: "setIsChoseSortModalOpen", payload: true })} />
+            )
+        }
+        return <Ionicons name="menu" size={35} color="#d3d3d3" />
+    }
     const showButton = (): JSX.Element => {
         if (state.isVizualizationPaused) {
             return <StartPauseButton onPress={callSortingAlgorithm} iconName={"caret-forward"} />
@@ -55,17 +73,19 @@ const Algorithms = (): JSX.Element => {
     }
     const chooseProcedure = () => {
         switch (state.chosenSort) {
-            case BUBLE_SORT:
+            case BUBBLE_SORT:
                 return state.bubbleSortProcedure;
+            case QUICK_SORT:
+                return state.quickSortProcedure;
             default:
-                return state.bubbleSortProcedure
+                return state.bubbleSortProcedure;
         }
     }
     return (
         <ScrollView style={styles.mainContainer}>
             <View style={styles.headerContainer}>
-                <Ionicons name="menu" size={35} color="#000" onPress={() => dispatch({ type: "setIsChoseSortModalOpen", payload: true })} />
-                <Text style={styles.headerText}>Bubble Sort</Text>
+                {showMenuIcon()}
+                <Text style={styles.headerText}>{state.chosenSort}</Text>
                 <Feather name="book" size={35} color="#000" onPress={() => dispatch({ type: "setIsTheoryModalOpen", payload: true })} />
             </View>
             <InputArray arrayForSort={state.arrayForSort}
@@ -73,16 +93,27 @@ const Algorithms = (): JSX.Element => {
                 editable={state.isVizualizationFinished}
             />
             <View style={styles.startButtonPosition}>
-                <View style={[styles.startButtonContainer, styles.shadow, { backgroundColor: state.isVizualizationPaused ? "#228b22" : "#b22222" }]}>
+                <View style={[styles.startButtonContainer, styles.shadow, { backgroundColor: state.isVizualizationPaused ? "rgba(34,139,34,0.8)" : "rgba(178,34,34,0.8)" }]}>
                     {showButton()}
                 </View>
             </View>
 
             <Vizualization procedureOfSorting={chooseProcedure()} isVizualizationPaused={state.isVizualizationPaused}
                 vizualizationFinished={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true, isVizualizationFinished: true })}
+                chosenSort={state.chosenSort}
             />
-
-            {state.isTheoryModalOpen && <Theory onPress={() => dispatch({ type: "setIsTheoryModalOpen", payload: false })} />}
+            {state.isChoseSortModalOpen &&
+                <AlgoritmhsDispatch.Provider value={{ dispatch }}>
+                    <AlgorithmsState.Provider value={{ state }}>
+                        <AlgoMenu onPress={() => dispatch({ type: "setIsChoseSortModalOpen", payload: false })} />
+                    </AlgorithmsState.Provider>
+                </AlgoritmhsDispatch.Provider>
+            }
+            {state.isTheoryModalOpen &&
+                <AlgorithmsState.Provider value={{ state }}>
+                    <Theory onPress={() => dispatch({ type: "setIsTheoryModalOpen", payload: false })} />
+                </AlgorithmsState.Provider>
+            }
         </ScrollView>
     )
 }
