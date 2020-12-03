@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native'
 import { getBubbleBg, getQuickBg } from './backgroundColor';
-import { CHARTS_HEIGHT, CHART_MAX_HEIGHT, CHART_MIN_HEIGHT } from './bubble/Constants';
-import { scaleBetween } from './scalingHelper';
+import { CHARTS_HEIGHT, CHART_MAX_HEIGHT, CHART_MIN_HEIGHT } from './Constants';
+import { scaleBetween } from './helpers/scalingCharts';
 interface IProps {
     procedureOfSorting: {
         procedure: number[][];

@@ -8,7 +8,7 @@ import StartPauseButton from '../components/StartPauseButton';
 import Vizualization from '../components/Vizualization';
 import Theory from '../components/Theory';
 import { bubbleSort } from '../components/bubble/bubbleSort';
-import { BUBBLE_SORT, QUICK_SORT, MERGE_SORT, HEAP_SORT } from '../components/sortingTypes';
+import { BUBBLE_SORT, QUICK_SORT, MERGE_SORT, HEAP_SORT } from '../components/helpers/sortingTypes';
 import AlgoMenu from '../components/menu/AlgoMenu';
 import { AlgoritmhsDispatch } from '../context/AlgorithmsDispatch';
 import { AlgorithmsState } from '../context/AlgorithmsState';
@@ -37,6 +37,7 @@ const Algorithms = (): JSX.Element => {
     }
     const bubble = (elements: number[]) => {
         const bubble: { procedure: number[][], indexes: number[] } = bubbleSort(elements);
+        console.log(bubble.procedure.length, bubble.indexes.length)
         dispatch({ type: "setBubbleSortProcedure", payload: bubble });
     }
     const quick = (elements: number[]) => {
@@ -49,6 +50,7 @@ const Algorithms = (): JSX.Element => {
         quickSort(elements, 0, high, quick);
         procedure.push([...elements]);
         procedure.push([...elements]);
+        console.log(procedure.length, pivots.length, indexes.length, ":", procedure, indexes, pivots)
         dispatch({ type: "setQuickSortProcedure", payload: quick })
     }
     const callSortingAlgorithm = (): void => {
@@ -60,6 +62,7 @@ const Algorithms = (): JSX.Element => {
                     break;
                 case QUICK_SORT:
                     quick(elements);
+
                     break;
                 default:
                     break;

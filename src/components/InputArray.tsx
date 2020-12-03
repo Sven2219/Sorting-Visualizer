@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { OrientationState } from '../context/OrientationState';
-import { INPUT_ARRAY_WIDTH_LANDSCAPE, INPUT_ARRAY_WIDTH_PORTRAIT, MARGIN_LEFT_LANDSCAPE, MARGIN_LEFT_PORTRAIT } from './bubble/Constants';
+import { INPUT_ARRAY_WIDTH_LANDSCAPE, INPUT_ARRAY_WIDTH_PORTRAIT, MARGIN_LEFT_LANDSCAPE, MARGIN_LEFT_PORTRAIT } from './Constants';
 interface IProps {
     onPress: (arrayForSort: string) => void;
     arrayForSort: string;

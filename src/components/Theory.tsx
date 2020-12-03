@@ -4,8 +4,9 @@ import { ScrollView } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { AlgorithmsState } from '../context/AlgorithmsState';
 import BubbleTheory from './bubble/BubbleTheory';
-import { BUBBLE_SORT, HEAP_SORT, MERGE_SORT, QUICK_SORT } from './sortingTypes';
+import { BUBBLE_SORT, HEAP_SORT, MERGE_SORT, QUICK_SORT } from './helpers/sortingTypes';
 
+import QuickTheroy from './quick/QuickTheroy';
 interface IProps {
     onPress: () => void;
 }
@@ -17,7 +18,7 @@ const Theory = ({ onPress }: IProps): JSX.Element => {
             case BUBBLE_SORT:
                 return <BubbleTheory />;
             case QUICK_SORT:
-                return <BubbleTheory />;
+                return <QuickTheroy />;
             case MERGE_SORT:
                 return <BubbleTheory />;
             case HEAP_SORT:

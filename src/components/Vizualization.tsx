@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { CHARTS_HEIGHT } from './bubble/Constants';
+import { CHARTS_HEIGHT } from './Constants';
 import Charts from './Charts';
 
 interface IProps {

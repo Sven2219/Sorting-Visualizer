@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { CODE_EXAMPLE_CONTAINER_WIDTH, width } from './Constants';
+import { CODE_EXAMPLE_CONTAINER_WIDTH, width } from '../Constants';
 
 const BubbleTheory = () => {
     return (
@@ -28,7 +28,7 @@ const BubbleTheory = () => {
             <View style={[styles.codeExampleContainer, styles.shadow]}>
                 <Text style={styles.comment}>{`\\\\ An optimized version of Bubble Sort `}</Text>
                 <Text style={styles.codeExampleText}>
-                    const<Text style={styles.functionName}> bubbleSort</Text>{`=(elements)=> {\n`}
+                    const<Text style={styles.functionName}> bubbleSort</Text>{` = (elements) => {\n`}
                     {`     const length = elements.length;\n`}
                     <Text style={styles.loopsOrCondition}>     for</Text>{`(let i = 0; i < length; i++) {\n`}
                     <Text style={styles.loopsOrCondition}>          for</Text>{`(let j = 0; j < length - i - 1; j++) {\n`}

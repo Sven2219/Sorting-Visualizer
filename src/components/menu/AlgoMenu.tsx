@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { View, Modal, StyleSheet, Dimensions, TouchableWithoutFeedback, Text } from 'react-native';
 import { AlgoritmhsDispatch } from '../../context/AlgorithmsDispatch';
 import Algorithm from './Algorithm';
-import { BUBBLE_SORT, QUICK_SORT, MERGE_SORT, HEAP_SORT } from '../sortingTypes';
+import { BUBBLE_SORT, QUICK_SORT, MERGE_SORT, HEAP_SORT } from '../helpers/sortingTypes';
 const { width, height } = Dimensions.get("window")
 const ITEM_HEIGHT = height / 1.6;
 interface IProps {
