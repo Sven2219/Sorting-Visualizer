@@ -10,6 +10,7 @@ export interface IState {
     isVizualizationPaused: boolean;
     isVizualizationFinished: boolean;
     isChoseSortModalOpen: boolean;
+    vizualizationMethod: string;
 }
 type setIsTheoryModalOpen = {
     readonly type: "setIsTheoryModalOpen";
@@ -41,8 +42,12 @@ type setIsChoseSortModalOpen = {
     readonly type: "setIsChoseSortModalOpen";
     readonly payload: boolean;
 }
+type setVizualizationMethod = {
+    readonly type: "setVizualizationMethod";
+    readonly payload: string;
+}
 export type Actions = setIsTheoryModalOpen | setArrayForSort | setBubbleSortProcedure | setIsPaused | setQuickSortProcedure
-    | setChosenSort | setIsChoseSortModalOpen;
+    | setChosenSort | setIsChoseSortModalOpen | setVizualizationMethod;
 
 export const reducer = (state: IState, actions: Actions): IState => {
     switch (actions.type) {
@@ -63,6 +68,8 @@ export const reducer = (state: IState, actions: Actions): IState => {
             return { ...state, chosenSort: actions.payload, isChoseSortModalOpen: false };
         case "setIsChoseSortModalOpen":
             return { ...state, isChoseSortModalOpen: actions.payload };
+        case "setVizualizationMethod":
+            return { ...state, vizualizationMethod: actions.payload };
         default:
             return state;
     }

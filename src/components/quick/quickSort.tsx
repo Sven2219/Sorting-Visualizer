@@ -38,6 +38,7 @@ const partition = (arr: number[], low: number, high: number, quick: IQuick): num
 }
 
 export const quickSort = (arr: number[], low: number, high: number, quick: IQuick): void => {
+    console.log(low,high)
     if (low < high) {
         let pivotPosition: number = partition(arr, low, high, quick);
         quickSort(arr, low, (pivotPosition - 1), quick);

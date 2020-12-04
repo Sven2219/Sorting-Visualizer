@@ -1,10 +1,12 @@
 import React, { useContext } from 'react';
 import { View, Modal, StyleSheet, Dimensions, TouchableWithoutFeedback, Text } from 'react-native';
-import { AlgoritmhsDispatch } from '../../context/AlgorithmsDispatch';
+import { AlgorithmsDispatch } from '../../context/AlgorithmsDispatch';
 import Algorithm from './Algorithm';
 import { BUBBLE_SORT, QUICK_SORT, MERGE_SORT, HEAP_SORT } from '../helpers/sortingTypes';
 import { OrientationState } from '../../context/OrientationState';
 import { getItemHeight, getItemWidth, getModalHeight, getModalWidth } from './getMethods';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import VizualizationMethod from './VizualizationMethod';
 
 
 interface IProps {
@@ -12,7 +14,7 @@ interface IProps {
 }
 
 const AlgoMenu = ({ onPress }: IProps) => {
-    const { dispatch } = useContext(AlgoritmhsDispatch);
+    const { dispatch } = useContext(AlgorithmsDispatch);
     const { orientation } = useContext(OrientationState);
     return (
         <Modal transparent>
@@ -24,6 +26,11 @@ const AlgoMenu = ({ onPress }: IProps) => {
                     <Text style={styles.title}>
                         ALGORITHMS
                     </Text>
+                    <View style={styles.vizualizationMethod}>
+                        <VizualizationMethod methodName="Charts" />
+                        <VizualizationMethod methodName="Snapshots" />
+                        <VizualizationMethod methodName="Tree" />
+                    </View>
                     <View style={styles.algorithmContainer}>
                         <Algorithm title={"Bubble Sort"} onPress={() => dispatch({ type: "setChosenSort", payload: BUBBLE_SORT })} />
                         <Algorithm title={"Merge Sort"} onPress={() => dispatch({ type: "setChosenSort", payload: MERGE_SORT })} />
@@ -61,6 +68,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flex: 1,
         marginBottom: 10
+    },
+    vizualizationMethod: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+
     }
 })
 export default AlgoMenu;

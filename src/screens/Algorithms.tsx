@@ -10,7 +10,7 @@ import Theory from '../components/Theory';
 import { bubbleSort, IBubble } from '../components/bubble/bubbleSort';
 import { BUBBLE_SORT, QUICK_SORT, MERGE_SORT, HEAP_SORT } from '../components/helpers/sortingTypes';
 import AlgoMenu from '../components/menu/AlgoMenu';
-import { AlgoritmhsDispatch } from '../context/AlgorithmsDispatch';
+import { AlgorithmsDispatch } from '../context/AlgorithmsDispatch';
 import { AlgorithmsState } from '../context/AlgorithmsState';
 import { quickSort, IQuick } from '../components/quick/quickSort';
 import { OrientationState } from '../context/OrientationState';
@@ -23,6 +23,7 @@ const Algorithms = (): JSX.Element => {
         isVizualizationPaused: true, chosenSort: BUBBLE_SORT, isChoseSortModalOpen: false,
         isTheoryModalOpen: false, arrayForSort: "", isVizualizationFinished: true,
         bubbleSortProcedure: { indexes: [], procedure: [] },
+        vizualizationMethod: "Charts",
         quickSortProcedure: { indexes: [], procedure: [], pivots: { pivot: [], pivotIndex: [] } },
     })
 
@@ -132,11 +133,11 @@ const Algorithms = (): JSX.Element => {
             />
             {
                 state.isChoseSortModalOpen &&
-                <AlgoritmhsDispatch.Provider value={{ dispatch }}>
+                <AlgorithmsDispatch.Provider value={{ dispatch }}>
                     <AlgorithmsState.Provider value={{ state }}>
                         <AlgoMenu onPress={() => dispatch({ type: "setIsChoseSortModalOpen", payload: false })} />
                     </AlgorithmsState.Provider>
-                </AlgoritmhsDispatch.Provider>
+                </AlgorithmsDispatch.Provider>
             }
             {
                 state.isTheoryModalOpen &&

@@ -11,3 +11,6 @@ export const getItemWidth = (orientation: string): number => {
 export const getItemHeight = (orientation: string): number => {
     return orientation === 'PORTRAIT' ? ALGO_MENU_ITEM_WIDTH_LANDSCAPE : ALGO_MENU_ITEM_WIDTH_PORTRAIT;
 }
+export const getBackgroundColor = (title: string, chosenTitle: string): string => {
+    return title === chosenTitle ? "rgba(34,139,34,0.6)" : "#fff"
+}
