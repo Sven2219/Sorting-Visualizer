@@ -1,4 +1,8 @@
-export const bubbleSort = (items: number[]): { procedure: number[][], indexes: number[] } => {
+export interface IBubble {
+    procedure: number[][];
+    indexes: number[];
+}
+export const bubbleSort = (items: number[]): IBubble => {
     let procedure: number[][] = [];
     let indexes: number[] = [];
     let length: number = items.length;

@@ -1,13 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native'
-import { getBubbleBg, getQuickBg } from './backgroundColor';
+import { getBubbleBg, getQuickBg } from './helpers/chartsBackgroundColor';
 import { CHARTS_HEIGHT, CHART_MAX_HEIGHT, CHART_MIN_HEIGHT } from './Constants';
 import { scaleBetween } from './helpers/scalingCharts';
+import { IPivot } from './quick/quickSort';
 interface IProps {
     procedureOfSorting: {
         procedure: number[][];
         indexes: number[];
-        pivots?: number[];
+        pivots?: IPivot
     }
     currentFieldIndex: number;
     currentField: number[];

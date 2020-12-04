@@ -2,12 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { CHARTS_HEIGHT } from './Constants';
 import Charts from './Charts';
-
+import { IPivot } from './quick/quickSort';
 interface IProps {
     procedureOfSorting: {
         procedure: number[][];
         indexes: number[];
-        pivots?: number[]
+        pivots?: IPivot
     }
     isVizualizationPaused: boolean;
     vizualizationFinished: () => void;

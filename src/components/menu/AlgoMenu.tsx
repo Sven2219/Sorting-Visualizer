@@ -3,7 +3,6 @@ import { View, Modal, StyleSheet, Dimensions, TouchableWithoutFeedback, Text } f
 import { AlgoritmhsDispatch } from '../../context/AlgorithmsDispatch';
 import Algorithm from './Algorithm';
 import { BUBBLE_SORT, QUICK_SORT, MERGE_SORT, HEAP_SORT } from '../helpers/sortingTypes';
-
 import { OrientationState } from '../../context/OrientationState';
 import { getItemHeight, getItemWidth, getModalHeight, getModalWidth } from './getMethods';
 
@@ -11,6 +10,7 @@ import { getItemHeight, getItemWidth, getModalHeight, getModalWidth } from './ge
 interface IProps {
     onPress: () => void;
 }
+
 const AlgoMenu = ({ onPress }: IProps) => {
     const { dispatch } = useContext(AlgoritmhsDispatch);
     const { orientation } = useContext(OrientationState);

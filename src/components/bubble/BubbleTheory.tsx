@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { CODE_EXAMPLE_CONTAINER_WIDTH, width } from '../Constants';
+import { OrientationState } from '../../context/OrientationState';
+import { getCodeContainerWidth, getCodeLeftPosition } from '../helpers/theoryGetters';
 
 const BubbleTheory = () => {
+    const { orientation } = useContext(OrientationState)
+
+
     return (
         <View style={styles.theoryContainer}>
             <Text style={styles.inGeneralText}>
@@ -25,7 +29,10 @@ const BubbleTheory = () => {
                     <Text style={{ fontFamily: 'Sura-Bold' }}>Boundary Cases: </Text>Bubble sort takes minimum time (Order of n) when elements are already sorted.
                 </Text>
             </View>
-            <View style={[styles.codeExampleContainer, styles.shadow]}>
+            <View style={[styles.codeExampleContainer, styles.shadow,
+            {
+                width: getCodeContainerWidth(orientation), left: getCodeLeftPosition(orientation),
+            }]}>
                 <Text style={styles.comment}>{`\\\\ An optimized version of Bubble Sort `}</Text>
                 <Text style={styles.codeExampleText}>
                     const<Text style={styles.functionName}> bubbleSort</Text>{` = (elements) => {\n`}
@@ -42,7 +49,7 @@ const BubbleTheory = () => {
                     {`}\n`}
                 </Text>
             </View>
-        </View>
+        </View >
     )
 }
 const styles = StyleSheet.create({
@@ -59,9 +66,6 @@ const styles = StyleSheet.create({
         letterSpacing: 1.1,
     },
     codeExampleContainer: {
-        width: CODE_EXAMPLE_CONTAINER_WIDTH,
-        alignItems: 'center',
-        left: (width - CODE_EXAMPLE_CONTAINER_WIDTH) / 8,
         marginTop: 5,
         borderWidth: 0.1,
     },
@@ -88,7 +92,6 @@ const styles = StyleSheet.create({
     },
     comment: {
         color: '#228b22',
-        left: -35
     }
 })
 export default BubbleTheory;

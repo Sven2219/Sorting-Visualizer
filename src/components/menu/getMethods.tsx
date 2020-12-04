@@ -1,4 +1,3 @@
-
 import { MODAL_OVERLAY_PORTRAIT, MODAL_OVERLAY_LANDSCAPE, ALGO_MENU_ITEM_WIDTH_LANDSCAPE, ALGO_MENU_ITEM_WIDTH_PORTRAIT } from '../Constants';
 export const getModalWidth = (orientation: string): number => {
     return orientation === 'PORTRAIT' ? MODAL_OVERLAY_PORTRAIT : MODAL_OVERLAY_LANDSCAPE;

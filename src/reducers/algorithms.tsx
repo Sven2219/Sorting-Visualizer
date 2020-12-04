@@ -1,15 +1,11 @@
+import { IBubble } from "../components/bubble/bubbleSort"
+import { IQuick } from "../components/quick/quickSort"
+
 export interface IState {
     isTheoryModalOpen: boolean;
     arrayForSort: string;
-    bubbleSortProcedure: {
-        procedure: number[][];
-        indexes: number[];
-    };
-    quickSortProcedure: {
-        procedure: number[][];
-        indexes: number[];
-        pivots: number[]
-    }
+    bubbleSortProcedure: IBubble;
+    quickSortProcedure: IQuick;
     chosenSort: string;
     isVizualizationPaused: boolean;
     isVizualizationFinished: boolean;
@@ -25,10 +21,7 @@ type setArrayForSort = {
 }
 type setBubbleSortProcedure = {
     readonly type: "setBubbleSortProcedure";
-    readonly payload: {
-        procedure: number[][];
-        indexes: number[];
-    };
+    readonly payload: IBubble;
 }
 type setIsPaused = {
     readonly type: "setIsPaused";
@@ -37,12 +30,9 @@ type setIsPaused = {
 }
 type setQuickSortProcedure = {
     readonly type: "setQuickSortProcedure";
-    readonly payload: {
-        procedure: number[][];
-        indexes: number[];
-        pivots: number[];
-    }
+    readonly payload: IQuick;
 }
+
 type setChosenSort = {
     readonly type: "setChosenSort";
     readonly payload: string;

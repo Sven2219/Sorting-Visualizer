@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { CODE_EXAMPLE_CONTAINER_WIDTH, width } from '../Constants';
+import { OrientationState } from '../../context/OrientationState';
+import { getCodeContainerWidth, getCodeLeftPosition } from '../helpers/theoryGetters';
 
 const QuickTheroy = () => {
+    const { orientation } = useContext(OrientationState);
+
     return (
         <View style={styles.theoryContainer}>
             <Text style={styles.inGeneralText}>
@@ -21,7 +24,10 @@ const QuickTheroy = () => {
                     Auxiliary Space: O(1)
                 </Text>
             </View>
-            <ScrollView style={[styles.codeExampleContainer, styles.shadow]} horizontal showsHorizontalScrollIndicator={false}>
+            <ScrollView style={[styles.codeExampleContainer, styles.shadow, {
+                width: getCodeContainerWidth(orientation),
+                left: getCodeLeftPosition(orientation)
+            }]} horizontal showsHorizontalScrollIndicator={false}>
                 <View style={{ alignItems: 'center' }}>
                     <Text style={styles.comment}>{`\\\\Always pick last element as pivot`}</Text>
                     <Text style={styles.codeExampleText}>
@@ -67,8 +73,6 @@ const styles = StyleSheet.create({
         letterSpacing: 1.1,
     },
     codeExampleContainer: {
-        width: CODE_EXAMPLE_CONTAINER_WIDTH,
-        left: (width - CODE_EXAMPLE_CONTAINER_WIDTH) / 8,
         marginTop: 5,
         borderWidth: 0.1,
     },
