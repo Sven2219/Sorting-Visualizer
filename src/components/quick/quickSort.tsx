@@ -34,6 +34,6 @@ export const quickSort = (arr: number[], low: number, high: number, quick: IQuic
     if (low < high) {
         let pivotPosition: number = partition(arr, low, high, quick);
         quickSort(arr, low, (pivotPosition - 1), quick);
-        quickSort(arr, pivotPosition, high, quick)
+        quickSort(arr, pivotPosition + 1, high, quick)
     }
 }

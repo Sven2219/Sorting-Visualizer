@@ -37,7 +37,7 @@ const Algorithms = (): JSX.Element => {
     }
     const bubble = (elements: number[]) => {
         const bubble: { procedure: number[][], indexes: number[] } = bubbleSort(elements);
-        console.log(bubble.procedure.length, bubble.indexes.length)
+        console.log(bubble.procedure.length, bubble.indexes.length);
         dispatch({ type: "setBubbleSortProcedure", payload: bubble });
     }
     const quick = (elements: number[]) => {
@@ -62,7 +62,10 @@ const Algorithms = (): JSX.Element => {
                     break;
                 case QUICK_SORT:
                     quick(elements);
-
+                    break;
+                case MERGE_SORT:
+                    break;
+                case HEAP_SORT:
                     break;
                 default:
                     break;

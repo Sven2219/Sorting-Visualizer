@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { AlgorithmsState } from '../../context/AlgorithmsState';
+import { OrientationState } from '../../context/OrientationState';
+import { getItemWidth } from './getMethods';
 const { width } = Dimensions.get("window")
 interface IProps {
     title: string;
@@ -9,11 +11,12 @@ interface IProps {
 
 const Algorithm = ({ title, onPress }: IProps) => {
     const { state } = useContext(AlgorithmsState);
+    const { orientation } = useContext(OrientationState);
     const getBackgroundColor = (): string => {
         return title === state.chosenSort ? "rgba(34,139,34,0.6)" : "#fff"
     }
     return (
-        <View style={[styles.algoContainer, { backgroundColor: getBackgroundColor() }]}>
+        <View style={[styles.algoContainer, { backgroundColor: getBackgroundColor(), width: getItemWidth(orientation)*0.8 }]}>
             <TouchableOpacity onPress={onPress}>
                 <Text style={styles.title}>
                     {title}
@@ -25,7 +28,6 @@ const Algorithm = ({ title, onPress }: IProps) => {
 const styles = StyleSheet.create({
     algoContainer: {
         borderWidth: 0.5,
-        width: width / 2,
         height: 40,
         borderRadius: 10,
         justifyContent: 'center',

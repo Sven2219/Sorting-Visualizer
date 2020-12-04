@@ -3,20 +3,24 @@ import { View, Modal, StyleSheet, Dimensions, TouchableWithoutFeedback, Text } f
 import { AlgoritmhsDispatch } from '../../context/AlgorithmsDispatch';
 import Algorithm from './Algorithm';
 import { BUBBLE_SORT, QUICK_SORT, MERGE_SORT, HEAP_SORT } from '../helpers/sortingTypes';
-const { width, height } = Dimensions.get("window")
-const ITEM_HEIGHT = height / 1.6;
+
+import { OrientationState } from '../../context/OrientationState';
+import { getItemHeight, getItemWidth, getModalHeight, getModalWidth } from './getMethods';
+
+
 interface IProps {
     onPress: () => void;
 }
 const AlgoMenu = ({ onPress }: IProps) => {
     const { dispatch } = useContext(AlgoritmhsDispatch);
+    const { orientation } = useContext(OrientationState);
     return (
         <Modal transparent>
             <TouchableWithoutFeedback onPress={onPress}>
-                <View style={styles.modalOverlay} />
+                <View style={[styles.modalOverlay, { width: getModalWidth(orientation), height: getModalHeight(orientation) }]} />
             </TouchableWithoutFeedback>
-            <View style={styles.itemPosition}>
-                <View style={styles.itemContainer}>
+            <View style={[styles.itemPosition, { top: (getModalHeight(orientation) - getItemHeight(orientation)) / 1.8 }]}>
+                <View style={[styles.itemContainer, { width: getItemWidth(orientation), height: getItemHeight(orientation) }]}>
                     <Text style={styles.title}>
                         ALGORITHMS
                     </Text>
@@ -33,21 +37,17 @@ const AlgoMenu = ({ onPress }: IProps) => {
 }
 const styles = StyleSheet.create({
     modalOverlay: {
-        width,
-        height,
         backgroundColor: '#000000aa',
         position: 'absolute',
         top: 0,
     },
     itemContainer: {
-        width: width / 1.4,
-        height: ITEM_HEIGHT,
+
         backgroundColor: '#fff'
     },
     itemPosition: {
         justifyContent: 'center',
         alignItems: 'center',
-        top: (height - ITEM_HEIGHT) / 2
     },
     title: {
         fontSize: 18,
