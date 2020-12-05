@@ -1,36 +1,31 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, Text, View } from 'react-native'
 import { getBubbleBg, getQuickBg } from '../helpers/chartsBackgroundColor';
 import { CHARTS_HEIGHT, CHART_MAX_HEIGHT, CHART_MIN_HEIGHT } from '../Constants';
 import { scaleBetween } from '../helpers/scalingCharts';
-import { IPivot } from '../quick/quickSort';
 import { BUBBLE_SORT, QUICK_SORT } from '../helpers/types';
+import { AlgorithmsState } from '../../context/AlgorithmsState';
 interface IProps {
-    procedureOfSorting: {
-        procedure: number[][];
-        indexes: number[];
-        pivots?: IPivot
-    }
     currentFieldIndex: number;
     currentField: number[];
     maxRange: number;
     minRange: number;
-    chosenSort: string;
+    procedure: number[][];
 }
-const Charts = ({ procedureOfSorting: { indexes, procedure, pivots},
-    currentFieldIndex, currentField, maxRange, minRange, chosenSort }: IProps): JSX.Element => {
+const Charts = ({ currentFieldIndex, currentField, maxRange, minRange, procedure }: IProps): JSX.Element => {
+    const { state } = useContext(AlgorithmsState);
     const getScaledHeight = (element: number): number => {
         if (minRange !== maxRange && procedure[currentFieldIndex].length > 1) {
             return scaleBetween(element, CHART_MIN_HEIGHT, CHART_MAX_HEIGHT, minRange, maxRange);
         }
         return CHART_MIN_HEIGHT;
     }
-    const getBackgroundColor = (element: number, index: number) => {
-        switch (chosenSort) {
+    const getBackgroundColor = (element: number, index: number):string => {
+        switch (state.chosenSort) {
             case BUBBLE_SORT:
-                return getBubbleBg(element, index, currentFieldIndex, procedure, indexes);
+                return getBubbleBg(element, index, currentFieldIndex, state.bubbleSortProcedure);
             case QUICK_SORT:
-                return getQuickBg(element, index, currentFieldIndex, procedure, indexes, pivots);
+                return getQuickBg(element, index, currentFieldIndex, state.quickSortProcedure);
             default:
                 return "#000";
         }

@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, StatusBar, Image, Dimensions } from 'react-native';
+import { View, StyleSheet, StatusBar, Dimensions } from 'react-native';
 import { NavigationParams, NavigationScreenProp, NavigationState } from 'react-navigation';
 interface IProps {
   navigation: NavigationScreenProp<NavigationState, NavigationParams>;
 }
-const { width, height } = Dimensions.get("window")
 const Splash = ({ navigation }: IProps): JSX.Element => {
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -14,10 +13,11 @@ const Splash = ({ navigation }: IProps): JSX.Element => {
       clearTimeout(timer)
     }
   }, []);
+  //logo postavit
   return (
     <View style={styles.mainContainer}>
       <StatusBar hidden />
-      <Image source={require('../images/SplashScreen.jpg')} style={{ resizeMode: 'center', width, height }} />
+    
     </View>
   )
 }

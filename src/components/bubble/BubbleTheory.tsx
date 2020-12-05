@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { OrientationState } from '../../context/OrientationState';
 import { getCodeContainerWidth, getCodeLeftPosition } from '../helpers/theoryGetters';
 
-const BubbleTheory = () => {
+const BubbleTheory = (): JSX.Element => {
     const { orientation } = useContext(OrientationState)
     return (
         <View style={styles.theoryContainer}>

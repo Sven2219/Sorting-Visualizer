@@ -13,7 +13,7 @@ interface IProps {
     onPress: () => void;
 }
 
-const AlgoMenu = ({ onPress }: IProps) => {
+const AlgoMenu = ({ onPress }: IProps): JSX.Element => {
     const { state } = useContext(AlgorithmsState);
     const { dispatch } = useContext(AlgorithmsDispatch);
     const { orientation } = useContext(OrientationState);

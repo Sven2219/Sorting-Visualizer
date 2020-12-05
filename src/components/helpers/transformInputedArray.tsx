@@ -5,7 +5,7 @@ export const transformInputedArray = (arrayForSort: string, orientation: string)
     if (arrayForSort !== "") {
         const matchedElements: RegExpMatchArray | null = arrayForSort.match(/\d+/g);
         if (matchedElements !== null) {
-            const transformedElements = matchedElements.map(Number);
+            const transformedElements:number[] = matchedElements.map(Number);
 
             if (orientation === PORTRAIT) {
                 if (transformedElements.length < 12) {

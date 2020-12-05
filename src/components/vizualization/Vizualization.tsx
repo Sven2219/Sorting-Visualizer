@@ -6,25 +6,25 @@ import { BUBBLE_SORT, CHARTS, QUICK_SORT, SNAPSHOTS, TREE } from '../helpers/typ
 import ChartsMethod from './ChartsMethod';
 
 
-const Vizualization = () => {
+const Vizualization = (): JSX.Element => {
     const { state } = useContext(AlgorithmsState);
     const { dispatch } = useContext(AlgorithmsDispatch);
-    const chooseProcedure = () => {
+    const chooseProcedure = (): number[][] => {
         switch (state.chosenSort) {
             case BUBBLE_SORT:
-                return state.bubbleSortProcedure;
+                return state.bubbleSortProcedure.procedure;
             case QUICK_SORT:
-                return state.quickSortProcedure;
+                return state.quickSortProcedure.procedure;
             default:
-                return state.bubbleSortProcedure;
+                return state.bubbleSortProcedure.procedure;
         }
     }
     const getVizualizationMethod = (): JSX.Element | null => {
         switch (state.vizualizationMethod) {
             case CHARTS:
-                return <ChartsMethod procedureOfSorting={chooseProcedure()} isVizualizationPaused={state.isVizualizationPaused}
-                    vizualizationFinished={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true, isVizualizationFinished: true })}
-                    chosenSort={state.chosenSort} />
+                return <ChartsMethod procedure={chooseProcedure()}
+                    isVizualizationPaused={state.isVizualizationPaused}
+                    vizualizationFinished={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true, isVizualizationFinished: true })} />
             case TREE:
                 return null;
             case SNAPSHOTS:

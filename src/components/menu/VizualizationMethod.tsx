@@ -9,7 +9,7 @@ interface IProps {
     methodName: string;
 }
 
-const VizualizationMethod = ({ methodName }: IProps) => {
+const VizualizationMethod = ({ methodName }: IProps): JSX.Element => {
     const { state } = useContext(AlgorithmsState);
     const { dispatch } = useContext(AlgorithmsDispatch)
     return (

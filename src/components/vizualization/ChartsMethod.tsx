@@ -1,27 +1,24 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
+import { AlgorithmsState } from '../../context/AlgorithmsState';
 import { CHARTS_HEIGHT } from '../Constants';
+import { BUBBLE_SORT, QUICK_SORT } from '../helpers/types';
 import Charts from './Charts';
-import { IPivot } from '../quick/quickSort';
+import { getBubbleSwapedValues, getQuickSwapedValues } from './getSwapedValues';
 interface IProps {
-    procedureOfSorting: {
-        procedure: number[][];
-        indexes: number[];
-        pivots?: IPivot
-    }
+    procedure: number[][];
     isVizualizationPaused: boolean;
     vizualizationFinished: () => void;
-    chosenSort: string;
 }
 
-const ChartsMethod = ({ procedureOfSorting, isVizualizationPaused, vizualizationFinished, chosenSort }: IProps): JSX.Element => {
-    const { procedure } = procedureOfSorting;
+const ChartsMethod = ({ procedure, isVizualizationPaused, vizualizationFinished }: IProps): JSX.Element => {
     const [currentField, setCurrentField] = useState<number[]>([]);
     const currentFieldIndex = useRef<number>(0);
     const timers = useRef<NodeJS.Timeout[]>([]);
     const swapedValue = useRef<number[][]>([]);
     const maxRange = useRef<number>(0);
     const minRange = useRef<number>(0);
+    const { state: { chosenSort, quickSortProcedure } } = useContext(AlgorithmsState);
     useEffect(() => {
         if (procedure.length > 0) {
             timers.current = startProcedure();
@@ -31,7 +28,7 @@ const ChartsMethod = ({ procedureOfSorting, isVizualizationPaused, vizualization
                 clearTimeout(timers.current[i]);
             }
         }
-    }, [procedureOfSorting])
+    }, [procedure])
     useEffect(() => {
         maxRange.current = Math.max.apply(Math, procedure[0]);
         minRange.current = Math.min.apply(Math, procedure[0]);
@@ -43,9 +40,21 @@ const ChartsMethod = ({ procedureOfSorting, isVizualizationPaused, vizualization
     }, [isVizualizationPaused])
 
     useEffect(() => {
-        setSwapedValues();
+        const swapedValues: number[] = getSwapedValues();
+        if (swapedValues.length > 0) {
+            swapedValue.current = [...swapedValue.current, swapedValues]
+        }
     }, [currentField])
-
+    const getSwapedValues = (): number[] => {
+        switch (chosenSort) {
+            case BUBBLE_SORT:
+                return getBubbleSwapedValues(currentField, procedure[currentFieldIndex.current - 1]);
+            case QUICK_SORT:
+                return getQuickSwapedValues(currentField, quickSortProcedure, currentFieldIndex.current);
+            default:
+                return [];
+        }
+    }
     const startProcedure = (): NodeJS.Timeout[] => {
         if (currentFieldIndex.current === 0) {
             swapedValue.current = [];
@@ -73,28 +82,18 @@ const ChartsMethod = ({ procedureOfSorting, isVizualizationPaused, vizualization
             }, 700 * (index !== procedure.length - 1 - start ? index : index - 0.9))
         }))
     }
-    const setSwapedValues = (): void => {
-        let swaped: number[] = [];
-        if (currentField.length > 0 && Array.isArray(procedure[currentFieldIndex.current - 1])) {
-            for (let i = 0; i < currentField.length; i++) {
-                if (currentField[i] != procedure[currentFieldIndex.current - 1][i]) {
-                    swaped.push(procedure[currentFieldIndex.current - 1][i])
-                }
-            }
-            if (swaped.length === 2) {
-                swapedValue.current = [...swapedValue.current, swaped];
-            }
-        }
+    const showSwapingText = (field: number[]): string => {
+        return field.length > 1 ? `Swapping ${field.join(" and ")}` : `Swapping ${field[0]} by itself`
     }
     return (
         <View style={styles.mainContainer}>
             <View style={[styles.chartsContainer, styles.shadow]}>
-                {currentField.length > 0 && <Charts procedureOfSorting={procedureOfSorting}
+                {currentField.length > 0 && <Charts
                     currentFieldIndex={currentFieldIndex.current}
                     currentField={currentField}
                     minRange={minRange.current}
                     maxRange={maxRange.current}
-                    chosenSort={chosenSort}
+                    procedure={procedure}
                 />}
             </View>
             <View style={styles.procedureContainer}>
@@ -104,10 +103,11 @@ const ChartsMethod = ({ procedureOfSorting, isVizualizationPaused, vizualization
                 {swapedValue.current.length > 0 && swapedValue.current.map((field, index) => {
                     return (
                         <Text key={index} style={styles.swapingText}>
-                            {`Swaping ${field.join(" and ")}`}
+                            {showSwapingText(field)}
                         </Text>
                     )
-                })}
+                })
+                }
             </View>
         </View>
     )

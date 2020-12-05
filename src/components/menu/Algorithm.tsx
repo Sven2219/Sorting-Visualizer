@@ -1,19 +1,19 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { AlgorithmsState } from '../../context/AlgorithmsState';
 import { OrientationState } from '../../context/OrientationState';
-import { getItemWidth,getBackgroundColor} from './getMethods';
+import { getItemWidth, getBackgroundColor } from './getMethods';
 interface IProps {
     title: string;
     onPress: () => void;
 }
 
-const Algorithm = ({ title, onPress }: IProps) => {
+const Algorithm = ({ title, onPress }: IProps): JSX.Element => {
     const { state } = useContext(AlgorithmsState);
     const { orientation } = useContext(OrientationState);
-   
+
     return (
-        <View style={[styles.algoContainer, { backgroundColor: getBackgroundColor(title,state.chosenSort), width: getItemWidth(orientation)*0.8 }]}>
+        <View style={[styles.algoContainer, { backgroundColor: getBackgroundColor(title, state.chosenSort), width: getItemWidth(orientation) * 0.8 }]}>
             <TouchableOpacity onPress={onPress}>
                 <Text style={styles.title}>
                     {title}

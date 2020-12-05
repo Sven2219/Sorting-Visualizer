@@ -1,4 +1,3 @@
-import { bubbleSort, IBubble } from "../components/bubble/bubbleSort";
 import { IQuick, quickSort } from "../components/quick/quickSort";
 
 
@@ -7,12 +6,18 @@ export const quickSortProcedure = (elements: number[]): IQuick => {
     const { procedure, pivots, indexes } = quick;
     const { pivot, pivotIndex } = pivots;
     const high: number = elements.length - 1;
+
+    //initial 
     procedure.push([...elements]);
-    indexes.push(0);
+    indexes.push({ index: 0 });
     pivot.push(elements[high]);
     pivotIndex.push(high);
+
     quickSort(elements, 0, high, quick, "lijevo");
+
+    //ending
     procedure.push([...elements]);
     procedure.push([...elements]);
+    console.log(quick);
     return quick;
 }

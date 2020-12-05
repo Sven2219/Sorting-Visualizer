@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { OrientationState } from '../../context/OrientationState';
 import { getCodeContainerWidth, getCodeLeftPosition } from '../helpers/theoryGetters';
 
-const QuickTheroy = () => {
+const QuickTheroy = (): JSX.Element => {
     const { orientation } = useContext(OrientationState);
 
     return (
