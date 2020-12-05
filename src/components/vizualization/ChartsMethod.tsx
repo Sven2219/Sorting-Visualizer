@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { CHARTS_HEIGHT } from './Constants';
+import { CHARTS_HEIGHT } from '../Constants';
 import Charts from './Charts';
-import { IPivot } from './quick/quickSort';
+import { IPivot } from '../quick/quickSort';
 interface IProps {
     procedureOfSorting: {
         procedure: number[][];
@@ -14,7 +14,7 @@ interface IProps {
     chosenSort: string;
 }
 
-const Vizualization = ({ procedureOfSorting, isVizualizationPaused, vizualizationFinished, chosenSort }: IProps): JSX.Element => {
+const ChartsMethod = ({ procedureOfSorting, isVizualizationPaused, vizualizationFinished, chosenSort }: IProps): JSX.Element => {
     const { procedure } = procedureOfSorting;
     const [currentField, setCurrentField] = useState<number[]>([]);
     const currentFieldIndex = useRef<number>(0);
@@ -162,6 +162,6 @@ const styles = StyleSheet.create({
         marginTop: 5
     }
 })
-export default React.memo(Vizualization, (prevState, currentState) => {
+export default React.memo(ChartsMethod, (prevState, currentState) => {
     return prevState.isVizualizationPaused == currentState.isVizualizationPaused;
 });

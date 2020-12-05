@@ -5,21 +5,19 @@ export const getBubbleBg = (element: number, index: number, currentFieldIndex: n
     return bg === "" ? "#228b22" : bg;
 }
 export const getQuickBg = (element: number, index: number, currentFieldIndex: number, procedure: number[][], indexes: number[], pivots: IPivot | undefined): string => {
-    if (currentFieldIndex < 1) {
+    if (currentFieldIndex < 1) {//start
         return "#228b22";//zelena
     }
-    else if (currentFieldIndex + 1 === procedure.length) {
+    else if (currentFieldIndex + 1 === procedure.length) {//end
         return "#228b22";//zelena
     }
-    else if (element != procedure[currentFieldIndex - 1][index]) {
+    else if (element !== procedure[currentFieldIndex - 1][index]) {//swap 2 different numbers 
         return "#b22222";//crvena
     }
     else if (pivots !== undefined && element === pivots.pivot[currentFieldIndex] && pivots.pivotIndex[currentFieldIndex] === index) {
         return "#daa520";//pivot-zuta
     }
-    else if (currentFieldIndex >= 2 && indexes[currentFieldIndex] === indexes[currentFieldIndex - 1] && element === procedure[currentFieldIndex][indexes[currentFieldIndex]]) {
-        return "#b22222";//crvena
-    }
+
     else if (index === indexes[currentFieldIndex]) {
         return "#483d8b";//blue
     }

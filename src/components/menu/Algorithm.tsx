@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-nati
 import { AlgorithmsState } from '../../context/AlgorithmsState';
 import { OrientationState } from '../../context/OrientationState';
 import { getItemWidth,getBackgroundColor} from './getMethods';
-const { width } = Dimensions.get("window")
 interface IProps {
     title: string;
     onPress: () => void;

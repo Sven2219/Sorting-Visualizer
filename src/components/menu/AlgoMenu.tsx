@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
-import { View, Modal, StyleSheet, Dimensions, TouchableWithoutFeedback, Text } from 'react-native';
+import { View, Modal, StyleSheet, TouchableWithoutFeedback, Text } from 'react-native';
 import { AlgorithmsDispatch } from '../../context/AlgorithmsDispatch';
 import Algorithm from './Algorithm';
-import { BUBBLE_SORT, QUICK_SORT, MERGE_SORT, HEAP_SORT } from '../helpers/sortingTypes';
+import { BUBBLE_SORT, QUICK_SORT, MERGE_SORT, HEAP_SORT, CHARTS, SNAPSHOTS, TREE } from '../helpers/types';
 import { OrientationState } from '../../context/OrientationState';
 import { getItemHeight, getItemWidth, getModalHeight, getModalWidth } from './getMethods';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import VizualizationMethod from './VizualizationMethod';
+import { AlgorithmsState } from '../../context/AlgorithmsState';
 
 
 interface IProps {
@@ -14,6 +14,7 @@ interface IProps {
 }
 
 const AlgoMenu = ({ onPress }: IProps) => {
+    const { state } = useContext(AlgorithmsState);
     const { dispatch } = useContext(AlgorithmsDispatch);
     const { orientation } = useContext(OrientationState);
     return (
@@ -24,18 +25,21 @@ const AlgoMenu = ({ onPress }: IProps) => {
             <View style={[styles.itemPosition, { top: (getModalHeight(orientation) - getItemHeight(orientation)) / 1.8 }]}>
                 <View style={[styles.itemContainer, { width: getItemWidth(orientation), height: getItemHeight(orientation) }]}>
                     <Text style={styles.title}>
-                        ALGORITHMS
+                        VIZUALIZATION
                     </Text>
                     <View style={styles.vizualizationMethod}>
-                        <VizualizationMethod methodName="Charts" />
-                        <VizualizationMethod methodName="Snapshots" />
-                        <VizualizationMethod methodName="Tree" />
+                        <VizualizationMethod methodName={CHARTS} />
+                        <VizualizationMethod methodName={SNAPSHOTS} />
+                        <VizualizationMethod methodName={TREE} />
                     </View>
+                    <Text style={[styles.title, { top: 10 }]}>
+                        ALGORITHMS
+                    </Text>
                     <View style={styles.algorithmContainer}>
-                        <Algorithm title={"Bubble Sort"} onPress={() => dispatch({ type: "setChosenSort", payload: BUBBLE_SORT })} />
-                        <Algorithm title={"Merge Sort"} onPress={() => dispatch({ type: "setChosenSort", payload: MERGE_SORT })} />
-                        <Algorithm title={"Quick Sort"} onPress={() => dispatch({ type: "setChosenSort", payload: QUICK_SORT })} />
-                        <Algorithm title={"Heap Sort"} onPress={() => dispatch({ type: "setChosenSort", payload: HEAP_SORT })} />
+                        {state.vizualizationMethod === CHARTS && <Algorithm title={BUBBLE_SORT} onPress={() => dispatch({ type: "setChosenSort", payload: BUBBLE_SORT })} />}
+                        {state.vizualizationMethod !== TREE && <Algorithm title={MERGE_SORT} onPress={() => dispatch({ type: "setChosenSort", payload: MERGE_SORT })} />}
+                        {state.vizualizationMethod !== TREE && <Algorithm title={QUICK_SORT} onPress={() => dispatch({ type: "setChosenSort", payload: QUICK_SORT })} />}
+                        {state.vizualizationMethod !== SNAPSHOTS && <Algorithm title={HEAP_SORT} onPress={() => dispatch({ type: "setChosenSort", payload: HEAP_SORT })} />}
                     </View>
                 </View>
             </View>

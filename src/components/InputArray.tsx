@@ -3,6 +3,8 @@ import { View, Text, StyleSheet } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { OrientationState } from '../context/OrientationState';
 import { INPUT_ARRAY_WIDTH_LANDSCAPE, INPUT_ARRAY_WIDTH_PORTRAIT, MARGIN_LEFT_LANDSCAPE, MARGIN_LEFT_PORTRAIT } from './Constants';
+import { PORTRAIT } from './helpers/types';
+
 interface IProps {
     onPress: (arrayForSort: string) => void;
     arrayForSort: string;
@@ -11,14 +13,14 @@ interface IProps {
 
 const InputArray = ({ onPress, arrayForSort, editable }: IProps): JSX.Element => {
     const { orientation } = useContext(OrientationState);
-    const widthDependOnOrientation = (): number => {
-        return orientation === 'PORTRAIT' ? INPUT_ARRAY_WIDTH_PORTRAIT : INPUT_ARRAY_WIDTH_LANDSCAPE
+    const getInputTextWidth = (): number => {
+        return orientation === PORTRAIT ? INPUT_ARRAY_WIDTH_PORTRAIT : INPUT_ARRAY_WIDTH_LANDSCAPE
     }
-    const marginLeftDependOnOrientation = (): number => {
-        return orientation === 'PORTRAIT' ? MARGIN_LEFT_PORTRAIT : MARGIN_LEFT_LANDSCAPE;
+    const getLeftMargin = (): number => {
+        return orientation === PORTRAIT ? MARGIN_LEFT_PORTRAIT : MARGIN_LEFT_LANDSCAPE;
     }
     return (
-        <View style={[styles.inputArrayContainer, { width: widthDependOnOrientation(), marginLeft: marginLeftDependOnOrientation() }]}>
+        <View style={[styles.inputArrayContainer, { width: getInputTextWidth(), marginLeft: getLeftMargin() }]}>
             <Text style={styles.labelText}>Array: </Text>
             <TextInput editable={editable} value={arrayForSort} onChangeText={(arrayForSort) => onPress(arrayForSort)} style={styles.textInput} placeholder={"1, 2, 3, 4, 5, 6"} />
         </View>

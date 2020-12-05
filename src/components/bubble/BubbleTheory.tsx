@@ -5,8 +5,6 @@ import { getCodeContainerWidth, getCodeLeftPosition } from '../helpers/theoryGet
 
 const BubbleTheory = () => {
     const { orientation } = useContext(OrientationState)
-
-
     return (
         <View style={styles.theoryContainer}>
             <Text style={styles.inGeneralText}>

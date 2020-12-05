@@ -7,6 +7,7 @@ import Splash from './Splash';
 import Algorithms from './Algorithms';
 import { Dimensions } from 'react-native';
 import { OrientationState } from '../context/OrientationState';
+import { LANDSCAPE, PORTRAIT } from '../components/helpers/types';
 
 const Stack = createStackNavigator();
 
@@ -24,9 +25,9 @@ const App = (): JSX.Element => {
     useEffect(() => {
         const { width, height } = Dimensions.get("window");
         if (width < height) {
-            setOrientation("PORTRAIT");
+            setOrientation(PORTRAIT);
         } else {
-            setOrientation("LANDSCAPE");
+            setOrientation(LANDSCAPE);
         }
     }, [])
     //setting listener and removing after going back from screen
@@ -38,9 +39,9 @@ const App = (): JSX.Element => {
     }, []);
     const handleResize = ({ window: { width, height } }: { window: { width: number, height: number } }) => {
         if (width < height) {
-            setOrientation("PORTRAIT");
+            setOrientation(PORTRAIT);
         } else {
-            setOrientation("LANDSCAPE");
+            setOrientation(LANDSCAPE);
         }
     }
     return (

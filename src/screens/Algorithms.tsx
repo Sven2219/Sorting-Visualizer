@@ -1,19 +1,20 @@
 import React, { useContext, useReducer } from 'react';
-import { View, Text, StyleSheet, ScrollView, ToastAndroid } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Actions, IState, reducer } from '../reducers/algorithms';
 import Feather from 'react-native-vector-icons/Feather';
 import InputArray from '../components/InputArray';
 import StartPauseButton from '../components/StartPauseButton';
-import Vizualization from '../components/Vizualization';
 import Theory from '../components/Theory';
 import { bubbleSort, IBubble } from '../components/bubble/bubbleSort';
-import { BUBBLE_SORT, QUICK_SORT, MERGE_SORT, HEAP_SORT } from '../components/helpers/sortingTypes';
+import { BUBBLE_SORT, QUICK_SORT, MERGE_SORT, HEAP_SORT, CHARTS } from '../components/helpers/types';
 import AlgoMenu from '../components/menu/AlgoMenu';
 import { AlgorithmsDispatch } from '../context/AlgorithmsDispatch';
 import { AlgorithmsState } from '../context/AlgorithmsState';
-import { quickSort, IQuick } from '../components/quick/quickSort';
 import { OrientationState } from '../context/OrientationState';
+import Vizualization from '../components/vizualization/Vizualization';
+import { quickSortProcedure } from './chartsAlgorithms';
+import { transformInputedArray } from '../components/helpers/transformInputedArray';
 
 const BUTTON_SIZE = 50;
 
@@ -23,59 +24,32 @@ const Algorithms = (): JSX.Element => {
         isVizualizationPaused: true, chosenSort: BUBBLE_SORT, isChoseSortModalOpen: false,
         isTheoryModalOpen: false, arrayForSort: "", isVizualizationFinished: true,
         bubbleSortProcedure: { indexes: [], procedure: [] },
-        vizualizationMethod: "Charts",
+        vizualizationMethod: CHARTS,
         quickSortProcedure: { indexes: [], procedure: [], pivots: { pivot: [], pivotIndex: [] } },
     })
 
-    const transformArrayInput = (): number[] => {
-        if (state.arrayForSort !== "") {
-            const elements: number[] = state.arrayForSort.split(",").map(Number);//transforming
-            if (orientation === "PORTRAIT") {
-                if (elements.length < 12) {
-                    return elements;
-                }
-                else {
-                    ToastAndroid.showWithGravityAndOffset('If you want to sort more than 12 elements change orientation to LANDSCAPE', ToastAndroid.LONG, ToastAndroid.BOTTOM, 0, 100);
-                }
-            }
-            else {
-                if (elements.length < 20) {
-                    return elements;
-                }
-                else {
-                    ToastAndroid.showWithGravityAndOffset(`You can't sort more than 20 elements`, ToastAndroid.LONG, ToastAndroid.BOTTOM, 0, 100);
-                }
-            }
-        }
-        return [];
-    }
-    const bubble = (elements: number[]) => {
+
+    //Charts
+    const bubbleSortCharts = (elements: number[]): void => {
         const bubble: IBubble = bubbleSort(elements);
         dispatch({ type: "setBubbleSortProcedure", payload: bubble });
     }
-    const quick = (elements: number[]) => {
-        const quick: IQuick = { procedure: [], pivots: { pivot: [], pivotIndex: [] }, indexes: [] };
-        const { procedure, pivots, indexes } = quick;
-        const { pivot, pivotIndex } = pivots;
-        const high: number = elements.length - 1;
-        procedure.push([...elements]);
-        indexes.push(0);
-        pivot.push(elements[high]);
-        pivotIndex.push(high);
-        quickSort(elements, 0, high, quick);
-        procedure.push([...elements]);
-        procedure.push([...elements]);
+    const quickSortCharts = (elements: number[]): void => {
+        const quick = quickSortProcedure(elements)
         dispatch({ type: "setQuickSortProcedure", payload: quick })
     }
     const callSortingAlgorithm = (): void => {
-        const elements: number[] = transformArrayInput();
+        const elements: number[] = transformInputedArray(state.arrayForSort, orientation);
         if (elements.length > 0) {
             switch (state.chosenSort) {
                 case BUBBLE_SORT:
-                    bubble(elements);
+                    bubbleSortCharts(elements);
                     break;
                 case QUICK_SORT:
-                    quick(elements);
+                    if (state.vizualizationMethod === CHARTS) {
+                        quickSortCharts(elements);
+                        break;
+                    }
                     break;
                 case MERGE_SORT:
                     break;
@@ -86,34 +60,31 @@ const Algorithms = (): JSX.Element => {
             }
         }
     }
-    const showMenuIcon = () => {
+    const getMenuIcon = (): JSX.Element => {
         if (state.isVizualizationFinished) {
             return (
-                <Ionicons name="menu" size={35} color="#000" onPress={() => dispatch({ type: "setIsChoseSortModalOpen", payload: true })} />
+                <Ionicons name="menu" size={35}
+                    color="#000"
+                    onPress={() => dispatch({ type: "setIsChoseSortModalOpen", payload: true })} />
             )
         }
-        return <Ionicons name="menu" size={35} color="#d3d3d3" />
+        return <Ionicons name="menu"
+            size={35}
+            color="#d3d3d3" />
     }
-    const showButton = (): JSX.Element => {
+    const getButton = (): JSX.Element => {
         if (state.isVizualizationPaused) {
-            return <StartPauseButton onPress={callSortingAlgorithm} iconName={"caret-forward"} />
+            return <StartPauseButton onPress={callSortingAlgorithm}
+                iconName={"caret-forward"} />
         }
-        return <StartPauseButton onPress={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true })} iconName={"pause"} />
+        return <StartPauseButton onPress={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true })}
+            iconName={"pause"} />
     }
-    const chooseProcedure = () => {
-        switch (state.chosenSort) {
-            case BUBBLE_SORT:
-                return state.bubbleSortProcedure;
-            case QUICK_SORT:
-                return state.quickSortProcedure;
-            default:
-                return state.bubbleSortProcedure;
-        }
-    }
+
     return (
         <ScrollView style={styles.mainContainer}>
             <View style={styles.headerContainer}>
-                {showMenuIcon()}
+                {getMenuIcon()}
                 <Text style={styles.headerText}>{state.chosenSort}</Text>
                 <Feather name="book" size={35} color="#000" onPress={() => dispatch({ type: "setIsTheoryModalOpen", payload: true })} />
             </View>
@@ -123,14 +94,14 @@ const Algorithms = (): JSX.Element => {
             />
             <View style={styles.buttonPosition}>
                 <View style={[styles.buttonContainer, styles.shadow, { backgroundColor: state.isVizualizationPaused ? "rgba(34,139,34,0.8)" : "rgba(178,34,34,0.8)" }]}>
-                    {showButton()}
+                    {getButton()}
                 </View>
             </View>
-
-            <Vizualization procedureOfSorting={chooseProcedure()} isVizualizationPaused={state.isVizualizationPaused}
-                vizualizationFinished={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true, isVizualizationFinished: true })}
-                chosenSort={state.chosenSort}
-            />
+            <AlgorithmsDispatch.Provider value={{ dispatch }}>
+                <AlgorithmsState.Provider value={{ state }}>
+                    <Vizualization />
+                </AlgorithmsState.Provider>
+            </AlgorithmsDispatch.Provider>
             {
                 state.isChoseSortModalOpen &&
                 <AlgorithmsDispatch.Provider value={{ dispatch }}>
@@ -167,7 +138,6 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
         top: BUTTON_SIZE / 2,
         zIndex: 2,
-
         justifyContent: 'space-between'
     },
 

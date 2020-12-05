@@ -1,9 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native'
-import { getBubbleBg, getQuickBg } from './helpers/chartsBackgroundColor';
-import { CHARTS_HEIGHT, CHART_MAX_HEIGHT, CHART_MIN_HEIGHT } from './Constants';
-import { scaleBetween } from './helpers/scalingCharts';
-import { IPivot } from './quick/quickSort';
+import { getBubbleBg, getQuickBg } from '../helpers/chartsBackgroundColor';
+import { CHARTS_HEIGHT, CHART_MAX_HEIGHT, CHART_MIN_HEIGHT } from '../Constants';
+import { scaleBetween } from '../helpers/scalingCharts';
+import { IPivot } from '../quick/quickSort';
+import { BUBBLE_SORT, QUICK_SORT } from '../helpers/types';
 interface IProps {
     procedureOfSorting: {
         procedure: number[][];
@@ -26,9 +27,9 @@ const Charts = ({ procedureOfSorting: { indexes, procedure, pivots},
     }
     const getBackgroundColor = (element: number, index: number) => {
         switch (chosenSort) {
-            case "Bubble Sort":
+            case BUBBLE_SORT:
                 return getBubbleBg(element, index, currentFieldIndex, procedure, indexes);
-            case "Quick Sort":
+            case QUICK_SORT:
                 return getQuickBg(element, index, currentFieldIndex, procedure, indexes, pivots);
             default:
                 return "#000";

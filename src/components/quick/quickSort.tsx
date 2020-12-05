@@ -34,14 +34,18 @@ const partition = (arr: number[], low: number, high: number, quick: IQuick): num
     pivots.pivotIndex.push(high);
     indexes.push(i + 1);
     procedure.push([...arr])
+    console.log("here:", arr.slice(low, high + 1));
+    console.log("provjera: zakljucka:",arr)
     return i + 1;
 }
 
-export const quickSort = (arr: number[], low: number, high: number, quick: IQuick): void => {
-    console.log(low,high)
+export const quickSort = (arr: number[], low: number, high: number, quick: IQuick, smjer: string): void => {
+    if (arr.slice(low, high + 1).length > 0) {
+        console.log("low:", low, "high:", high, "arr:", arr.slice(low, high + 1), "pivot:", arr[high], "smjer:", smjer)
+    }
     if (low < high) {
         let pivotPosition: number = partition(arr, low, high, quick);
-        quickSort(arr, low, (pivotPosition - 1), quick);
-        quickSort(arr, pivotPosition + 1, high, quick)
+        quickSort(arr, low, (pivotPosition - 1), quick, "lijevo");
+        quickSort(arr, pivotPosition + 1, high, quick, "desno")
     }
 }

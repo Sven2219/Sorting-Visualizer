@@ -4,7 +4,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { AlgorithmsState } from '../context/AlgorithmsState';
 import BubbleTheory from './bubble/BubbleTheory';
-import { BUBBLE_SORT, HEAP_SORT, MERGE_SORT, QUICK_SORT } from './helpers/sortingTypes';
+import { BUBBLE_SORT, HEAP_SORT, MERGE_SORT, QUICK_SORT } from './helpers/types';
 
 import QuickTheroy from './quick/QuickTheroy';
 interface IProps {
