@@ -1,32 +1,32 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { OrientationState } from '../../context/OrientationState';
-import { getCodeContainerWidth, getCodeLeftPosition } from '../helpers/theoryGetters';
+import { getCodeExampleContainerWidth, getCodeExampleLeftPosition } from '../helpers/theoryGetters';
 
 const QuickTheroy = (): JSX.Element => {
     const { orientation } = useContext(OrientationState);
 
     return (
         <View style={styles.theoryContainer}>
-            <Text style={styles.inGeneralText}>
-                Like Merge Sort, QuickSort is a Divide and Conquer algorithm. It picks an element as pivot and partitions the given array around the picked pivot..
-                    </Text>
-            <View style={{ padding: 5 }}>
+            <Text style={styles.generalTheory}>
+                Like Merge Sort, QuickSort is a Divide and Conquer algorithm. It picks an element as pivot and partitions the given array around the picked pivot.
+            </Text>
+            <View style={styles.complexityContainer}>
                 <Text style={styles.complexityText}>
-                    <Text style={{ fontFamily: 'Sura-Bold' }}>Worst Time Complexity:
-                            O(n*n).</Text>The worst case occurs when the partition process always picks greatest or smallest element as pivot.
-                        </Text>
+                    <Text style={styles.boldText}>Worst Time Complexity: O(n*n). </Text>
+                    The worst case occurs when the partition process always picks greatest or smallest element as pivot.
+                </Text>
                 <Text style={styles.complexityText}>
-                    <Text style={{ fontFamily: 'Sura-Bold' }}>Best Case Time Complexity: O(nLog(n)).</Text>
+                    <Text style={styles.boldText}>Best Case Time Complexity: O(nLog(n)). </Text>
                             The best case occurs when the partition process always picks the middle element as pivot. Following is recurrence for best case.
-                        </Text>
-                <Text style={[styles.complexityText, { fontFamily: 'Sura-Bold' }]}>
+                    </Text>
+                <Text style={[styles.complexityText, styles.boldText]}>
                     Auxiliary Space: O(1)
                 </Text>
             </View>
             <ScrollView style={[styles.codeExampleContainer, styles.shadow, {
-                width: getCodeContainerWidth(orientation),
-                left: getCodeLeftPosition(orientation)
+                width: getCodeExampleContainerWidth(orientation),
+                left: getCodeExampleLeftPosition(orientation)
             }]} horizontal showsHorizontalScrollIndicator={false}>
                 <View style={{ alignItems: 'center' }}>
                     <Text style={styles.comment}>{`\\\\Always pick last element as pivot`}</Text>
@@ -63,10 +63,15 @@ const styles = StyleSheet.create({
     theoryContainer: {
         margin: 10
     },
-    inGeneralText: {
+    generalTheory: {
         fontSize: 15,
-
         fontFamily: 'Sura-Regular'
+    },
+    complexityContainer: {
+        padding: 5,
+    },
+    boldText: {
+        fontFamily: 'Sura-Bold'
     },
     complexityText: {
         marginTop: 10,

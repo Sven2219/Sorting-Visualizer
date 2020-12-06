@@ -1,4 +1,5 @@
-import { IQuick, quickSort } from "../components/quick/quickSort";
+import { IQuick } from "../../helpers/interfaces";
+import { quickSort } from "../../quick/quickSort";
 
 
 export const quickSortProcedure = (elements: number[]): IQuick => {
@@ -13,11 +14,12 @@ export const quickSortProcedure = (elements: number[]): IQuick => {
     pivot.push(elements[high]);
     pivotIndex.push(high);
 
-    quickSort(elements, 0, high, quick, "lijevo");
+    quickSort(elements, 0, high, quick);
 
     //ending
     procedure.push([...elements]);
     procedure.push([...elements]);
-    console.log(quick);
+
+    
     return quick;
 }

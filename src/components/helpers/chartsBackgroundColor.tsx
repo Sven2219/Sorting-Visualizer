@@ -1,5 +1,4 @@
-import { IBubble } from "../bubble/bubbleSort";
-import { IQuick } from "../quick/quickSort";
+import { IBubble, IQuick } from "./interfaces";
 
 export const getBubbleBg = (element: number, index: number, currentFieldIndex: number, bubbleSortProcedure: IBubble): string => {
     const { procedure, indexes } = bubbleSortProcedure;

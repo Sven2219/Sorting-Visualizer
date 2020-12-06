@@ -1,7 +1,5 @@
-export interface IBubble {
-    procedure: number[][];
-    indexes: number[];
-}
+import { IBubble } from "../helpers/interfaces";
+
 export const bubbleSort = (items: number[]): IBubble => {
     let procedure: number[][] = [];
     let indexes: number[] = [];

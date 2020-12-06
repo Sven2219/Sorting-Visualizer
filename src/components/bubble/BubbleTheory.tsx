@@ -1,35 +1,36 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { OrientationState } from '../../context/OrientationState';
-import { getCodeContainerWidth, getCodeLeftPosition } from '../helpers/theoryGetters';
+import { getCodeExampleContainerWidth, getCodeExampleLeftPosition } from '../helpers/theoryGetters';
 
 const BubbleTheory = (): JSX.Element => {
     const { orientation } = useContext(OrientationState)
     return (
         <View style={styles.theoryContainer}>
-            <Text style={styles.inGeneralText}>
+            <Text style={styles.generalTheory}>
                 Bubble Sort is the simplest sorting algorithm that works by repeatedly swapping
                 the adjacent elements if they are in wrong order.
-                    </Text>
-            <View style={{ padding: 5 }}>
+            </Text>
+            <View style={styles.complexityContainer}>
                 <Text style={styles.complexityText}>
-                    <Text style={{ fontFamily: 'Sura-Bold' }}>Worst and Average Case Time Complexity:
-                            O(n*n).</Text> Worst case occurs when array is reverse sorted.
-                        </Text>
+                    <Text style={styles.boldText}>Worst and Average Case Time Complexity: O(n*n). </Text>
+                    Worst case occurs when array is reverse sorted.
+                </Text>
                 <Text style={styles.complexityText}>
-                    <Text style={{ fontFamily: 'Sura-Bold' }}>Best Case Time Complexity: O(n).</Text>
-                            Best case occurs when array is already sorted.
-                        </Text>
-                <Text style={[styles.complexityText, { fontFamily: 'Sura-Bold' }]}>
+                    <Text style={styles.boldText}>Best Case Time Complexity: O(n).</Text>
+                    Best case occurs when array is already sorted.
+                </Text>
+                <Text style={[styles.complexityText, styles.boldText]}>
                     Auxiliary Space: O(1)
-                        </Text>
+                </Text>
                 <Text style={styles.complexityText}>
-                    <Text style={{ fontFamily: 'Sura-Bold' }}>Boundary Cases: </Text>Bubble sort takes minimum time (Order of n) when elements are already sorted.
+                    <Text style={styles.boldText}>Boundary Cases: </Text>
+                    Bubble sort takes minimum time (Order of n) when elements are already sorted.
                 </Text>
             </View>
             <View style={[styles.codeExampleContainer, styles.shadow,
             {
-                width: getCodeContainerWidth(orientation), left: getCodeLeftPosition(orientation),
+                width: getCodeExampleContainerWidth(orientation), left: getCodeExampleLeftPosition(orientation),
             }]}>
                 <Text style={styles.comment}>{`\\\\ An optimized version of Bubble Sort `}</Text>
                 <Text style={styles.codeExampleText}>
@@ -54,10 +55,15 @@ const styles = StyleSheet.create({
     theoryContainer: {
         margin: 15
     },
-    inGeneralText: {
+    boldText: {
+        fontFamily: 'Sura-Bold'
+    },
+    generalTheory: {
         fontSize: 15,
-
         fontFamily: 'Sura-Regular'
+    },
+    complexityContainer: {
+        padding: 5,
     },
     complexityText: {
         marginTop: 10,

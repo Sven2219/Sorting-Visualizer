@@ -13,7 +13,9 @@ const Algorithm = ({ title, onPress }: IProps): JSX.Element => {
     const { orientation } = useContext(OrientationState);
 
     return (
-        <View style={[styles.algoContainer, { backgroundColor: getBackgroundColor(title, state.chosenSort), width: getItemWidth(orientation) * 0.8 }]}>
+        <View style={[styles.algoContainer,
+        { backgroundColor: getBackgroundColor(title, state.chosenSort), width: getItemWidth(orientation) * 0.8 }
+        ]}>
             <TouchableOpacity onPress={onPress}>
                 <Text style={styles.title}>
                     {title}

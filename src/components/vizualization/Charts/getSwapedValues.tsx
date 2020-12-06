@@ -1,4 +1,4 @@
-import { IQuick } from "../quick/quickSort";
+import { IQuick } from "../../helpers/interfaces";
 
 export const getBubbleSwapedValues = (currentField: number[], previouseField: number[]): number[] => {
     let swaped: number[] = [];

@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { StyleSheet, Text, View } from 'react-native'
-import { getBubbleBg, getQuickBg } from '../helpers/chartsBackgroundColor';
-import { CHARTS_HEIGHT, CHART_MAX_HEIGHT, CHART_MIN_HEIGHT } from '../Constants';
-import { scaleBetween } from '../helpers/scalingCharts';
-import { BUBBLE_SORT, QUICK_SORT } from '../helpers/types';
-import { AlgorithmsState } from '../../context/AlgorithmsState';
+import { getBubbleBg, getQuickBg } from '../../helpers/chartsBackgroundColor';
+import { CHART_MAX_HEIGHT, CHART_MIN_HEIGHT } from '../../Constants';
+import { scaleBetween } from '../../helpers/scalingCharts';
+import { BUBBLE_SORT, QUICK_SORT } from '../../helpers/types';
+import { AlgorithmsState } from '../../../context/AlgorithmsState';
 interface IProps {
     currentFieldIndex: number;
     currentField: number[];
@@ -54,15 +54,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'flex-end'
     },
-    chartsContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'flex-end',
-        marginTop: 0,
-        height: CHARTS_HEIGHT,
-        backgroundColor: '#fff'
-    },
-
     oneChartContainer: {
         width: 20,
         marginLeft: 2.5,

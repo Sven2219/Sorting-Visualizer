@@ -29,14 +29,13 @@ const App = (): JSX.Element => {
         } else {
             setOrientation(LANDSCAPE);
         }
-    }, [])
-    //setting listener and removing after going back from screen
-    useEffect(() => {
         Dimensions.addEventListener('change', handleResize)
         return () => {
             Dimensions.removeEventListener('change', handleResize)
         }
-    }, []);
+    }, [])
+    //setting listener and removing after going back from screen
+
     const handleResize = ({ window: { width, height } }: { window: { width: number, height: number } }) => {
         if (width < height) {
             setOrientation(PORTRAIT);

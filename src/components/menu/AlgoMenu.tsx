@@ -9,17 +9,14 @@ import VizualizationMethod from './VizualizationMethod';
 import { AlgorithmsState } from '../../context/AlgorithmsState';
 
 
-interface IProps {
-    onPress: () => void;
-}
 
-const AlgoMenu = ({ onPress }: IProps): JSX.Element => {
+const AlgoMenu = (): JSX.Element => {
     const { state } = useContext(AlgorithmsState);
     const { dispatch } = useContext(AlgorithmsDispatch);
     const { orientation } = useContext(OrientationState);
     return (
         <Modal transparent>
-            <TouchableWithoutFeedback onPress={onPress}>
+            <TouchableWithoutFeedback onPress={() => dispatch({ type: "setIsChoseSortModalOpen", payload: false })}>
                 <View style={[styles.modalOverlay, { width: getModalWidth(orientation), height: getModalHeight(orientation) }]} />
             </TouchableWithoutFeedback>
             <View style={[styles.itemPosition, { top: (getModalHeight(orientation) - getItemHeight(orientation)) / 1.8 }]}>
@@ -53,7 +50,6 @@ const styles = StyleSheet.create({
         top: 0,
     },
     itemContainer: {
-
         backgroundColor: '#fff'
     },
     itemPosition: {
@@ -76,7 +72,6 @@ const styles = StyleSheet.create({
     vizualizationMethod: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-
     }
 })
 export default AlgoMenu;

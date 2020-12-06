@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { OrientationState } from '../context/OrientationState';
-import { INPUT_ARRAY_WIDTH_LANDSCAPE, INPUT_ARRAY_WIDTH_PORTRAIT, MARGIN_LEFT_LANDSCAPE, MARGIN_LEFT_PORTRAIT } from './Constants';
+import { INPUT_ARRAY_WIDTH_LANDSCAPE, INPUT_ARRAY_WIDTH_PORTRAIT, INPUT_ARRAY_MARGIN_LEFT_LANDSCAPE, INPUT_ARRAY_MARGIN_LEFT_PORTRAIT } from './Constants';
 import { PORTRAIT } from './helpers/types';
 
 interface IProps {
@@ -17,7 +17,7 @@ const InputArray = ({ onPress, arrayForSort, editable }: IProps): JSX.Element =>
         return orientation === PORTRAIT ? INPUT_ARRAY_WIDTH_PORTRAIT : INPUT_ARRAY_WIDTH_LANDSCAPE
     }
     const getLeftMargin = (): number => {
-        return orientation === PORTRAIT ? MARGIN_LEFT_PORTRAIT : MARGIN_LEFT_LANDSCAPE;
+        return orientation === PORTRAIT ? INPUT_ARRAY_MARGIN_LEFT_PORTRAIT : INPUT_ARRAY_MARGIN_LEFT_LANDSCAPE;
     }
     return (
         <View style={[styles.inputArrayContainer, { width: getInputTextWidth(), marginLeft: getLeftMargin() }]}>

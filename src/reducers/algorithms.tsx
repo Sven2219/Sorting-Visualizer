@@ -1,5 +1,4 @@
-import { IBubble } from "../components/bubble/bubbleSort"
-import { IQuick } from "../components/quick/quickSort"
+import { IBubble, IQuick } from "../components/helpers/interfaces"
 
 export interface IState {
     isTheoryModalOpen: boolean;

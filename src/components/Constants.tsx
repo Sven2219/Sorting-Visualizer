@@ -20,11 +20,11 @@ export const ALGO_MENU_ITEM_WIDTH_LANDSCAPE = portraitHeight / 1.4;
 
 export const VIZUALIZATION_METHOD_WIDTH = ALGO_MENU_ITEM_WIDTH_PORTRAIT / 3.5;
 
-export const MARGIN_LEFT_PORTRAIT = (portraitWidth - INPUT_ARRAY_WIDTH_PORTRAIT) / 2;
-export const MARGIN_LEFT_LANDSCAPE = (portraitHeight - INPUT_ARRAY_WIDTH_LANDSCAPE) / 2;
+export const INPUT_ARRAY_MARGIN_LEFT_PORTRAIT = (portraitWidth - INPUT_ARRAY_WIDTH_PORTRAIT) / 2;
+export const INPUT_ARRAY_MARGIN_LEFT_LANDSCAPE = (portraitHeight - INPUT_ARRAY_WIDTH_LANDSCAPE) / 2;
 export const CHART_MIN_HEIGHT = portraitHeight / 10;
 export const CHART_MAX_HEIGHT = portraitHeight / 4;
-export const CHARTS_HEIGHT = portraitWidth * 0.7;
+export const CHARTS_CONTAINER_HEIGHT = portraitWidth * 0.7;
 export const CODE_EXAMPLE_CONTAINER_WIDTH_PORTRAIT = portraitWidth * 0.9;
 export const CODE_EXAMPLE_CONTAINER_WIDTH_LANDSCAPE = portraitHeight * 0.9;
 export const CODE_EXAMPLE_LEFT_PORTRAIT = (portraitWidth - CODE_EXAMPLE_CONTAINER_WIDTH_PORTRAIT) / 8;

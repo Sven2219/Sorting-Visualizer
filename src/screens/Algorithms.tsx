@@ -6,15 +6,16 @@ import Feather from 'react-native-vector-icons/Feather';
 import InputArray from '../components/InputArray';
 import StartPauseButton from '../components/StartPauseButton';
 import Theory from '../components/Theory';
-import { bubbleSort, IBubble } from '../components/bubble/bubbleSort';
+import { bubbleSort } from '../components/bubble/bubbleSort';
 import { BUBBLE_SORT, QUICK_SORT, MERGE_SORT, HEAP_SORT, CHARTS } from '../components/helpers/types';
 import AlgoMenu from '../components/menu/AlgoMenu';
 import { AlgorithmsDispatch } from '../context/AlgorithmsDispatch';
 import { AlgorithmsState } from '../context/AlgorithmsState';
 import { OrientationState } from '../context/OrientationState';
 import Vizualization from '../components/vizualization/Vizualization';
-import { quickSortProcedure } from './chartsAlgorithms';
-import { transformInputedArray } from '../components/helpers/transformInputedArray';
+import { quickSortProcedure } from '../components/vizualization/Charts/algorithms';
+import { transformTextToArray } from '../components/helpers/transformInputedArray';
+import { IBubble } from '../components/helpers/interfaces';
 
 const BUTTON_SIZE = 50;
 
@@ -39,7 +40,7 @@ const Algorithms = (): JSX.Element => {
         dispatch({ type: "setQuickSortProcedure", payload: quick })
     }
     const callSortingAlgorithm = (): void => {
-        const elements: number[] = transformInputedArray(state.arrayForSort, orientation);
+        const elements: number[] = transformTextToArray(state.arrayForSort, orientation);
         if (elements.length > 0) {
             switch (state.chosenSort) {
                 case BUBBLE_SORT:
@@ -86,14 +87,16 @@ const Algorithms = (): JSX.Element => {
             <View style={styles.headerContainer}>
                 {getMenuIcon()}
                 <Text style={styles.headerText}>{state.chosenSort}</Text>
-                <Feather name="book" size={35} color="#000" onPress={() => dispatch({ type: "setIsTheoryModalOpen", payload: true })} />
+                <Feather name="book" size={35} color="#000"
+                    onPress={() => dispatch({ type: "setIsTheoryModalOpen", payload: true })} />
             </View>
             <InputArray arrayForSort={state.arrayForSort}
                 onPress={(arrayForSort: string) => dispatch({ type: "setArrayForSort", payload: arrayForSort })}
                 editable={state.isVizualizationFinished}
             />
             <View style={styles.buttonPosition}>
-                <View style={[styles.buttonContainer, styles.shadow, { backgroundColor: state.isVizualizationPaused ? "rgba(34,139,34,0.8)" : "rgba(178,34,34,0.8)" }]}>
+                <View style={[styles.buttonContainer, styles.shadow,
+                { backgroundColor: state.isVizualizationPaused ? "rgba(34,139,34,0.8)" : "rgba(178,34,34,0.8)" }]}>
                     {getButton()}
                 </View>
             </View>
@@ -106,15 +109,15 @@ const Algorithms = (): JSX.Element => {
                 state.isChoseSortModalOpen &&
                 <AlgorithmsDispatch.Provider value={{ dispatch }}>
                     <AlgorithmsState.Provider value={{ state }}>
-                        <AlgoMenu onPress={() => dispatch({ type: "setIsChoseSortModalOpen", payload: false })} />
+                        <AlgoMenu />
                     </AlgorithmsState.Provider>
                 </AlgorithmsDispatch.Provider>
             }
             {
                 state.isTheoryModalOpen &&
-                <AlgorithmsState.Provider value={{ state }}>
-                    <Theory onPress={() => dispatch({ type: "setIsTheoryModalOpen", payload: false })} />
-                </AlgorithmsState.Provider>
+                <Theory onPress={() => dispatch({ type: "setIsTheoryModalOpen", payload: false })}
+                    chosenSort={state.chosenSort}
+                />
             }
         </ScrollView >
     )

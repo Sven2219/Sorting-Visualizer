@@ -1,20 +1,19 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { View, Text, Modal, StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { AlgorithmsState } from '../context/AlgorithmsState';
 import BubbleTheory from './bubble/BubbleTheory';
 import { BUBBLE_SORT, HEAP_SORT, MERGE_SORT, QUICK_SORT } from './helpers/types';
-
 import QuickTheroy from './quick/QuickTheroy';
+
 interface IProps {
     onPress: () => void;
+    chosenSort: string;
 }
 
-const Theory = ({ onPress }: IProps): JSX.Element => {
-    const { state } = useContext(AlgorithmsState);
-    const getSortingInfromation = () => {
-        switch (state.chosenSort) {
+const Theory = ({ onPress, chosenSort }: IProps): JSX.Element => {
+    const getSortingInfromation = (): JSX.Element => {
+        switch (chosenSort) {
             case BUBBLE_SORT:
                 return <BubbleTheory />;
             case QUICK_SORT:
@@ -37,11 +36,10 @@ const Theory = ({ onPress }: IProps): JSX.Element => {
                     </View>
                     <Text style={styles.titleText}>
                         Theory
-                </Text>
+                    </Text>
                 </View>
                 {getSortingInfromation()}
             </ScrollView>
-
         </Modal>
     )
 }

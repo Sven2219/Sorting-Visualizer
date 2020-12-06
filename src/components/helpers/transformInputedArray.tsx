@@ -1,12 +1,11 @@
 import { ToastAndroid } from "react-native";
 import { PORTRAIT } from "./types";
 
-export const transformInputedArray = (arrayForSort: string, orientation: string): number[] => {
+export const transformTextToArray = (arrayForSort: string, orientation: string): number[] => {
     if (arrayForSort !== "") {
         const matchedElements: RegExpMatchArray | null = arrayForSort.match(/\d+/g);
         if (matchedElements !== null) {
             const transformedElements:number[] = matchedElements.map(Number);
-
             if (orientation === PORTRAIT) {
                 if (transformedElements.length < 12) {
                     return transformedElements;

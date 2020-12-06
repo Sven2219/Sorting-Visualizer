@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { AlgorithmsDispatch } from '../../context/AlgorithmsDispatch';
 import { AlgorithmsState } from '../../context/AlgorithmsState';
 import { BUBBLE_SORT, CHARTS, QUICK_SORT, SNAPSHOTS, TREE } from '../helpers/types';
-import ChartsMethod from './ChartsMethod';
+import ChartsMethod from './Charts/ChartsMethod';
 
 
 const Vizualization = (): JSX.Element => {

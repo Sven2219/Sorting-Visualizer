@@ -1,26 +1,11 @@
-export interface IQuick {
-    procedure: number[][];
-    pivots: IPivot;
-    indexes: IIndex[];
-}
-export interface IIndex {
-    index: number;
-    //this is edge scenario when numbers are equal but should swap //quicksort
-    isSame?: boolean;
-    low?: number;
-    high?: number;
-}
-export interface IPivot {
-    pivot: number[];
-    pivotIndex: number[];
-}
+import { IQuick } from "../helpers/interfaces";
+
 const partition = (arr: number[], low: number, high: number, quick: IQuick): number => {
     const pivot: number = arr[high];
     const { pivots, indexes, procedure } = quick;
     let i: number = low - 1;
     for (let j = low; j < high; j++) {
         if (arr[j] < pivot) {
-
             procedure.push([...arr]);
             indexes.push({ index: j });
             pivots.pivot.push(pivot);
@@ -35,7 +20,6 @@ const partition = (arr: number[], low: number, high: number, quick: IQuick): num
         pivots.pivotIndex.push(high);
         procedure.push([...arr]);
     }
-
     let temp: number = arr[i + 1];
     arr[i + 1] = arr[high];
     arr[high] = temp;
@@ -51,10 +35,10 @@ const partition = (arr: number[], low: number, high: number, quick: IQuick): num
     return i + 1;
 }
 
-export const quickSort = (arr: number[], low: number, high: number, quick: IQuick, smjer: string): void => {
+export const quickSort = (arr: number[], low: number, high: number, quick: IQuick): void => {
     if (low < high) {
         let pivotPosition: number = partition(arr, low, high, quick);
-        quickSort(arr, low, (pivotPosition - 1), quick, "lijevo");
-        quickSort(arr, pivotPosition + 1, high, quick, "desno")
+        quickSort(arr, low, (pivotPosition - 1), quick);
+        quickSort(arr, pivotPosition + 1, high, quick)
     }
 }

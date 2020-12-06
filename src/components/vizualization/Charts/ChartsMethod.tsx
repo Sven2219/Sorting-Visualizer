@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { AlgorithmsState } from '../../context/AlgorithmsState';
-import { CHARTS_HEIGHT } from '../Constants';
-import { BUBBLE_SORT, QUICK_SORT } from '../helpers/types';
+import { AlgorithmsState } from '../../../context/AlgorithmsState';
+import { CHARTS_CONTAINER_HEIGHT } from '../../Constants';
+import { BUBBLE_SORT, QUICK_SORT } from '../../helpers/types';
 import Charts from './Charts';
 import { getBubbleSwapedValues, getQuickSwapedValues } from './getSwapedValues';
 interface IProps {
@@ -45,6 +45,7 @@ const ChartsMethod = ({ procedure, isVizualizationPaused, vizualizationFinished 
             swapedValue.current = [...swapedValue.current, swapedValues]
         }
     }, [currentField])
+
     const getSwapedValues = (): number[] => {
         switch (chosenSort) {
             case BUBBLE_SORT:
@@ -82,9 +83,11 @@ const ChartsMethod = ({ procedure, isVizualizationPaused, vizualizationFinished 
             }, 700 * (index !== procedure.length - 1 - start ? index : index - 0.9))
         }))
     }
-    const showSwapingText = (field: number[]): string => {
+
+    const getSwapingText = (field: number[]): string => {
         return field.length > 1 ? `Swapping ${field.join(" and ")}` : `Swapping ${field[0]} by itself`
     }
+    
     return (
         <View style={styles.mainContainer}>
             <View style={[styles.chartsContainer, styles.shadow]}>
@@ -103,7 +106,7 @@ const ChartsMethod = ({ procedure, isVizualizationPaused, vizualizationFinished 
                 {swapedValue.current.length > 0 && swapedValue.current.map((field, index) => {
                     return (
                         <Text key={index} style={styles.swapingText}>
-                            {showSwapingText(field)}
+                            {getSwapingText(field)}
                         </Text>
                     )
                 })
@@ -121,7 +124,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'flex-end',
         marginTop: 0,
-        height: CHARTS_HEIGHT,
+        height: CHARTS_CONTAINER_HEIGHT,
         backgroundColor: '#fff'
     },
     shadow: {
@@ -133,20 +136,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.29,
         shadowRadius: 4.65,
         elevation: 3,
-    },
-    oneChartContainer: {
-        width: 20,
-        marginLeft: 2.5,
-        marginRight: 5,
-        borderWidth: 1,
-        borderRadius: 3,
-        backgroundColor: 'green'
-    },
-    chartLabelText: {
-        fontSize: 14,
-        fontFamily: 'Sura-Bold',
-        marginTop: 5,
-        alignSelf: 'center'
     },
     procedureContainer: {
         margin: 10
