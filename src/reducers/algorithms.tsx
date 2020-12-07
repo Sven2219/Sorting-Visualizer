@@ -1,10 +1,13 @@
-import { IBubble, IQuick } from "../components/helpers/interfaces"
+import { IBubble, IQuickCharts, IQuickSnapshots } from "../components/helpers/interfaces"
+import { SNAPSHOTS, TREE, HEAP_SORT, BUBBLE_SORT, MERGE_SORT } from "../components/helpers/types"
 
 export interface IState {
     isTheoryModalOpen: boolean;
     arrayForSort: string;
     bubbleSortProcedure: IBubble;
-    quickSortProcedure: IQuick;
+    quickSortProcedureCharts: IQuickCharts;
+    quickSortProcedureSnapshots: IQuickSnapshots;
+
     chosenSort: string;
     isVizualizationPaused: boolean;
     isVizualizationFinished: boolean;
@@ -28,11 +31,10 @@ type setIsPaused = {
     readonly isVizualizationPaused: boolean;
     readonly isVizualizationFinished?: boolean;
 }
-type setQuickSortProcedure = {
-    readonly type: "setQuickSortProcedure";
-    readonly payload: IQuick;
+type setQuickSortProcedureCharts = {
+    readonly type: "setQuickSortProcedureCharts";
+    readonly payload: IQuickCharts;
 }
-
 type setChosenSort = {
     readonly type: "setChosenSort";
     readonly payload: string;
@@ -45,8 +47,13 @@ type setVizualizationMethod = {
     readonly type: "setVizualizationMethod";
     readonly payload: string;
 }
-export type Actions = setIsTheoryModalOpen | setArrayForSort | setBubbleSortProcedure | setIsPaused | setQuickSortProcedure
-    | setChosenSort | setIsChoseSortModalOpen | setVizualizationMethod;
+type setQuickSortProcedureSnapshots = {
+    readonly type: "setQuickSortProcedureSnapshots";
+    readonly payload: IQuickSnapshots;
+}
+
+export type Actions = setIsTheoryModalOpen | setArrayForSort | setBubbleSortProcedure | setIsPaused | setQuickSortProcedureCharts
+    | setChosenSort | setIsChoseSortModalOpen | setVizualizationMethod | setQuickSortProcedureSnapshots;
 
 export const reducer = (state: IState, actions: Actions): IState => {
     switch (actions.type) {
@@ -56,8 +63,8 @@ export const reducer = (state: IState, actions: Actions): IState => {
             return { ...state, arrayForSort: actions.payload };
         case "setBubbleSortProcedure":
             return { ...state, bubbleSortProcedure: actions.payload, isVizualizationPaused: false, isVizualizationFinished: false };
-        case "setQuickSortProcedure":
-            return { ...state, quickSortProcedure: actions.payload, isVizualizationPaused: false, isVizualizationFinished: false };
+        case "setQuickSortProcedureCharts":
+            return { ...state, quickSortProcedureCharts: actions.payload, isVizualizationPaused: false, isVizualizationFinished: false };
         case "setIsPaused":
             if (actions.isVizualizationFinished !== undefined) {
                 return { ...state, isVizualizationPaused: actions.isVizualizationPaused, isVizualizationFinished: actions.isVizualizationFinished };
@@ -68,7 +75,17 @@ export const reducer = (state: IState, actions: Actions): IState => {
         case "setIsChoseSortModalOpen":
             return { ...state, isChoseSortModalOpen: actions.payload };
         case "setVizualizationMethod":
-            return { ...state, vizualizationMethod: actions.payload };
+            if (actions.payload === SNAPSHOTS) {
+                return { ...state, vizualizationMethod: actions.payload, chosenSort: MERGE_SORT };
+            }
+            else if (actions.payload === TREE) {
+                return { ...state, vizualizationMethod: actions.payload, chosenSort: HEAP_SORT };
+            }
+            else {
+                return { ...state, vizualizationMethod: actions.payload, chosenSort: BUBBLE_SORT };
+            }
+        case "setQuickSortProcedureSnapshots":
+            return { ...state, quickSortProcedureSnapshots: actions.payload };
         default:
             return state;
     }

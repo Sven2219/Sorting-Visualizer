@@ -1,18 +1,23 @@
-export interface IQuick {
+export interface IQuickCharts {
     procedure: number[][];
-    pivots: IPivot;
-    indexes: IIndex[];
+    pivotIndex: number[];
+    indexes: IIndexCharts[];
 }
-export interface IIndex {
+export interface IIndexCharts {
     index: number;
     //this is edge scenario when numbers are equal but should swap //quicksort
     isSame?: boolean;
     low?: number;
     high?: number;
 }
-export interface IPivot {
-    pivot: number[];
-    pivotIndex: number[];
+
+
+
+export interface IQuickSnapshots {
+    snapshots: number[][];
+    sortedArray?: number[];
+    directions: string[];
+    pivotIndexes: number[]
 }
 export interface IBubble {
     procedure: number[][];

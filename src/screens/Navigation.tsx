@@ -35,7 +35,6 @@ const App = (): JSX.Element => {
         }
     }, [])
     //setting listener and removing after going back from screen
-
     const handleResize = ({ window: { width, height } }: { window: { width: number, height: number } }) => {
         if (width < height) {
             setOrientation(PORTRAIT);

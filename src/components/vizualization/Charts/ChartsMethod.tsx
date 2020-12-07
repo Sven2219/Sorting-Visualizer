@@ -18,7 +18,7 @@ const ChartsMethod = ({ procedure, isVizualizationPaused, vizualizationFinished 
     const swapedValue = useRef<number[][]>([]);
     const maxRange = useRef<number>(0);
     const minRange = useRef<number>(0);
-    const { state: { chosenSort, quickSortProcedure } } = useContext(AlgorithmsState);
+    const { state: { chosenSort, quickSortProcedureCharts } } = useContext(AlgorithmsState);
     useEffect(() => {
         if (procedure.length > 0) {
             timers.current = startProcedure();
@@ -51,7 +51,7 @@ const ChartsMethod = ({ procedure, isVizualizationPaused, vizualizationFinished 
             case BUBBLE_SORT:
                 return getBubbleSwapedValues(currentField, procedure[currentFieldIndex.current - 1]);
             case QUICK_SORT:
-                return getQuickSwapedValues(currentField, quickSortProcedure, currentFieldIndex.current);
+                return getQuickSwapedValues(currentField, quickSortProcedureCharts, currentFieldIndex.current);
             default:
                 return [];
         }
@@ -87,7 +87,7 @@ const ChartsMethod = ({ procedure, isVizualizationPaused, vizualizationFinished 
     const getSwapingText = (field: number[]): string => {
         return field.length > 1 ? `Swapping ${field.join(" and ")}` : `Swapping ${field[0]} by itself`
     }
-    
+
     return (
         <View style={styles.mainContainer}>
             <View style={[styles.chartsContainer, styles.shadow]}>
@@ -151,6 +151,6 @@ const styles = StyleSheet.create({
         marginTop: 5
     }
 })
-export default React.memo(ChartsMethod, (prevState, currentState) => {
-    return prevState.isVizualizationPaused == currentState.isVizualizationPaused;
+export default React.memo(ChartsMethod, (prevProps, currentProps) => {
+    return prevProps.isVizualizationPaused == currentProps.isVizualizationPaused;
 });

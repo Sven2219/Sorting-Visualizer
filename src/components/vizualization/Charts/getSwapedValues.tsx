@@ -1,4 +1,4 @@
-import { IQuick } from "../../helpers/interfaces";
+import { IQuickCharts } from "../../helpers/interfaces";
 
 export const getBubbleSwapedValues = (currentField: number[], previouseField: number[]): number[] => {
     let swaped: number[] = [];
@@ -15,7 +15,7 @@ export const getBubbleSwapedValues = (currentField: number[], previouseField: nu
     return [];
 }
 
-export const getQuickSwapedValues = (currentField: number[], quickSortProcedure: IQuick, currentFieldIndex: number): number[] => {
+export const getQuickSwapedValues = (currentField: number[], quickSortProcedure: IQuickCharts, currentFieldIndex: number): number[] => {
     let swaped: number[] = [];
     const { procedure, indexes } = quickSortProcedure;
     if (currentField.length > 0 && Array.isArray(procedure[currentFieldIndex - 1]) && procedure.length > currentFieldIndex + 2) {

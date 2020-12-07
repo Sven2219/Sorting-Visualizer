@@ -25,7 +25,7 @@ const Charts = ({ currentFieldIndex, currentField, maxRange, minRange, procedure
             case BUBBLE_SORT:
                 return getBubbleBg(element, index, currentFieldIndex, state.bubbleSortProcedure);
             case QUICK_SORT:
-                return getQuickBg(element, index, currentFieldIndex, state.quickSortProcedure);
+                return getQuickBg(element, index, currentFieldIndex, state.quickSortProcedureCharts);
             default:
                 return "#000";
         }

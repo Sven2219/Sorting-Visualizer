@@ -13,9 +13,10 @@ import { AlgorithmsDispatch } from '../context/AlgorithmsDispatch';
 import { AlgorithmsState } from '../context/AlgorithmsState';
 import { OrientationState } from '../context/OrientationState';
 import Vizualization from '../components/vizualization/Vizualization';
-import { quickSortProcedure } from '../components/vizualization/Charts/algorithms';
 import { transformTextToArray } from '../components/helpers/transformInputedArray';
-import { IBubble } from '../components/helpers/interfaces';
+import { IBubble, IQuickSnapshots } from '../components/helpers/interfaces';
+import { quickSortChartProcedure } from '../components/vizualization/Charts/algorithms';
+import { quickSortSnapshots } from '../components/quick/quickSort';
 
 const BUTTON_SIZE = 50;
 
@@ -26,7 +27,8 @@ const Algorithms = (): JSX.Element => {
         isTheoryModalOpen: false, arrayForSort: "", isVizualizationFinished: true,
         bubbleSortProcedure: { indexes: [], procedure: [] },
         vizualizationMethod: CHARTS,
-        quickSortProcedure: { indexes: [], procedure: [], pivots: { pivot: [], pivotIndex: [] } },
+        quickSortProcedureCharts: { indexes: [], procedure: [], pivotIndex: [] },
+        quickSortProcedureSnapshots: { snapshots: [], pivotIndexes: [], sortedArray: [], directions: [] }
     })
 
 
@@ -36,8 +38,15 @@ const Algorithms = (): JSX.Element => {
         dispatch({ type: "setBubbleSortProcedure", payload: bubble });
     }
     const quickSortCharts = (elements: number[]): void => {
-        const quick = quickSortProcedure(elements)
-        dispatch({ type: "setQuickSortProcedure", payload: quick })
+        const quick = quickSortChartProcedure(elements)
+        dispatch({ type: "setQuickSortProcedureCharts", payload: quick })
+    }
+    const quickSortSnapshotsProcedure = (elements: number[]): void => {
+        const quick: IQuickSnapshots = { snapshots: [], pivotIndexes: [], directions: [], sortedArray: [] }
+        quickSortSnapshots(elements, 0, elements.length - 1, "neutral", quick);
+        quick.sortedArray = [...elements];
+        console.log(quick);
+        dispatch({ type: "setQuickSortProcedureSnapshots", payload: quick });
     }
     const callSortingAlgorithm = (): void => {
         const elements: number[] = transformTextToArray(state.arrayForSort, orientation);
@@ -51,6 +60,7 @@ const Algorithms = (): JSX.Element => {
                         quickSortCharts(elements);
                         break;
                     }
+                    quickSortSnapshotsProcedure(elements);
                     break;
                 case MERGE_SORT:
                     break;
