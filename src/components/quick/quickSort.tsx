@@ -40,7 +40,6 @@ export const quickSortCharts = (arr: number[], low: number, high: number, quick:
     }
 }
 
-
 const partitionSnapshots = (arr: number[], low: number, high: number, quick: IQuickSnapshots): number => {
     const { snapshots, pivotIndexes, directions } = quick;
     const pivot = arr[high];
@@ -67,7 +66,7 @@ export const quickSortSnapshots = (arr: number[], low: number, high: number, dir
         const { snapshots, pivotIndexes, directions } = quick;
         const slicedArray = arr.slice(low, high + 1);
         snapshots.push(slicedArray);
-        pivotIndexes.push(slicedArray.length-1);
+        pivotIndexes.push(slicedArray.length - 1);
         directions.push(direction)
     }
     if (low < high) {

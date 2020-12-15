@@ -87,7 +87,6 @@ const ChartsMethod = ({ procedure, isVizualizationPaused, vizualizationFinished 
     const getSwapingText = (field: number[]): string => {
         return field.length > 1 ? `Swapping ${field.join(" and ")}` : `Swapping ${field[0]} by itself`
     }
-
     return (
         <View style={styles.mainContainer}>
             <View style={[styles.chartsContainer, styles.shadow]}>

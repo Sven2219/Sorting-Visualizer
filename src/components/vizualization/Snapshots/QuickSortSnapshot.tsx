@@ -1,15 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import { AlgorithmsState } from '../../../context/AlgorithmsState';
+import Algorithm from '../../menu/Algorithm';
 import Snapshots from './Snapshots';
 
 interface IProps {
-    snapshots: number[][];
+    isVizualizationPaused: boolean;
+    vizualizationFinished: () => void;
 }
 
-const SnapshotsMethod = ({ snapshots }: IProps) => {
+const QuickSortSnapshot = ({ isVizualizationPaused, vizualizationFinished }: IProps) => {
     const timers = useRef<NodeJS.Timeout[]>([]);
     const [currentFieldIndex, setCurrentFieldIndex] = useState<number>(-1);
+    const { state: { quickSortProcedureSnapshots: { snapshots, directions } } } = useContext(AlgorithmsState);
     useEffect(() => {
         if (snapshots.length > 0) {
             timers.current = startProcedure();
@@ -24,6 +28,9 @@ const SnapshotsMethod = ({ snapshots }: IProps) => {
         return snapshots.map((snap, index) => {
             return setTimeout(() => {
                 setCurrentFieldIndex(index);
+                if (index + 1 === snapshots.length) {
+                    vizualizationFinished();
+                }
             }, 1000 * index)
         })
     }
@@ -31,7 +38,9 @@ const SnapshotsMethod = ({ snapshots }: IProps) => {
         <ScrollView horizontal
             contentContainerStyle={styles.contentContainerStyle}>
             <View style={styles.mainContainer}>
-                {currentFieldIndex > -1 && <Snapshots snapshots={snapshots.slice(0, currentFieldIndex + 1)} currentFieldIndex={currentFieldIndex} />}
+                {currentFieldIndex > -1 && <Snapshots
+                    currentFieldIndex={currentFieldIndex} />
+                }
             </View>
         </ScrollView>
     )
@@ -39,12 +48,13 @@ const SnapshotsMethod = ({ snapshots }: IProps) => {
 const styles = StyleSheet.create({
     mainContainer: {
         flexDirection: 'row',
+        marginTop: 30,
     },
     contentContainerStyle: {
         flex: 1,
-        justifyContent: 'center'
+        justifyContent: 'center',
     }
 })
-export default React.memo(SnapshotsMethod, (prevProps, currentProps) => {
-    return prevProps.snapshots === currentProps.snapshots;
+export default React.memo(QuickSortSnapshot, (prevProps, currentProps) => {
+    return prevProps.isVizualizationPaused === currentProps.isVizualizationPaused;
 });

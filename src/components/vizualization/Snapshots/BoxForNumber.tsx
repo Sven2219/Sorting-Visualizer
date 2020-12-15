@@ -1,14 +1,17 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { getBackgroundColor } from './getMethods';
 
 interface IProps {
-    number: number;
+    currentIndex: number;
+    pivotIndex: number;
+    currentNumber: number;
 }
 
-const BoxForNumber = ({ number }: IProps) => {
+const BoxForNumber = ({ currentNumber, pivotIndex, currentIndex }: IProps) => {
     return (
-        <View style={styles.numberContainer}>
-            <Text style={styles.boldedText}>{number}</Text>
+        <View style={[styles.numberContainer, { backgroundColor: getBackgroundColor(pivotIndex, currentIndex) }]}>
+            <Text style={styles.boldedText}>{currentNumber}</Text>
         </View>
     )
 }

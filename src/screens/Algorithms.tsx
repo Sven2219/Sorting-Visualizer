@@ -1,4 +1,4 @@
-import React, { useContext, useReducer } from 'react';
+import React, { useContext, useMemo, useReducer } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Actions, IState, reducer } from '../reducers/algorithms';
@@ -48,6 +48,9 @@ const Algorithms = (): JSX.Element => {
         console.log(quick);
         dispatch({ type: "setQuickSortProcedureSnapshots", payload: quick });
     }
+
+
+
     const callSortingAlgorithm = (): void => {
         const elements: number[] = transformTextToArray(state.arrayForSort, orientation);
         if (elements.length > 0) {

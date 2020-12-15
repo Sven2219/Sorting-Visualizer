@@ -30,7 +30,7 @@ const Charts = ({ currentFieldIndex, currentField, maxRange, minRange, procedure
                 return "#000";
         }
     }
-
+    console.log("tu smo")
     return (
         <View style={styles.mainContainer}>
             { procedure.length > 0 && currentField?.map((element, index) => {
@@ -69,4 +69,6 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
 })
-export default Charts;
+export default React.memo(Charts, (prevProps, currentProps) => {
+    return prevProps.currentField == currentProps.currentField;
+});

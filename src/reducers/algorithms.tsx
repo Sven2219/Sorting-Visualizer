@@ -85,7 +85,7 @@ export const reducer = (state: IState, actions: Actions): IState => {
                 return { ...state, vizualizationMethod: actions.payload, chosenSort: BUBBLE_SORT };
             }
         case "setQuickSortProcedureSnapshots":
-            return { ...state, quickSortProcedureSnapshots: actions.payload };
+            return { ...state, quickSortProcedureSnapshots: actions.payload, isVizualizationPaused: false, isVizualizationFinished: false };
         default:
             return state;
     }

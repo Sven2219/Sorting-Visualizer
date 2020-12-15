@@ -21,7 +21,7 @@ const InputArray = ({ onPress, arrayForSort, editable }: IProps): JSX.Element =>
     }
     return (
         <View style={[styles.inputArrayContainer, { width: getInputTextWidth(), marginLeft: getLeftMargin() }]}>
-            <Text style={styles.labelText}>Array: </Text>
+            <Text style={[styles.labelText,{color:editable?"#000":"#d3d3d3"}]}>Array: </Text>
             <TextInput editable={editable} value={arrayForSort} onChangeText={(arrayForSort) => onPress(arrayForSort)} style={styles.textInput} placeholder={"1, 2, 3, 4, 5, 6"} />
         </View>
     )
