@@ -40,9 +40,10 @@ export const quickSortCharts = (arr: number[], low: number, high: number, quick:
     }
 }
 
-const partitionSnapshots = (arr: number[], low: number, high: number, quick: IQuickSnapshots): number => {
+const partitionSnapshots = (arr: number[], low: number, high: number, quick: IQuickSnapshots, currentIndex: number): number => {
     const { snapshots, pivotIndexes, directions } = quick;
     const pivot = arr[high];
+    currentIndex++;
     let i = low - 1;
     for (let j = low; j < high; j++) {
         if (arr[j] < pivot) {
@@ -55,13 +56,24 @@ const partitionSnapshots = (arr: number[], low: number, high: number, quick: IQu
     let temp: number = arr[i + 1];
     arr[i + 1] = arr[high];
     arr[high] = temp;
-    snapshots.push(arr.slice(low, high + 1));
-    pivotIndexes.push(i + 1 - low);
-    directions.push("transformed");
+    let isSame = true;
+    const slicedArray = arr.slice(low, high + 1);
+    if (slicedArray.length === snapshots[currentIndex - 1].length) {
+        for (let i = 0; i < slicedArray.length; i++) {
+            if (slicedArray[i] !== snapshots[currentIndex - 1][i]) {
+                isSame = false;
+            }
+        }
+    }
+    if (!isSame) {
+        snapshots.push(slicedArray);
+        pivotIndexes.push(i + 1 - low);
+        directions.push("transformed");
+    }
     return i + 1;
 }
 
-export const quickSortSnapshots = (arr: number[], low: number, high: number, direction: string, quick: IQuickSnapshots): void => {
+export const quickSortSnapshots = (arr: number[], low: number, high: number, direction: string, quick: IQuickSnapshots, currentIndex: number): void => {
     if (arr.slice(low, high + 1).length > 0) {
         const { snapshots, pivotIndexes, directions } = quick;
         const slicedArray = arr.slice(low, high + 1);
@@ -70,8 +82,8 @@ export const quickSortSnapshots = (arr: number[], low: number, high: number, dir
         directions.push(direction)
     }
     if (low < high) {
-        let pivotPosition: number = partitionSnapshots(arr, low, high, quick);
-        quickSortSnapshots(arr, low, (pivotPosition - 1), "left", quick);
-        quickSortSnapshots(arr, pivotPosition + 1, high, "right", quick)
+        let pivotPosition: number = partitionSnapshots(arr, low, high, quick, currentIndex);
+        quickSortSnapshots(arr, low, (pivotPosition - 1), "left", quick, currentIndex);
+        quickSortSnapshots(arr, pivotPosition + 1, high, "right", quick, currentIndex)
     }
 }

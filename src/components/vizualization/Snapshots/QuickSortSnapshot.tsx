@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { AlgorithmsState } from '../../../context/AlgorithmsState';
-import Algorithm from '../../menu/Algorithm';
+
 import Snapshots from './Snapshots';
 
 interface IProps {

@@ -14,7 +14,6 @@ const Snapshots = ({ currentFieldIndex }: IProps) => {
     const directionFlag = useRef<boolean>(false);
     const checkDirection = (currentSnapshot: number[]) => {
         const firstTransformation: number[] = snapshots[1].slice(pivotIndexes[1] + 1, snapshots[1].length - 1);
-        console.log(firstTransformation)
         if (firstTransformation.length === currentSnapshot.length) {
             const same = firstTransformation.every((element, index) => element === currentSnapshot[index]);
             if (same) {
@@ -33,10 +32,10 @@ const Snapshots = ({ currentFieldIndex }: IProps) => {
                 }
                 return (
                     <View key={index} style={[styles.mainContainer, { right: getRightPostion(index, directions), marginTop: getTopPosition(index, directions) }]}>
-                        {snapshot.map((number, index) => {
+                        {snapshot.map((number, ind) => {
 
                             return (
-                                <BoxForNumber currentNumber={number} currentIndex={index} key={index} pivotIndex={pivotIndexes[currentFieldIndex]} />
+                                <BoxForNumber currentNumber={number} currentIndex={ind} key={ind} pivotIndex={pivotIndexes[index]} />
                             )
                         })}
                     </View>
