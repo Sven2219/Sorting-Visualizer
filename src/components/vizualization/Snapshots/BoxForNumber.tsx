@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { SNAPSHOT_BOX_SIZE } from '../../Constants';
 import { getBackgroundColor } from './getMethods';
 
 interface IProps {
@@ -19,8 +20,8 @@ const BoxForNumber = ({ currentNumber, pivotIndex, currentIndex }: IProps) => {
 
 const styles = StyleSheet.create({
     numberContainer: {
-        width: 30,
-        height: 30,
+        width: SNAPSHOT_BOX_SIZE,
+        height: SNAPSHOT_BOX_SIZE,
         borderWidth: 1,
         borderRadius: 5,
         alignItems: 'center',

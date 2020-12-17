@@ -43,14 +43,10 @@ const Algorithms = (): JSX.Element => {
     }
     const quickSortSnapshotsProcedure = (elements: number[]): void => {
         const quick: IQuickSnapshots = { snapshots: [], pivotIndexes: [], directions: [], sortedArray: [] }
-        let curretIndex: number = 0;
-        quickSortSnapshots(elements, 0, elements.length - 1, "neutral", quick, curretIndex);
+        quickSortSnapshots(elements, 0, elements.length - 1, "neutral", quick);
         quick.sortedArray = [...elements];
-
         dispatch({ type: "setQuickSortProcedureSnapshots", payload: quick });
     }
-
-
 
     const callSortingAlgorithm = (): void => {
         const elements: number[] = transformTextToArray(state.arrayForSort, orientation);

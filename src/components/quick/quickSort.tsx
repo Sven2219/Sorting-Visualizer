@@ -39,11 +39,16 @@ export const quickSortCharts = (arr: number[], low: number, high: number, quick:
         quickSortCharts(arr, pivotPosition + 1, high, quick)
     }
 }
+const areArraySame = (currentArray: number[], prevArray: number[]): boolean => {
 
-const partitionSnapshots = (arr: number[], low: number, high: number, quick: IQuickSnapshots, currentIndex: number): number => {
+    if (currentArray.length === prevArray.length) {
+        return currentArray.every((element, index) => element === prevArray[index]);
+    }
+    return false;
+}
+const partitionSnapshots = (arr: number[], low: number, high: number, quick: IQuickSnapshots): number => {
     const { snapshots, pivotIndexes, directions } = quick;
     const pivot = arr[high];
-    currentIndex++;
     let i = low - 1;
     for (let j = low; j < high; j++) {
         if (arr[j] < pivot) {
@@ -56,10 +61,10 @@ const partitionSnapshots = (arr: number[], low: number, high: number, quick: IQu
     let temp: number = arr[i + 1];
     arr[i + 1] = arr[high];
     arr[high] = temp;
-    let isSame = true;
     const slicedArray = arr.slice(low, high + 1);
-    if (slicedArray.length === snapshots[currentIndex - 1].length) {
-        isSame = slicedArray.every((element,index)=>element===snapshots[currentIndex-1][index]);
+    let isSame = false;
+    if (snapshots[snapshots.length - 1] !== undefined) {
+        isSame = areArraySame(slicedArray, snapshots[snapshots.length - 1]);
     }
     if (!isSame) {
         snapshots.push(slicedArray);
@@ -69,17 +74,28 @@ const partitionSnapshots = (arr: number[], low: number, high: number, quick: IQu
     return i + 1;
 }
 
-export const quickSortSnapshots = (arr: number[], low: number, high: number, direction: string, quick: IQuickSnapshots, currentIndex: number): void => {
+export const quickSortSnapshots = (arr: number[], low: number, high: number, direction: string, quick: IQuickSnapshots): void => {
     if (arr.slice(low, high + 1).length > 0) {
         const { snapshots, pivotIndexes, directions } = quick;
         const slicedArray = arr.slice(low, high + 1);
-        snapshots.push(slicedArray);
-        pivotIndexes.push(slicedArray.length - 1);
-        directions.push(direction)
+        let isSame = false;
+        if (snapshots[snapshots.length - 1] !== undefined) {
+            isSame = areArraySame(slicedArray, snapshots[snapshots.length - 1]);
+        }
+        if (!isSame) {
+            snapshots.push(slicedArray);
+            pivotIndexes.push(slicedArray.length - 1);
+            if (low > pivotIndexes[1]) {
+                directions.push(direction + "s")//s= Stands for second part
+            }
+            else {
+                directions.push(direction)
+            }
+        }
     }
     if (low < high) {
-        let pivotPosition: number = partitionSnapshots(arr, low, high, quick, currentIndex);
-        quickSortSnapshots(arr, low, (pivotPosition - 1), "left", quick, currentIndex);
-        quickSortSnapshots(arr, pivotPosition + 1, high, "right", quick, currentIndex)
+        let pivotPosition: number = partitionSnapshots(arr, low, high, quick);
+        quickSortSnapshots(arr, low, (pivotPosition - 1), "left", quick);
+        quickSortSnapshots(arr, pivotPosition + 1, high, "right", quick)
     }
 }

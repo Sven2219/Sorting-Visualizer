@@ -1,21 +1,7 @@
-export const getRightPostion = (index: number, directions: string[]) => {
-    if (directions[index] === "left") {
-        return 10 * index;
-    }
-    else if (directions[index] === "right") {
-        return -10 * index;
-    }
-    else if (directions[index] === "transformed") {
-        if (directions[index - 1] === "neutral") {
-            return 0;
-        }
-        else if (directions[index - 1] === "left") {
-            return (index - 1) * 10;
-        }
-        else {
-            return (index - 1) * -10;
-        }
-    }
+import { SNAPSHOT_BOX_SIZE } from "../../Constants";
+
+export const getRightPostion = (index: number, directions: string[],directionIndex:number[]) => {
+    
 }
 export const getTopPosition = (index: number, directions: string[]) => {
     if (directions[index] === "transformed") {
@@ -25,6 +11,6 @@ export const getTopPosition = (index: number, directions: string[]) => {
         return 5;
     }
 }
-export const getBackgroundColor = (pivotIndex:number,currentIndex:number) => {
-    return pivotIndex === currentIndex?"#006400":"#fff";
+export const getBackgroundColor = (pivotIndex: number, currentIndex: number) => {
+    return pivotIndex === currentIndex ? "#006400" : "#fff";
 }
