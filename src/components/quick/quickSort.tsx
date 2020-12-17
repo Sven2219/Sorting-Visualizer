@@ -59,11 +59,7 @@ const partitionSnapshots = (arr: number[], low: number, high: number, quick: IQu
     let isSame = true;
     const slicedArray = arr.slice(low, high + 1);
     if (slicedArray.length === snapshots[currentIndex - 1].length) {
-        for (let i = 0; i < slicedArray.length; i++) {
-            if (slicedArray[i] !== snapshots[currentIndex - 1][i]) {
-                isSame = false;
-            }
-        }
+        isSame = slicedArray.every((element,index)=>element===snapshots[currentIndex-1][index]);
     }
     if (!isSame) {
         snapshots.push(slicedArray);
