@@ -30,7 +30,6 @@ const Charts = ({ currentFieldIndex, currentField, maxRange, minRange, procedure
                 return "#000";
         }
     }
-    console.log("tu smo")
     return (
         <View style={styles.mainContainer}>
             { procedure.length > 0 && currentField?.map((element, index) => {

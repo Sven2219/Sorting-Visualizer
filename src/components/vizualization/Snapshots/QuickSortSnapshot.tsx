@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { AlgorithmsState } from '../../../context/AlgorithmsState';
-
+import {MODAL_OVERLAY_LANDSCAPE} from '../../Constants';
 import Snapshots from './Snapshots';
 
 interface IProps {
@@ -30,12 +30,14 @@ const QuickSortSnapshot = ({ isVizualizationPaused, vizualizationFinished }: IPr
                 setCurrentFieldIndex(index);
                 if (index + 1 === snapshots.length) {
                     vizualizationFinished();
+                    
                 }
             }, 1000 * index)
         })
     }
     return (
-        <ScrollView horizontal
+        <ScrollView 
+        horizontal
             contentContainerStyle={styles.contentContainerStyle}>
             <View style={styles.mainContainer}>
                 {currentFieldIndex > -1 && <Snapshots
@@ -48,7 +50,6 @@ const QuickSortSnapshot = ({ isVizualizationPaused, vizualizationFinished }: IPr
 const styles = StyleSheet.create({
     mainContainer: {
         flexDirection: 'row',
-        marginTop: 30,
     },
     contentContainerStyle: {
         flex: 1,

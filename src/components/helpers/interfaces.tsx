@@ -11,13 +11,16 @@ export interface IIndexCharts {
     high?: number;
 }
 
-
+export interface IQuickPosition {
+    levels: number[];
+    start: number[];
+}
 
 export interface IQuickSnapshots {
     snapshots: number[][];
     sortedArray?: number[];
-    pivotIndexes: number[]
-    levels: number[];
+    pivotIndexes: number[];
+    snapshotPosition: IQuickPosition;
 }
 export interface IBubble {
     procedure: number[][];
