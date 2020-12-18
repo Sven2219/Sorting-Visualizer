@@ -2,14 +2,14 @@ import React, { useContext, useRef } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { AlgorithmsState } from '../../../context/AlgorithmsState';
 import BoxForNumber from './BoxForNumber';
-import { getRightPostion, getTopPosition } from './getMethods';
+import { getTopPosition } from './getMethods';
 
 interface IProps {
     currentFieldIndex: number;
 }
 
 const Snapshots = ({ currentFieldIndex }: IProps) => {
-    const { state: { quickSortProcedureSnapshots: { snapshots, pivotIndexes, directions } } } = useContext(AlgorithmsState);
+    const { state: { quickSortProcedureSnapshots: { snapshots, pivotIndexes,levels } } } = useContext(AlgorithmsState);
     const slicedSnapshot = snapshots.slice(0, currentFieldIndex + 1);
     const directionFlag = useRef<boolean>(false);
     const directionIndex = useRef<number[]>([]);
@@ -33,7 +33,7 @@ const Snapshots = ({ currentFieldIndex }: IProps) => {
                     directionFlag.current = false;
                 }
                 return (
-                    <View key={index} style={[styles.mainContainer, {left:0, marginTop: getTopPosition(index, directions) }]}>
+                    <View key={index} style={[styles.mainContainer, { left: 0 ,marginTop:getTopPosition(index,levels)}]}>
                         {snapshot.map((number, ind) => {
 
                             return (

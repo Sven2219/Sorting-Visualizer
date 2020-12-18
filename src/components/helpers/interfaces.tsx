@@ -16,8 +16,8 @@ export interface IIndexCharts {
 export interface IQuickSnapshots {
     snapshots: number[][];
     sortedArray?: number[];
-    directions: string[];
     pivotIndexes: number[]
+    levels: number[];
 }
 export interface IBubble {
     procedure: number[][];

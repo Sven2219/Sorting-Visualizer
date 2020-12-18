@@ -1,10 +1,8 @@
 import { SNAPSHOT_BOX_SIZE } from "../../Constants";
 
-export const getRightPostion = (index: number, directions: string[],directionIndex:number[]) => {
-    
-}
-export const getTopPosition = (index: number, directions: string[]) => {
-    if (directions[index] === "transformed") {
+
+export const getTopPosition = (index: number, levels: number[]) => {
+    if (levels[index] === levels[index - 1]) {
         return -30;
     }
     else {

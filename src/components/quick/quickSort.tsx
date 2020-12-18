@@ -46,8 +46,8 @@ const areArraySame = (currentArray: number[], prevArray: number[]): boolean => {
     }
     return false;
 }
-const partitionSnapshots = (arr: number[], low: number, high: number, quick: IQuickSnapshots): number => {
-    const { snapshots, pivotIndexes, directions } = quick;
+const partitionSnapshots = (arr: number[], low: number, high: number, quick: IQuickSnapshots, level: number): number => {
+    const { snapshots, pivotIndexes, levels } = quick;
     const pivot = arr[high];
     let i = low - 1;
     for (let j = low; j < high; j++) {
@@ -69,15 +69,17 @@ const partitionSnapshots = (arr: number[], low: number, high: number, quick: IQu
     if (!isSame) {
         snapshots.push(slicedArray);
         pivotIndexes.push(i + 1 - low);
-        directions.push("transformed");
+        levels.push(level)
+        console.log("from here", level, "transformed")
     }
     return i + 1;
 }
 
-export const quickSortSnapshots = (arr: number[], low: number, high: number, direction: string, quick: IQuickSnapshots): void => {
-    if (arr.slice(low, high + 1).length > 0) {
-        const { snapshots, pivotIndexes, directions } = quick;
-        const slicedArray = arr.slice(low, high + 1);
+export const quickSortSnapshots = (arr: number[], low: number, high: number, quick: IQuickSnapshots, level: number): void => {
+    level = level + 1;
+    const slicedArray = arr.slice(low, high + 1);
+    if (slicedArray.length > 0) {
+        const { snapshots, pivotIndexes, levels } = quick;
         let isSame = false;
         if (snapshots[snapshots.length - 1] !== undefined) {
             isSame = areArraySame(slicedArray, snapshots[snapshots.length - 1]);
@@ -85,17 +87,13 @@ export const quickSortSnapshots = (arr: number[], low: number, high: number, dir
         if (!isSame) {
             snapshots.push(slicedArray);
             pivotIndexes.push(slicedArray.length - 1);
-            if (low > pivotIndexes[1]) {
-                directions.push(direction + "s")//s= Stands for second part
-            }
-            else {
-                directions.push(direction)
-            }
+            console.log(level)
+            levels.push(level);
         }
     }
     if (low < high) {
-        let pivotPosition: number = partitionSnapshots(arr, low, high, quick);
-        quickSortSnapshots(arr, low, (pivotPosition - 1), "left", quick);
-        quickSortSnapshots(arr, pivotPosition + 1, high, "right", quick)
+        let pivotPosition: number = partitionSnapshots(arr, low, high, quick, level);
+        quickSortSnapshots(arr, low, (pivotPosition - 1), quick, level);
+        quickSortSnapshots(arr, pivotPosition + 1, high, quick, level)
     }
 }

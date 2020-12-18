@@ -13,7 +13,7 @@ interface IProps {
 const QuickSortSnapshot = ({ isVizualizationPaused, vizualizationFinished }: IProps) => {
     const timers = useRef<NodeJS.Timeout[]>([]);
     const [currentFieldIndex, setCurrentFieldIndex] = useState<number>(-1);
-    const { state: { quickSortProcedureSnapshots: { snapshots, directions } } } = useContext(AlgorithmsState);
+    const { state: { quickSortProcedureSnapshots: { snapshots } } } = useContext(AlgorithmsState);
     useEffect(() => {
         if (snapshots.length > 0) {
             timers.current = startProcedure();

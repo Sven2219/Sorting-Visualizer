@@ -28,7 +28,7 @@ const Algorithms = (): JSX.Element => {
         bubbleSortProcedure: { indexes: [], procedure: [] },
         vizualizationMethod: CHARTS,
         quickSortProcedureCharts: { indexes: [], procedure: [], pivotIndex: [] },
-        quickSortProcedureSnapshots: { snapshots: [], pivotIndexes: [], sortedArray: [], directions: [] }
+        quickSortProcedureSnapshots: { snapshots: [], pivotIndexes: [], sortedArray: [],  levels: [] }
     })
 
 
@@ -42,8 +42,9 @@ const Algorithms = (): JSX.Element => {
         dispatch({ type: "setQuickSortProcedureCharts", payload: quick })
     }
     const quickSortSnapshotsProcedure = (elements: number[]): void => {
-        const quick: IQuickSnapshots = { snapshots: [], pivotIndexes: [], directions: [], sortedArray: [] }
-        quickSortSnapshots(elements, 0, elements.length - 1, "neutral", quick);
+        const quick: IQuickSnapshots = { snapshots: [], pivotIndexes: [], sortedArray: [], levels: [] }
+        const level: number = 0;
+        quickSortSnapshots(elements, 0, elements.length - 1, quick, level);
         quick.sortedArray = [...elements];
         dispatch({ type: "setQuickSortProcedureSnapshots", payload: quick });
     }
