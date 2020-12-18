@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { View, StyleSheet, ScrollView, Text } from 'react-native';
 import { AlgorithmsState } from '../../../context/AlgorithmsState';
-import {MODAL_OVERLAY_LANDSCAPE} from '../../Constants';
+import { MODAL_OVERLAY_LANDSCAPE } from '../../Constants';
 import Snapshots from './Snapshots';
 
 interface IProps {
@@ -30,30 +29,24 @@ const QuickSortSnapshot = ({ isVizualizationPaused, vizualizationFinished }: IPr
                 setCurrentFieldIndex(index);
                 if (index + 1 === snapshots.length) {
                     vizualizationFinished();
-                    
+
                 }
             }, 1000 * index)
         })
     }
     return (
-        <ScrollView 
-        horizontal
-            contentContainerStyle={styles.contentContainerStyle}>
-            <View style={styles.mainContainer}>
-                {currentFieldIndex > -1 && <Snapshots
-                    currentFieldIndex={currentFieldIndex} />
-                }
-            </View>
-        </ScrollView>
+        <View style={{ position: 'relative', flex: 1, height: 300,borderWidth:1,justifyContent:'center' }}>
+            {snapshots.length > 0 && <Snapshots currentFieldIndex={currentFieldIndex} />}
+        </View>
+
     )
 }
 const styles = StyleSheet.create({
     mainContainer: {
-        flexDirection: 'row',
-    },
-    contentContainerStyle: {
         flex: 1,
+        height: 100,
         justifyContent: 'center',
+        alignItems: 'center'
     }
 })
 export default React.memo(QuickSortSnapshot, (prevProps, currentProps) => {

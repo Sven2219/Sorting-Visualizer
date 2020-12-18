@@ -1,5 +1,5 @@
 import { IBubble, IQuickCharts, IQuickSnapshots } from "../components/helpers/interfaces"
-import { SNAPSHOTS, TREE, HEAP_SORT, BUBBLE_SORT, MERGE_SORT } from "../components/helpers/types"
+import { SNAPSHOTS, TREE, HEAP_SORT, BUBBLE_SORT, MERGE_SORT, QUICK_SORT } from "../components/helpers/types"
 
 export interface IState {
     isTheoryModalOpen: boolean;
@@ -71,6 +71,9 @@ export const reducer = (state: IState, actions: Actions): IState => {
             }
             return { ...state, isVizualizationPaused: actions.isVizualizationPaused };
         case "setChosenSort":
+            if (actions.payload === QUICK_SORT) {
+                return { ...state, chosenSort: actions.payload, isChoseSortModalOpen: false, quickSortProcedureSnapshots: { snapshots: [], pivotIndexes: [], snapshotPosition: { levels: [], start: [] } } }
+            }
             return { ...state, chosenSort: actions.payload, isChoseSortModalOpen: false };
         case "setIsChoseSortModalOpen":
             return { ...state, isChoseSortModalOpen: actions.payload };

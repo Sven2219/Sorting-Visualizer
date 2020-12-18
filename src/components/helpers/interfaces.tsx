@@ -18,7 +18,6 @@ export interface IQuickPosition {
 
 export interface IQuickSnapshots {
     snapshots: number[][];
-    sortedArray?: number[];
     pivotIndexes: number[];
     snapshotPosition: IQuickPosition;
 }
