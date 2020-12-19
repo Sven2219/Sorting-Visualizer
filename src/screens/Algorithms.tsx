@@ -1,13 +1,13 @@
-import React, { useContext, useReducer } from 'react';
+import React, { useContext, useMemo, useReducer } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Actions, IState, reducer } from '../reducers/algorithms';
 import Feather from 'react-native-vector-icons/Feather';
 import InputArray from '../components/InputArray';
-import StartPauseButton from '../components/StartPauseButton';
+
 import Theory from '../components/Theory';
 import { bubbleSort } from '../components/bubble/bubbleSort';
-import { BUBBLE_SORT, QUICK_SORT, MERGE_SORT, HEAP_SORT, CHARTS } from '../components/helpers/types';
+import { BUBBLE_SORT, QUICK_SORT, MERGE_SORT, HEAP_SORT, CHARTS, TIMING, MANUAL } from '../components/helpers/types';
 import AlgoMenu from '../components/menu/AlgoMenu';
 import { AlgorithmsDispatch } from '../context/AlgorithmsDispatch';
 import { AlgorithmsState } from '../context/AlgorithmsState';
@@ -18,7 +18,8 @@ import { IBubble, IQuickSnapshots } from '../components/helpers/interfaces';
 import { quickSortChartProcedure } from '../components/vizualization/Charts/algorithms';
 import { quickSortSnapshots } from '../components/quick/quickSort';
 
-const BUTTON_SIZE = 50;
+import VizualizationManagment from '../components/VizualizationManagment';
+
 
 const Algorithms = (): JSX.Element => {
     const { orientation } = useContext(OrientationState);
@@ -27,6 +28,7 @@ const Algorithms = (): JSX.Element => {
         isTheoryModalOpen: false, arrayForSort: "", isVizualizationFinished: true,
         bubbleSortProcedure: { indexes: [], procedure: [] },
         vizualizationMethod: CHARTS,
+        vizualizationManagmentMethod: TIMING,
         quickSortProcedureCharts: { indexes: [], procedure: [], pivotIndex: [] },
         quickSortProcedureSnapshots: { snapshots: [], pivotIndexes: [], snapshotPosition: { levels: [], start: [] } }
     })
@@ -83,15 +85,6 @@ const Algorithms = (): JSX.Element => {
             size={35}
             color="#d3d3d3" />
     }
-    const getButton = (): JSX.Element => {
-        if (state.isVizualizationPaused) {
-            return <StartPauseButton onPress={callSortingAlgorithm}
-                iconName={"caret-forward"} />
-        }
-        return <StartPauseButton onPress={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true })}
-            iconName={"pause"} />
-    }
-
     return (
         <ScrollView style={styles.mainContainer}>
             <View style={styles.headerContainer}>
@@ -104,17 +97,14 @@ const Algorithms = (): JSX.Element => {
                 onPress={(arrayForSort: string) => dispatch({ type: "setArrayForSort", payload: arrayForSort })}
                 editable={state.isVizualizationFinished}
             />
-            <View style={styles.buttonPosition}>
-                <View style={[styles.buttonContainer, styles.shadow,
-                { backgroundColor: state.isVizualizationPaused ? "rgba(34,139,34,0.8)" : "rgba(178,34,34,0.8)" }]}>
-                    {getButton()}
-                </View>
-            </View>
+            <VizualizationManagment isVizualizationPaused={state.isVizualizationPaused} vizualizationMethod={state.vizualizationMethod} callSortingAlgorithm={callSortingAlgorithm} paused={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true })} />
+
             <AlgorithmsDispatch.Provider value={{ dispatch }}>
                 <AlgorithmsState.Provider value={{ state }}>
                     <Vizualization />
                 </AlgorithmsState.Provider>
             </AlgorithmsDispatch.Provider>
+
             {
                 state.isChoseSortModalOpen &&
                 <AlgorithmsDispatch.Provider value={{ dispatch }}>
@@ -147,13 +137,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Sura-Bold',
         letterSpacing: 2
     },
-    buttonPosition: {
-        alignItems: 'flex-end',
-        top: BUTTON_SIZE / 2,
-        zIndex: 2,
-        justifyContent: 'space-between'
-    },
-
     shadow: {
         shadowColor: "#000",
         shadowOffset: {
@@ -165,12 +148,18 @@ const styles = StyleSheet.create({
         elevation: 24,
     },
     buttonContainer: {
-        width: BUTTON_SIZE,
-        height: BUTTON_SIZE,
-        borderRadius: BUTTON_SIZE / 2,
-        right: BUTTON_SIZE / 2 - 5,
+        width: 50,
+        height: 50,
+        borderRadius: 50 / 2,
+        right: 50 / 2 - 5,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    buttonPosition: {
+        alignItems: 'flex-end',
+        top: 50 / 2,
+        zIndex: 2,
+        justifyContent: 'space-between'
     },
 })
 export default Algorithms;

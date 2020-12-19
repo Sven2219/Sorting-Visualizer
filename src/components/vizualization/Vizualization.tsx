@@ -2,50 +2,42 @@ import React, { useContext } from 'react';
 import { View } from 'react-native';
 import { AlgorithmsDispatch } from '../../context/AlgorithmsDispatch';
 import { AlgorithmsState } from '../../context/AlgorithmsState';
+import { IBubble } from '../helpers/interfaces';
 import { BUBBLE_SORT, CHARTS, HEAP_SORT, MERGE_SORT, QUICK_SORT, SNAPSHOTS, TREE } from '../helpers/types';
-import ChartsMethod from './Charts/ChartsMethod';
+import BubbleChartsMethod from './Charts/BubbleSort/BubbleChartsMethod';
 import QuickSortSnapshot from './Snapshots/QuickSortSnapshot';
-
+interface IProps {
+    vizualizationFinished: () => void;
+    bubbleSortProcedure: IBubble;
+    isVizualizationPaused: boolean;
+}
 
 const Vizualization = (): JSX.Element => {
     const { state } = useContext(AlgorithmsState);
     const { dispatch } = useContext(AlgorithmsDispatch);
-    const chooseChartProcedure = (): number[][] => {
-        switch (state.chosenSort) {
-            case BUBBLE_SORT:
-                return state.bubbleSortProcedure.procedure;
-            case QUICK_SORT:
-                return state.quickSortProcedureCharts.procedure;
-            case MERGE_SORT:
-                return []
-            case HEAP_SORT:
-                return [];
-            default:
-                return state.bubbleSortProcedure.procedure;
-        }
-    }
-    const getVizualizationMethod = (): JSX.Element | null => {
+    const getVizualizationMethod = (): JSX.Element | undefined => {
         switch (state.vizualizationMethod) {
             case CHARTS:
-                return <ChartsMethod procedure={chooseChartProcedure()}
-                    isVizualizationPaused={state.isVizualizationPaused}
-                    vizualizationFinished={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true, isVizualizationFinished: true })} />
-            case TREE:
-                return null;
+                if (state.chosenSort === BUBBLE_SORT) {
+                    return <BubbleChartsMethod bubbleSortProcedure={state.bubbleSortProcedure}
+                        isVizualizationPaused={state.isVizualizationPaused}
+                        vizualizationFinished={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true, isVizualizationFinished: true })} />
+                }
+                else if (state.chosenSort === QUICK_SORT) {
+                    return;
+                }
             case SNAPSHOTS:
                 if (state.chosenSort === QUICK_SORT) {
-                    return <QuickSortSnapshot
-                        isVizualizationPaused={state.isVizualizationPaused}
-                        vizualizationFinished={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true, isVizualizationFinished: true })} />;
+                    return <QuickSortSnapshot />
                 }
             default:
-                return null;
+                break;
         }
     }
     return (
-        <View>
+        <>
             {getVizualizationMethod()}
-        </View>
+        </>
     )
 }
 export default Vizualization;

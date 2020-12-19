@@ -13,3 +13,10 @@ export const TREE = "Tree";
 //modes
 export const PORTRAIT = "PORTRAIT";
 export const LANDSCAPE = "LANDSCAPE";
+
+
+
+//vizualization managment 
+
+export const TIMING = "TIMING";
+export const MANUAL = "MANUAL";

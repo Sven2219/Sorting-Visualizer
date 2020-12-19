@@ -1,7 +1,7 @@
 import { IBubble, IQuickCharts } from "./interfaces";
 
 export const getBubbleBg = (element: number, index: number, currentFieldIndex: number, bubbleSortProcedure: IBubble): string => {
-    const { procedure, indexes } = bubbleSortProcedure;
+    const { procedure, indexes } = bubbleSortProcedure
     if (currentFieldIndex < 1) {//start
         return "#228b22";//green
     }

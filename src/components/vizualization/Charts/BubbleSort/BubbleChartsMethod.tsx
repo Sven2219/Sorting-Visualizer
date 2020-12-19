@@ -1,24 +1,23 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { AlgorithmsState } from '../../../context/AlgorithmsState';
-import { CHARTS_CONTAINER_HEIGHT } from '../../Constants';
-import { BUBBLE_SORT, QUICK_SORT } from '../../helpers/types';
-import Charts from './Charts';
-import { getBubbleSwapedValues, getQuickSwapedValues } from './getSwapedValues';
+import { CHARTS_CONTAINER_HEIGHT } from '../../../Constants';
+import { IBubble } from '../../../helpers/interfaces'
+import Charts from './BubbleCharts';
+import { getBubbleSwapedValues } from '../getSwapedValues';
 interface IProps {
-    procedure: number[][];
+    bubbleSortProcedure: IBubble;
     isVizualizationPaused: boolean;
     vizualizationFinished: () => void;
 }
 
-const ChartsMethod = ({ procedure, isVizualizationPaused, vizualizationFinished }: IProps): JSX.Element => {
+const BubbleChartsMethod = ({ bubbleSortProcedure, isVizualizationPaused, vizualizationFinished }: IProps): JSX.Element => {
+    const { procedure } = bubbleSortProcedure;
     const [currentField, setCurrentField] = useState<number[]>([]);
     const currentFieldIndex = useRef<number>(0);
     const timers = useRef<NodeJS.Timeout[]>([]);
     const swapedValue = useRef<number[][]>([]);
     const maxRange = useRef<number>(0);
     const minRange = useRef<number>(0);
-    const { state: { chosenSort, quickSortProcedureCharts } } = useContext(AlgorithmsState);
     useEffect(() => {
         if (procedure.length > 0) {
             timers.current = startProcedure();
@@ -40,22 +39,12 @@ const ChartsMethod = ({ procedure, isVizualizationPaused, vizualizationFinished 
     }, [isVizualizationPaused])
 
     useEffect(() => {
-        const swapedValues: number[] = getSwapedValues();
+        const swapedValues: number[] = getBubbleSwapedValues(currentField, procedure[currentFieldIndex.current - 1]);;
         if (swapedValues.length > 0) {
             swapedValue.current = [...swapedValue.current, swapedValues]
         }
     }, [currentField])
 
-    const getSwapedValues = (): number[] => {
-        switch (chosenSort) {
-            case BUBBLE_SORT:
-                return getBubbleSwapedValues(currentField, procedure[currentFieldIndex.current - 1]);
-            case QUICK_SORT:
-                return getQuickSwapedValues(currentField, quickSortProcedureCharts, currentFieldIndex.current);
-            default:
-                return [];
-        }
-    }
     const startProcedure = (): NodeJS.Timeout[] => {
         if (currentFieldIndex.current === 0) {
             swapedValue.current = [];
@@ -85,7 +74,12 @@ const ChartsMethod = ({ procedure, isVizualizationPaused, vizualizationFinished 
     }
 
     const getSwapingText = (field: number[]): string => {
-        return field.length > 1 ? `Swapping ${field.join(" and ")}` : `Swapping ${field[0]} by itself`
+        return `Swapping ${field.join(" and ")}`;
+    }
+    const getOriginalArray = (): string | undefined => {
+        if (currentField.length > 0) {
+            return procedure[0].join(", ");
+        }
     }
     return (
         <View style={styles.mainContainer}>
@@ -95,12 +89,12 @@ const ChartsMethod = ({ procedure, isVizualizationPaused, vizualizationFinished 
                     currentField={currentField}
                     minRange={minRange.current}
                     maxRange={maxRange.current}
-                    procedure={procedure}
+                    bubbleSortProcedure={bubbleSortProcedure}
                 />}
             </View>
             <View style={styles.procedureContainer}>
                 <Text style={styles.originalArrayText}>
-                    Original array: [{currentField.length > 0 && procedure[0].join(", ")}]
+                    Original array: [{getOriginalArray()}]
                 </Text>
                 {swapedValue.current.length > 0 && swapedValue.current.map((field, index) => {
                     return (
@@ -150,6 +144,6 @@ const styles = StyleSheet.create({
         marginTop: 5
     }
 })
-export default React.memo(ChartsMethod, (prevProps, currentProps) => {
+export default React.memo(BubbleChartsMethod, (prevProps, currentProps) => {
     return prevProps.isVizualizationPaused == currentProps.isVizualizationPaused;
 });

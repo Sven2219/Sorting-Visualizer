@@ -1,35 +1,28 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View } from 'react-native'
-import { getBubbleBg, getQuickBg } from '../../helpers/chartsBackgroundColor';
-import { CHART_MAX_HEIGHT, CHART_MIN_HEIGHT } from '../../Constants';
-import { scaleBetween } from '../../helpers/scalingCharts';
-import { BUBBLE_SORT, QUICK_SORT } from '../../helpers/types';
-import { AlgorithmsState } from '../../../context/AlgorithmsState';
+import { getBubbleBg } from '../../../helpers/chartsBackgroundColor';
+import { CHART_MAX_HEIGHT, CHART_MIN_HEIGHT } from '../../../Constants';
+import { scaleBetween } from '../../../helpers/scalingCharts';
+import { IBubble } from '../../../helpers/interfaces';
+
 interface IProps {
     currentFieldIndex: number;
     currentField: number[];
     maxRange: number;
     minRange: number;
-    procedure: number[][];
+    bubbleSortProcedure: IBubble;
+
 }
-const Charts = ({ currentFieldIndex, currentField, maxRange, minRange, procedure }: IProps): JSX.Element => {
-    const { state } = useContext(AlgorithmsState);
+const Charts = ({ currentFieldIndex, currentField, maxRange, minRange, bubbleSortProcedure }: IProps): JSX.Element => {
+    const { procedure } = bubbleSortProcedure;
     const getScaledHeight = (element: number): number => {
         if (minRange !== maxRange && procedure[currentFieldIndex].length > 1) {
             return scaleBetween(element, CHART_MIN_HEIGHT, CHART_MAX_HEIGHT, minRange, maxRange);
         }
         return CHART_MIN_HEIGHT;
     }
-    const getBackgroundColor = (element: number, index: number):string => {
-        switch (state.chosenSort) {
-            case BUBBLE_SORT:
-                return getBubbleBg(element, index, currentFieldIndex, state.bubbleSortProcedure);
-            case QUICK_SORT:
-                return getQuickBg(element, index, currentFieldIndex, state.quickSortProcedureCharts);
-            default:
-                return "#000";
-        }
-    }
+
+
     return (
         <View style={styles.mainContainer}>
             { procedure.length > 0 && currentField?.map((element, index) => {
@@ -38,7 +31,7 @@ const Charts = ({ currentFieldIndex, currentField, maxRange, minRange, procedure
                         <View style={[styles.oneChartContainer,
                         {
                             height: getScaledHeight(element),
-                            backgroundColor: getBackgroundColor(element, index)
+                            backgroundColor: getBubbleBg(element, index, currentFieldIndex, bubbleSortProcedure)
                         }]}
                         />
                         <Text style={styles.chartLabelText}>{element}</Text>

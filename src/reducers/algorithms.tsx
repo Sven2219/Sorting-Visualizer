@@ -7,7 +7,7 @@ export interface IState {
     bubbleSortProcedure: IBubble;
     quickSortProcedureCharts: IQuickCharts;
     quickSortProcedureSnapshots: IQuickSnapshots;
-
+    vizualizationManagmentMethod: string;
     chosenSort: string;
     isVizualizationPaused: boolean;
     isVizualizationFinished: boolean;
@@ -71,10 +71,10 @@ export const reducer = (state: IState, actions: Actions): IState => {
             }
             return { ...state, isVizualizationPaused: actions.isVizualizationPaused };
         case "setChosenSort":
-            if (actions.payload === QUICK_SORT) {
-                return { ...state, chosenSort: actions.payload, isChoseSortModalOpen: false, quickSortProcedureSnapshots: { snapshots: [], pivotIndexes: [], snapshotPosition: { levels: [], start: [] } } }
-            }
-            return { ...state, chosenSort: actions.payload, isChoseSortModalOpen: false };
+            return {
+                ...state, chosenSort: actions.payload, isChoseSortModalOpen: false,
+                bubbleSortProcedure: { indexes: [], procedure: [] }, quickSortProcedureCharts: { pivotIndex: [], procedure: [], indexes: [] }
+            };
         case "setIsChoseSortModalOpen":
             return { ...state, isChoseSortModalOpen: actions.payload };
         case "setVizualizationMethod":
