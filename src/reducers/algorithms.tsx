@@ -72,8 +72,9 @@ export const reducer = (state: IState, actions: Actions): IState => {
             return { ...state, isVizualizationPaused: actions.isVizualizationPaused };
         case "setChosenSort":
             return {
-                ...state, chosenSort: actions.payload, isChoseSortModalOpen: false,
-                bubbleSortProcedure: { indexes: [], procedure: [] }, quickSortProcedureCharts: { pivotIndex: [], procedure: [], indexes: [] }
+                ...state, bubbleSortProcedure: { indexes: [], procedure: [] },
+                 quickSortProcedureCharts: { pivotIndex: [], procedure: [], indexes: [] },
+                 chosenSort: actions.payload, isChoseSortModalOpen: false,
             };
         case "setIsChoseSortModalOpen":
             return { ...state, isChoseSortModalOpen: actions.payload };

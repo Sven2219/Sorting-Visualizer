@@ -1,27 +1,17 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native'
-import { getBubbleBg } from '../../../helpers/chartsBackgroundColor';
-import { CHART_MAX_HEIGHT, CHART_MIN_HEIGHT } from '../../../Constants';
-import { scaleBetween } from '../../../helpers/scalingCharts';
-import { IBubble } from '../../../helpers/interfaces';
+import { getScaledHeight } from '../../helpers/scalingCharts';
 
 interface IProps {
     currentFieldIndex: number;
     currentField: number[];
     maxRange: number;
     minRange: number;
-    bubbleSortProcedure: IBubble;
+    procedure: number[][];
+    backgroundColor: (element: number, index: number) => string
 
 }
-const Charts = ({ currentFieldIndex, currentField, maxRange, minRange, bubbleSortProcedure }: IProps): JSX.Element => {
-    const { procedure } = bubbleSortProcedure;
-    const getScaledHeight = (element: number): number => {
-        if (minRange !== maxRange && procedure[currentFieldIndex].length > 1) {
-            return scaleBetween(element, CHART_MIN_HEIGHT, CHART_MAX_HEIGHT, minRange, maxRange);
-        }
-        return CHART_MIN_HEIGHT;
-    }
-
+const Charts = ({ currentFieldIndex, currentField, maxRange, minRange, procedure, backgroundColor }: IProps): JSX.Element => {
 
     return (
         <View style={styles.mainContainer}>
@@ -30,8 +20,8 @@ const Charts = ({ currentFieldIndex, currentField, maxRange, minRange, bubbleSor
                     <View key={index}>
                         <View style={[styles.oneChartContainer,
                         {
-                            height: getScaledHeight(element),
-                            backgroundColor: getBubbleBg(element, index, currentFieldIndex, bubbleSortProcedure)
+                            height: getScaledHeight(element, minRange, maxRange, procedure[currentFieldIndex].length),
+                            backgroundColor: backgroundColor(element, index)
                         }]}
                         />
                         <Text style={styles.chartLabelText}>{element}</Text>

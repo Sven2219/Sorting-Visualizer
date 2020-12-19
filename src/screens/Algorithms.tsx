@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useReducer } from 'react';
+import React, { useContext, useReducer } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Actions, IState, reducer } from '../reducers/algorithms';
@@ -43,6 +43,9 @@ const Algorithms = (): JSX.Element => {
         const quick = quickSortChartProcedure(elements)
         dispatch({ type: "setQuickSortProcedureCharts", payload: quick })
     }
+
+
+    //Snapshots
     const quickSortSnapshotsProcedure = (elements: number[]): void => {
         const quick: IQuickSnapshots = { snapshots: [], pivotIndexes: [], snapshotPosition: { levels: [], start: [] } }
         const level: number = 0;

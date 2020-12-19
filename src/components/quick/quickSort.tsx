@@ -40,7 +40,6 @@ export const quickSortCharts = (arr: number[], low: number, high: number, quick:
     }
 }
 const areArraySame = (currentArray: number[], prevArray: number[]): boolean => {
-
     if (currentArray.length === prevArray.length) {
         return currentArray.every((element, index) => element === prevArray[index]);
     }

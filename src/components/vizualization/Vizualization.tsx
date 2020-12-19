@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { View } from 'react-native';
 import { AlgorithmsDispatch } from '../../context/AlgorithmsDispatch';
 import { AlgorithmsState } from '../../context/AlgorithmsState';
 import { IBubble } from '../helpers/interfaces';
 import { BUBBLE_SORT, CHARTS, HEAP_SORT, MERGE_SORT, QUICK_SORT, SNAPSHOTS, TREE } from '../helpers/types';
 import BubbleChartsMethod from './Charts/BubbleSort/BubbleChartsMethod';
+import QuickChartsMethod from './Charts/QuickSort/QuickChartsMethod';
 import QuickSortSnapshot from './Snapshots/QuickSortSnapshot';
 interface IProps {
     vizualizationFinished: () => void;
@@ -24,7 +24,9 @@ const Vizualization = (): JSX.Element => {
                         vizualizationFinished={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true, isVizualizationFinished: true })} />
                 }
                 else if (state.chosenSort === QUICK_SORT) {
-                    return;
+                    return <QuickChartsMethod quickSortProcedure={state.quickSortProcedureCharts}
+                        isVizualizationPaused={state.isVizualizationPaused}
+                        vizualizationFinished={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true, isVizualizationFinished: true })} />
                 }
             case SNAPSHOTS:
                 if (state.chosenSort === QUICK_SORT) {
