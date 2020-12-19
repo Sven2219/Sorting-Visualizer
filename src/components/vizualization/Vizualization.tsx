@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
 import { AlgorithmsDispatch } from '../../context/AlgorithmsDispatch';
 import { AlgorithmsState } from '../../context/AlgorithmsState';
-import { IBubble } from '../helpers/interfaces';
-import { BUBBLE_SORT, CHARTS, HEAP_SORT, MERGE_SORT, QUICK_SORT, SNAPSHOTS, TREE } from '../helpers/types';
+import { BUBBLE_SORT, CHARTS, QUICK_SORT, SNAPSHOTS } from '../helpers/types';
 import BubbleChartsMethod from './Charts/BubbleSort/BubbleChartsMethod';
 import QuickChartsMethod from './Charts/QuickSort/QuickChartsMethod';
-import ManualQSSnapshots from './Snapshots/ManualQSSnapshots';
+import ManualQSSnapshots from './Snapshots/QuickSort/ManualQSSnapshots';
 
 const Vizualization = (): JSX.Element => {
     const { state } = useContext(AlgorithmsState);

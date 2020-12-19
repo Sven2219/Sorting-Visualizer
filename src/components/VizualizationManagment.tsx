@@ -7,7 +7,7 @@ import { bubbleSort } from './bubble/bubbleSort';
 import { IBubble, IQuickSnapshots } from './helpers/interfaces';
 import { transformTextToArray } from './helpers/transformInputedArray';
 
-import { BUBBLE_SORT, CHARTS, HEAP_SORT, MERGE_SORT, QUICK_SORT, SNAPSHOTS } from './helpers/types';
+import { BUBBLE_SORT, CHARTS, HEAP_SORT, MERGE_SORT, QUICK_SORT } from './helpers/types';
 import ManualButton from './ManualButton';
 import { quickSortSnapshots } from './quick/quickSort';
 import StartPauseButton from './TimedButton';
@@ -15,7 +15,7 @@ import { quickSortChartProcedure } from './vizualization/Charts/algorithms';
 
 
 const BUTTON_SIZE = 50;
-const VizualizationManagment = () => {
+const VizualizationManagment = (): JSX.Element => {
     const { state } = useContext(AlgorithmsState);
     const { dispatch } = useContext(AlgorithmsDispatch);
     const { orientation } = useContext(OrientationState);
@@ -70,10 +70,10 @@ const VizualizationManagment = () => {
             return <StartPauseButton onPress={callSortingAlgorithm}
                 iconName={"caret-forward"} />
         }
-        return <StartPauseButton onPress={() => dispatch({ type: "setIsPaused", isVizualizationFinished: true, isVizualizationPaused: true })} iconName={"pause"} />
+        return <StartPauseButton onPress={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true })} iconName={"pause"} />
     }
 
-    const getManagmentMethod = () => {
+    const getManagmentMethod = (): JSX.Element => {
         if (state.visualizationMethod === CHARTS) {
             return (<View style={styles.buttonPosition}>
                 <View style={[styles.buttonContainer, styles.shadow,
@@ -82,7 +82,7 @@ const VizualizationManagment = () => {
                 </View>
             </View>)
         }
-        else if (state.visualizationMethod === SNAPSHOTS) {
+        else {
             if (state.isVisualizationFinished) {
                 return (<ManualButton onPress={callSortingAlgorithm} text={"START VISUALISING"} />)
             }

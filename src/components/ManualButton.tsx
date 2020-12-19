@@ -5,12 +5,14 @@ interface IProps {
     onPress: () => void;
 }
 
-const ManualButton = ({ text, onPress }: IProps) => {
-    return (<View style={styles.manualContainer}>
-        <TouchableOpacity onPress={onPress}>
-            <Text style={styles.manualText}>{text}</Text>
-        </TouchableOpacity>
-    </View>)
+const ManualButton = ({ text, onPress }: IProps): JSX.Element => {
+    return (
+        <View style={styles.manualContainer}>
+            <TouchableOpacity onPress={onPress}>
+                <Text style={styles.manualText}>{text}</Text>
+            </TouchableOpacity>
+        </View>
+    )
 }
 const styles = StyleSheet.create({
     manualContainer: {

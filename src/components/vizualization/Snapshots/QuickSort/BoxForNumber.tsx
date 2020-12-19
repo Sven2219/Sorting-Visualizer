@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { SNAPSHOT_BOX_SIZE } from '../../Constants';
+import { SNAPSHOT_BOX_SIZE } from '../../../Constants';
 import { getBackgroundColor } from './getMethods';
 
 interface IProps {
@@ -9,7 +9,7 @@ interface IProps {
     currentNumber: number;
 }
 
-const BoxForNumber = ({ currentNumber, pivotIndex, currentIndex }: IProps) => {
+const BoxForNumber = ({ currentNumber, pivotIndex, currentIndex }: IProps): JSX.Element => {
     return (
         <View style={[styles.numberContainer, { backgroundColor: getBackgroundColor(pivotIndex, currentIndex) }]}>
             <Text style={styles.boldedText}>{currentNumber}</Text>
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center',
-        marginLeft:0.2
+        marginLeft: 0.2
     },
     boldedText: {
         fontFamily: 'Sura-Bold'

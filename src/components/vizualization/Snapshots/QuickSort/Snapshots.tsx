@@ -1,8 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { View, StyleSheet } from 'react-native';
-
-import { AlgorithmsState } from '../../../context/AlgorithmsState';
-import { IQuickSnapshots } from '../../helpers/interfaces';
+import { IQuickSnapshots } from '../../../helpers/interfaces';
 import BoxForNumber from './BoxForNumber';
 import { getLeftPosition, getTopPosition } from './getMethods';
 
@@ -11,11 +9,11 @@ interface IProps {
     quickSortProcedureSnapshots: IQuickSnapshots;
 }
 
-const Snapshots = ({ currentFieldIndex, quickSortProcedureSnapshots }: IProps) => {
+const Snapshots = ({ currentFieldIndex, quickSortProcedureSnapshots }: IProps): JSX.Element => {
     const { snapshots, pivotIndexes, snapshotPosition: { start, levels } } = quickSortProcedureSnapshots;
-    const slicedSnapshot = snapshots.slice(0, currentFieldIndex + 1);
+    const slicedSnapshot: number[][] = snapshots.slice(0, currentFieldIndex + 1);
     return (
-        <>
+        <View style={{ width: "100%", height: "100%" }}>
 
             {slicedSnapshot.length > 0 && slicedSnapshot.map((snapshot, index) => {
                 return (
@@ -28,13 +26,14 @@ const Snapshots = ({ currentFieldIndex, quickSortProcedureSnapshots }: IProps) =
                     </View>
                 )
             })}
-        </>
+        </View>
     )
 }
 const styles = StyleSheet.create({
     mainContainer: {
         flexDirection: 'row',
         position: 'absolute',
+        width: "100%",
     }
 })
 export default Snapshots;

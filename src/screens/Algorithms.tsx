@@ -1,4 +1,4 @@
-import React, { useContext, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Actions, IState, reducer } from '../reducers/algorithms';
@@ -6,23 +6,17 @@ import Feather from 'react-native-vector-icons/Feather';
 import InputArray from '../components/InputArray';
 
 import Theory from '../components/Theory';
-import { bubbleSort } from '../components/bubble/bubbleSort';
-import { BUBBLE_SORT, QUICK_SORT, MERGE_SORT, HEAP_SORT, CHARTS, TIMING, MANUAL } from '../components/helpers/types';
+import { BUBBLE_SORT, CHARTS, TIMING } from '../components/helpers/types';
 import AlgoMenu from '../components/menu/AlgoMenu';
 import { AlgorithmsDispatch } from '../context/AlgorithmsDispatch';
 import { AlgorithmsState } from '../context/AlgorithmsState';
-import { OrientationState } from '../context/OrientationState';
 import Vizualization from '../components/vizualization/Vizualization';
-import { transformTextToArray } from '../components/helpers/transformInputedArray';
-import { IBubble, IQuickSnapshots } from '../components/helpers/interfaces';
-import { quickSortChartProcedure } from '../components/vizualization/Charts/algorithms';
-import { quickSortSnapshots } from '../components/quick/quickSort';
+
 
 import VizualizationManagment from '../components/VizualizationManagment';
 
 
 const Algorithms = (): JSX.Element => {
-    const { orientation } = useContext(OrientationState);
     const [state, dispatch] = useReducer<React.Reducer<IState, Actions>>(reducer, {
         isVisualizationPaused: true, chosenSort: BUBBLE_SORT, isChoseSortModalOpen: false,
         isTheoryModalOpen: false, arrayForSort: "", isVisualizationFinished: true,
@@ -32,7 +26,6 @@ const Algorithms = (): JSX.Element => {
         quickSortProcedureCharts: { indexes: [], procedure: [], pivotIndex: [] },
         quickSortProcedureSnapshots: { snapshots: [], pivotIndexes: [], snapshotPosition: { levels: [], start: [] } }
     })
-
 
     const getMenuIcon = (): JSX.Element => {
         if (state.isVisualizationFinished) {
@@ -63,14 +56,11 @@ const Algorithms = (): JSX.Element => {
                     <VizualizationManagment />
                 </AlgorithmsState.Provider>
             </AlgorithmsDispatch.Provider>
-
-
             <AlgorithmsDispatch.Provider value={{ dispatch }}>
                 <AlgorithmsState.Provider value={{ state }}>
                     <Vizualization />
                 </AlgorithmsState.Provider>
             </AlgorithmsDispatch.Provider>
-
             {
                 state.isChoseSortModalOpen &&
                 <AlgorithmsDispatch.Provider value={{ dispatch }}>

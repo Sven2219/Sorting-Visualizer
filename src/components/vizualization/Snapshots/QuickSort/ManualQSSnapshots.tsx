@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { IQuickSnapshots } from '../../helpers/interfaces';
+import { IQuickSnapshots } from '../../../helpers/interfaces';
 import Snapshots from './Snapshots';
-import StepButton from './StepButton';
+import StepButton from '../StepButton';
 
 interface IProps {
     quickSortProcedureSnapshot: IQuickSnapshots;
     isVizualizationFinished: boolean;
 }
 
-const ManualQSSnapshots = ({ quickSortProcedureSnapshot, isVizualizationFinished }: IProps) => {
+const ManualQSSnapshots = ({ quickSortProcedureSnapshot, isVizualizationFinished }: IProps): JSX.Element => {
     const [currentFieldIndex, setCurrentFieldIndex] = useState<number>(0);
     const { snapshots } = quickSortProcedureSnapshot;
     useEffect(() => {
@@ -17,7 +17,7 @@ const ManualQSSnapshots = ({ quickSortProcedureSnapshot, isVizualizationFinished
             setCurrentFieldIndex(0);
         }
     }, [isVizualizationFinished])
-    const decrementIndex = () => {
+    const decrementIndex = (): void => {
         setCurrentFieldIndex((previouseIndex: number) => {
             if (previouseIndex - 1 < 0) {
                 return 0;
@@ -25,7 +25,7 @@ const ManualQSSnapshots = ({ quickSortProcedureSnapshot, isVizualizationFinished
             return previouseIndex - 1;
         })
     }
-    const incrementIndex = () => {
+    const incrementIndex = (): void => {
         setCurrentFieldIndex((previouseIndex: number) => {
             if (previouseIndex + 1 > snapshots.length - 1) {
                 return previouseIndex;
@@ -39,12 +39,10 @@ const ManualQSSnapshots = ({ quickSortProcedureSnapshot, isVizualizationFinished
                 <StepButton iconName="ios-chevron-back-outline" onPress={decrementIndex} />
                 <StepButton iconName="chevron-forward-sharp" onPress={incrementIndex} />
             </View>
-
             <View style={styles.mainContainer}>
                 {snapshots.length > 0 && <Snapshots currentFieldIndex={currentFieldIndex} quickSortProcedureSnapshots={quickSortProcedureSnapshot} />}
             </View>
         </>
-
     )
 }
 const styles = StyleSheet.create({
