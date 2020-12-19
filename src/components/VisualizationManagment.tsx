@@ -15,7 +15,7 @@ import { quickSortChartProcedure } from './vizualization/Charts/algorithms';
 
 
 const BUTTON_SIZE = 50;
-const VizualizationManagment = (): JSX.Element => {
+const VisualizationManagment = (): JSX.Element => {
     const { state } = useContext(AlgorithmsState);
     const { dispatch } = useContext(AlgorithmsDispatch);
     const { orientation } = useContext(OrientationState);
@@ -123,4 +123,4 @@ const styles = StyleSheet.create({
     },
 
 })
-export default VizualizationManagment;
+export default VisualizationManagment;

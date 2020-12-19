@@ -1,20 +1,19 @@
-import React, { useReducer } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import React, { useReducer, useRef, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, Animated } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Actions, IState, reducer } from '../reducers/algorithms';
 import Feather from 'react-native-vector-icons/Feather';
 import InputArray from '../components/InputArray';
-
 import Theory from '../components/Theory';
-import { BUBBLE_SORT, CHARTS, TIMING } from '../components/helpers/types';
+import { BUBBLE_SORT, CHARTS, SNAPSHOTS } from '../components/helpers/types';
 import AlgoMenu from '../components/menu/AlgoMenu';
 import { AlgorithmsDispatch } from '../context/AlgorithmsDispatch';
 import { AlgorithmsState } from '../context/AlgorithmsState';
-import Vizualization from '../components/vizualization/Vizualization';
-
-
-import VizualizationManagment from '../components/VizualizationManagment';
-
+import Vizualization from '../components/vizualization/Visualization';
+import VizualizationManagment from '../components/VisualizationManagment';
+import { Easing } from 'react-native-reanimated';
+import SnapshotSettings from '../components/SnapshotSettings';
+const ICON_SIZE = 50;
 
 const Algorithms = (): JSX.Element => {
     const [state, dispatch] = useReducer<React.Reducer<IState, Actions>>(reducer, {
@@ -22,11 +21,10 @@ const Algorithms = (): JSX.Element => {
         isTheoryModalOpen: false, arrayForSort: "", isVisualizationFinished: true,
         bubbleSortProcedure: { indexes: [], procedure: [] },
         visualizationMethod: CHARTS,
-        vizualizationManagmentMethod: TIMING,
         quickSortProcedureCharts: { indexes: [], procedure: [], pivotIndex: [] },
         quickSortProcedureSnapshots: { snapshots: [], pivotIndexes: [], snapshotPosition: { levels: [], start: [] } }
     })
-
+    
     const getMenuIcon = (): JSX.Element => {
         if (state.isVisualizationFinished) {
             return (
@@ -39,48 +37,54 @@ const Algorithms = (): JSX.Element => {
             size={35}
             color="#d3d3d3" />
     }
+    
     return (
-        <ScrollView style={styles.mainContainer}>
-            <View style={styles.headerContainer}>
-                {getMenuIcon()}
-                <Text style={styles.headerText}>{state.chosenSort}</Text>
-                <Feather name="book" size={35} color="#000"
-                    onPress={() => dispatch({ type: "setIsTheoryModalOpen", payload: true })} />
-            </View>
-            <InputArray arrayForSort={state.arrayForSort}
-                onPress={(arrayForSort: string) => dispatch({ type: "setArrayForSort", payload: arrayForSort })}
-                editable={state.isVisualizationFinished}
-            />
-            <AlgorithmsDispatch.Provider value={{ dispatch }}>
-                <AlgorithmsState.Provider value={{ state }}>
-                    <VizualizationManagment />
-                </AlgorithmsState.Provider>
-            </AlgorithmsDispatch.Provider>
-            <AlgorithmsDispatch.Provider value={{ dispatch }}>
-                <AlgorithmsState.Provider value={{ state }}>
-                    <Vizualization />
-                </AlgorithmsState.Provider>
-            </AlgorithmsDispatch.Provider>
-            {
-                state.isChoseSortModalOpen &&
+        <View style={styles.mainContainer}>
+            <ScrollView >
+                <View style={styles.headerContainer}>
+                    {getMenuIcon()}
+                    <Text style={styles.headerText}>{state.chosenSort}</Text>
+                    <Feather name="book" size={35} color="#000"
+                        onPress={() => dispatch({ type: "setIsTheoryModalOpen", payload: true })} />
+                </View>
+                <InputArray arrayForSort={state.arrayForSort}
+                    onPress={(arrayForSort: string) => dispatch({ type: "setArrayForSort", payload: arrayForSort })}
+                    editable={state.isVisualizationFinished}
+                />
                 <AlgorithmsDispatch.Provider value={{ dispatch }}>
                     <AlgorithmsState.Provider value={{ state }}>
-                        <AlgoMenu />
+                        <VizualizationManagment />
                     </AlgorithmsState.Provider>
                 </AlgorithmsDispatch.Provider>
-            }
-            {
-                state.isTheoryModalOpen &&
-                <Theory onPress={() => dispatch({ type: "setIsTheoryModalOpen", payload: false })}
-                    chosenSort={state.chosenSort}
-                />
-            }
-        </ScrollView >
+                <AlgorithmsDispatch.Provider value={{ dispatch }}>
+                    <AlgorithmsState.Provider value={{ state }}>
+                        <Vizualization />
+                    </AlgorithmsState.Provider>
+                </AlgorithmsDispatch.Provider>
+                {
+                    state.isChoseSortModalOpen &&
+                    <AlgorithmsDispatch.Provider value={{ dispatch }}>
+                        <AlgorithmsState.Provider value={{ state }}>
+                            <AlgoMenu />
+                        </AlgorithmsState.Provider>
+                    </AlgorithmsDispatch.Provider>
+                }
+                {
+                    state.isTheoryModalOpen &&
+                    <Theory onPress={() => dispatch({ type: "setIsTheoryModalOpen", payload: false })}
+                        chosenSort={state.chosenSort}
+                    />
+                }
+            </ScrollView >
+            {(state.visualizationMethod === SNAPSHOTS && state.isVisualizationFinished) && < SnapshotSettings />}
+
+        </View>
     )
 }
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
+        backgroundColor: '#fff'
     },
     headerContainer: {
         flexDirection: 'row',
@@ -104,18 +108,19 @@ const styles = StyleSheet.create({
         elevation: 24,
     },
     buttonContainer: {
-        width: 50,
-        height: 50,
-        borderRadius: 50 / 2,
-        right: 50 / 2 - 5,
+        width: ICON_SIZE,
+        height: ICON_SIZE,
+        borderRadius: ICON_SIZE / 2,
+        right: ICON_SIZE / 2 - 5,
         alignItems: 'center',
         justifyContent: 'center',
     },
     buttonPosition: {
         alignItems: 'flex-end',
-        top: 50 / 2,
+        top: ICON_SIZE / 2,
         zIndex: 2,
         justifyContent: 'space-between'
     },
+    
 })
 export default Algorithms;

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { IQuickSnapshots } from '../../../helpers/interfaces';
-import Snapshots from './Snapshots';
-import StepButton from '../StepButton';
+import { IQuickSnapshots } from '../../../../helpers/interfaces';
+import Snapshots from '../Snapshots';
+import StepButton from '../../StepButton';
 
 interface IProps {
     quickSortProcedureSnapshot: IQuickSnapshots;

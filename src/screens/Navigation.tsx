@@ -1,7 +1,8 @@
 import 'react-native-gesture-handler';
 import React, { useEffect, useState } from 'react';
+//@ts-ignore
 import { NavigationContainer } from '@react-navigation/native';
-
+//@ts-ignore
 import { createStackNavigator } from '@react-navigation/stack';
 import Splash from './Splash';
 import Algorithms from './Algorithms';

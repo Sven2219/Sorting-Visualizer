@@ -5,7 +5,7 @@ import Algorithm from './Algorithm';
 import { BUBBLE_SORT, QUICK_SORT, MERGE_SORT, HEAP_SORT, CHARTS, SNAPSHOTS, TREE } from '../helpers/types';
 import { OrientationState } from '../../context/OrientationState';
 import { getItemHeight, getItemWidth, getModalHeight, getModalWidth } from './getMethods';
-import VizualizationMethod from './VizualizationMethod';
+import VizualizationMethod from './VisualizationMethod';
 import { AlgorithmsState } from '../../context/AlgorithmsState';
 
 

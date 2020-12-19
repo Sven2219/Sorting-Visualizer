@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import { AlgorithmsDispatch } from '../../context/AlgorithmsDispatch';
 import { AlgorithmsState } from '../../context/AlgorithmsState';
 import { BUBBLE_SORT, CHARTS, QUICK_SORT, SNAPSHOTS } from '../helpers/types';
 import BubbleChartsMethod from './Charts/BubbleSort/BubbleChartsMethod';
 import QuickChartsMethod from './Charts/QuickSort/QuickChartsMethod';
-import ManualQSSnapshots from './Snapshots/QuickSort/ManualQSSnapshots';
+import ManualQSSnapshots from './Snapshots/QuickSort/Manual/ManualQSSnapshots';
 
-const Vizualization = (): JSX.Element => {
+const Visualization = (): JSX.Element => {
     const { state } = useContext(AlgorithmsState);
     const { dispatch } = useContext(AlgorithmsDispatch);
     const getVizualizationMethod = (): JSX.Element | undefined => {
@@ -24,7 +25,7 @@ const Vizualization = (): JSX.Element => {
                 }
             case SNAPSHOTS:
                 if (state.chosenSort === QUICK_SORT) {
-                    return <ManualQSSnapshots quickSortProcedureSnapshot={state.quickSortProcedureSnapshots} isVizualizationFinished={state.isVisualizationFinished}/>
+                    return <ManualQSSnapshots quickSortProcedureSnapshot={state.quickSortProcedureSnapshots} isVizualizationFinished={state.isVisualizationFinished} />
                 }
             default:
                 break;
@@ -36,4 +37,16 @@ const Vizualization = (): JSX.Element => {
         </>
     )
 }
-export default Vizualization;
+
+const styles = StyleSheet.create({
+    menuContainer: {
+        borderWidth: 1,
+        width: 80,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 5,
+        height: 20
+    }
+})
+
+export default Visualization;

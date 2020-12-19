@@ -1,5 +1,5 @@
 import { IBubble, IQuickCharts, IQuickSnapshots } from "../components/helpers/interfaces"
-import { SNAPSHOTS, TREE, HEAP_SORT, BUBBLE_SORT, MERGE_SORT, QUICK_SORT } from "../components/helpers/types"
+import { SNAPSHOTS, TREE, HEAP_SORT, BUBBLE_SORT, QUICK_SORT, MERGE_SORT } from "../components/helpers/types"
 
 export interface IState {
     isTheoryModalOpen: boolean;
@@ -7,7 +7,6 @@ export interface IState {
     bubbleSortProcedure: IBubble;
     quickSortProcedureCharts: IQuickCharts;
     quickSortProcedureSnapshots: IQuickSnapshots;
-    vizualizationManagmentMethod: string;
     chosenSort: string;
     isVisualizationPaused: boolean;
     isVisualizationFinished: boolean;
@@ -44,7 +43,7 @@ type setIsChoseSortModalOpen = {
     readonly payload: boolean;
 }
 type setVisualizationMethod = {
-    readonly type: "setVizualizationMethod";
+    readonly type: "setVisualizationMethod";
     readonly payload: string;
 }
 type setQuickSortProcedureSnapshots = {
@@ -54,8 +53,9 @@ type setQuickSortProcedureSnapshots = {
 type setQuitVisualization = {
     readonly type: "setQuitVisualization";
 }
+
 export type Actions = setIsTheoryModalOpen | setArrayForSort | setBubbleSortProcedure | setIsPaused | setQuickSortProcedureCharts
-    | setChosenSort | setIsChoseSortModalOpen | setVisualizationMethod | setQuickSortProcedureSnapshots | setQuitVisualization;
+    | setChosenSort | setIsChoseSortModalOpen | setVisualizationMethod | setQuickSortProcedureSnapshots | setQuitVisualization ;
 
 export const reducer = (state: IState, actions: Actions): IState => {
     switch (actions.type) {
@@ -80,7 +80,7 @@ export const reducer = (state: IState, actions: Actions): IState => {
             };
         case "setIsChoseSortModalOpen":
             return { ...state, isChoseSortModalOpen: actions.payload };
-        case "setVizualizationMethod":
+        case "setVisualizationMethod":
             if (actions.payload === SNAPSHOTS) {
                 return { ...state, visualizationMethod: actions.payload, chosenSort: MERGE_SORT };
             }
