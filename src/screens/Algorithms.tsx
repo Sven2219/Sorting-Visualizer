@@ -24,60 +24,18 @@ import VizualizationManagment from '../components/VizualizationManagment';
 const Algorithms = (): JSX.Element => {
     const { orientation } = useContext(OrientationState);
     const [state, dispatch] = useReducer<React.Reducer<IState, Actions>>(reducer, {
-        isVizualizationPaused: true, chosenSort: BUBBLE_SORT, isChoseSortModalOpen: false,
-        isTheoryModalOpen: false, arrayForSort: "", isVizualizationFinished: true,
+        isVisualizationPaused: true, chosenSort: BUBBLE_SORT, isChoseSortModalOpen: false,
+        isTheoryModalOpen: false, arrayForSort: "", isVisualizationFinished: true,
         bubbleSortProcedure: { indexes: [], procedure: [] },
-        vizualizationMethod: CHARTS,
+        visualizationMethod: CHARTS,
         vizualizationManagmentMethod: TIMING,
         quickSortProcedureCharts: { indexes: [], procedure: [], pivotIndex: [] },
         quickSortProcedureSnapshots: { snapshots: [], pivotIndexes: [], snapshotPosition: { levels: [], start: [] } }
     })
 
 
-    //Charts
-    const bubbleSortCharts = (elements: number[]): void => {
-        const bubble: IBubble = bubbleSort(elements);
-        dispatch({ type: "setBubbleSortProcedure", payload: bubble });
-    }
-    const quickSortCharts = (elements: number[]): void => {
-        const quick = quickSortChartProcedure(elements)
-        dispatch({ type: "setQuickSortProcedureCharts", payload: quick })
-    }
-
-
-    //Snapshots
-    const quickSortSnapshotsProcedure = (elements: number[]): void => {
-        const quick: IQuickSnapshots = { snapshots: [], pivotIndexes: [], snapshotPosition: { levels: [], start: [] } }
-        const level: number = 0;
-        quickSortSnapshots(elements, 0, elements.length - 1, quick, level);
-        dispatch({ type: "setQuickSortProcedureSnapshots", payload: quick });
-    }
-
-    const callSortingAlgorithm = (): void => {
-        const elements: number[] = transformTextToArray(state.arrayForSort, orientation);
-        if (elements.length > 0) {
-            switch (state.chosenSort) {
-                case BUBBLE_SORT:
-                    bubbleSortCharts(elements);
-                    break;
-                case QUICK_SORT:
-                    if (state.vizualizationMethod === CHARTS) {
-                        quickSortCharts(elements);
-                        break;
-                    }
-                    quickSortSnapshotsProcedure(elements);
-                    break;
-                case MERGE_SORT:
-                    break;
-                case HEAP_SORT:
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
     const getMenuIcon = (): JSX.Element => {
-        if (state.isVizualizationFinished) {
+        if (state.isVisualizationFinished) {
             return (
                 <Ionicons name="menu" size={35}
                     color="#000"
@@ -98,9 +56,14 @@ const Algorithms = (): JSX.Element => {
             </View>
             <InputArray arrayForSort={state.arrayForSort}
                 onPress={(arrayForSort: string) => dispatch({ type: "setArrayForSort", payload: arrayForSort })}
-                editable={state.isVizualizationFinished}
+                editable={state.isVisualizationFinished}
             />
-            <VizualizationManagment isVizualizationPaused={state.isVizualizationPaused} vizualizationMethod={state.vizualizationMethod} callSortingAlgorithm={callSortingAlgorithm} paused={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true })} />
+            <AlgorithmsDispatch.Provider value={{ dispatch }}>
+                <AlgorithmsState.Provider value={{ state }}>
+                    <VizualizationManagment />
+                </AlgorithmsState.Provider>
+            </AlgorithmsDispatch.Provider>
+
 
             <AlgorithmsDispatch.Provider value={{ dispatch }}>
                 <AlgorithmsState.Provider value={{ state }}>

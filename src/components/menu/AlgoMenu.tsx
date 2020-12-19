@@ -33,10 +33,10 @@ const AlgoMenu = (): JSX.Element => {
                         ALGORITHMS
                     </Text>
                     <View style={styles.algorithmContainer}>
-                        {state.vizualizationMethod === CHARTS && <Algorithm title={BUBBLE_SORT} onPress={() => dispatch({ type: "setChosenSort", payload: BUBBLE_SORT })} />}
-                        {state.vizualizationMethod !== TREE && <Algorithm title={MERGE_SORT} onPress={() => dispatch({ type: "setChosenSort", payload: MERGE_SORT })} />}
-                        {state.vizualizationMethod !== TREE && <Algorithm title={QUICK_SORT} onPress={() => dispatch({ type: "setChosenSort", payload: QUICK_SORT })} />}
-                        {state.vizualizationMethod !== SNAPSHOTS && <Algorithm title={HEAP_SORT} onPress={() => dispatch({ type: "setChosenSort", payload: HEAP_SORT })} />}
+                        {state.visualizationMethod === CHARTS && <Algorithm title={BUBBLE_SORT} onPress={() => dispatch({ type: "setChosenSort", payload: BUBBLE_SORT })} />}
+                        {state.visualizationMethod !== TREE && <Algorithm title={MERGE_SORT} onPress={() => dispatch({ type: "setChosenSort", payload: MERGE_SORT })} />}
+                        {state.visualizationMethod !== TREE && <Algorithm title={QUICK_SORT} onPress={() => dispatch({ type: "setChosenSort", payload: QUICK_SORT })} />}
+                        {state.visualizationMethod !== SNAPSHOTS && <Algorithm title={HEAP_SORT} onPress={() => dispatch({ type: "setChosenSort", payload: HEAP_SORT })} />}
                     </View>
                 </View>
             </View>

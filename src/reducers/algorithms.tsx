@@ -9,10 +9,10 @@ export interface IState {
     quickSortProcedureSnapshots: IQuickSnapshots;
     vizualizationManagmentMethod: string;
     chosenSort: string;
-    isVizualizationPaused: boolean;
-    isVizualizationFinished: boolean;
+    isVisualizationPaused: boolean;
+    isVisualizationFinished: boolean;
     isChoseSortModalOpen: boolean;
-    vizualizationMethod: string;
+    visualizationMethod: string;
 }
 type setIsTheoryModalOpen = {
     readonly type: "setIsTheoryModalOpen";
@@ -43,7 +43,7 @@ type setIsChoseSortModalOpen = {
     readonly type: "setIsChoseSortModalOpen";
     readonly payload: boolean;
 }
-type setVizualizationMethod = {
+type setVisualizationMethod = {
     readonly type: "setVizualizationMethod";
     readonly payload: string;
 }
@@ -51,9 +51,11 @@ type setQuickSortProcedureSnapshots = {
     readonly type: "setQuickSortProcedureSnapshots";
     readonly payload: IQuickSnapshots;
 }
-
+type setQuitVisualization = {
+    readonly type: "setQuitVisualization";
+}
 export type Actions = setIsTheoryModalOpen | setArrayForSort | setBubbleSortProcedure | setIsPaused | setQuickSortProcedureCharts
-    | setChosenSort | setIsChoseSortModalOpen | setVizualizationMethod | setQuickSortProcedureSnapshots;
+    | setChosenSort | setIsChoseSortModalOpen | setVisualizationMethod | setQuickSortProcedureSnapshots | setQuitVisualization;
 
 export const reducer = (state: IState, actions: Actions): IState => {
     switch (actions.type) {
@@ -62,34 +64,39 @@ export const reducer = (state: IState, actions: Actions): IState => {
         case "setArrayForSort":
             return { ...state, arrayForSort: actions.payload };
         case "setBubbleSortProcedure":
-            return { ...state, bubbleSortProcedure: actions.payload, isVizualizationPaused: false, isVizualizationFinished: false };
+            return { ...state, bubbleSortProcedure: actions.payload, isVisualizationPaused: false, isVisualizationFinished: false };
         case "setQuickSortProcedureCharts":
-            return { ...state, quickSortProcedureCharts: actions.payload, isVizualizationPaused: false, isVizualizationFinished: false };
+            return { ...state, quickSortProcedureCharts: actions.payload, isVisualizationPaused: false, isVisualizationFinished: false };
         case "setIsPaused":
             if (actions.isVizualizationFinished !== undefined) {
-                return { ...state, isVizualizationPaused: actions.isVizualizationPaused, isVizualizationFinished: actions.isVizualizationFinished };
+                return { ...state, isVisualizationPaused: actions.isVizualizationPaused, isVisualizationFinished: actions.isVizualizationFinished };
             }
-            return { ...state, isVizualizationPaused: actions.isVizualizationPaused };
+            return { ...state, isVisualizationPaused: actions.isVizualizationPaused };
         case "setChosenSort":
             return {
                 ...state, bubbleSortProcedure: { indexes: [], procedure: [] },
-                 quickSortProcedureCharts: { pivotIndex: [], procedure: [], indexes: [] },
-                 chosenSort: actions.payload, isChoseSortModalOpen: false,
+                quickSortProcedureCharts: { pivotIndex: [], procedure: [], indexes: [] },
+                chosenSort: actions.payload, isChoseSortModalOpen: false, isVisualizationFinished: true
             };
         case "setIsChoseSortModalOpen":
             return { ...state, isChoseSortModalOpen: actions.payload };
         case "setVizualizationMethod":
             if (actions.payload === SNAPSHOTS) {
-                return { ...state, vizualizationMethod: actions.payload, chosenSort: MERGE_SORT };
+                return { ...state, visualizationMethod: actions.payload, chosenSort: MERGE_SORT };
             }
             else if (actions.payload === TREE) {
-                return { ...state, vizualizationMethod: actions.payload, chosenSort: HEAP_SORT };
+                return { ...state, visualizationMethod: actions.payload, chosenSort: HEAP_SORT };
             }
             else {
-                return { ...state, vizualizationMethod: actions.payload, chosenSort: BUBBLE_SORT };
+                return { ...state, visualizationMethod: actions.payload, chosenSort: BUBBLE_SORT };
             }
         case "setQuickSortProcedureSnapshots":
-            return { ...state, quickSortProcedureSnapshots: actions.payload, isVizualizationPaused: false, isVizualizationFinished: false };
+            return { ...state, quickSortProcedureSnapshots: actions.payload, isVisualizationPaused: false, isVisualizationFinished: false };
+        case "setQuitVisualization":
+            if (state.chosenSort === QUICK_SORT) {
+                return { ...state, isVisualizationFinished: true, isVisualizationPaused: true, quickSortProcedureSnapshots: { snapshots: [], pivotIndexes: [], snapshotPosition: { start: [], levels: [] } } }
+            }
+            return { ...state, isVisualizationFinished: true };
         default:
             return state;
     }

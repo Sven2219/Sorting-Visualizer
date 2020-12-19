@@ -14,7 +14,7 @@ const VizualizationMethod = ({ methodName }: IProps): JSX.Element => {
     const { dispatch } = useContext(AlgorithmsDispatch)
     return (
         <TouchableOpacity onPress={() => dispatch({ type: "setVizualizationMethod", payload: methodName })}
-            style={[styles.methodContainer, { backgroundColor: getBackgroundColor(methodName, state.vizualizationMethod) }]}>
+            style={[styles.methodContainer, { backgroundColor: getBackgroundColor(methodName, state.visualizationMethod) }]}>
             <Text>{methodName}</Text>
         </TouchableOpacity>
     )
