@@ -1,18 +1,23 @@
 import React, { useRef, useState } from 'react';
-import { StyleSheet, Animated } from 'react-native';
-import TouchableScale from 'react-native-touchable-scale';
-
+import { StyleSheet, Animated, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-const ICON_SIZE = 50;
+import { MANUAL, TIMING } from './helpers/types';
 
-const SnapshotSettings = () => {
+const ICON_SIZE = 40;
+const ICON_CONTAINER = 50;
+interface IProps {
+    manualMethod: () => void;
+    timingMethod: () => void;
+    snapshotVisualizationMethod: string;
+}
+const SnapshotSettings = ({ manualMethod, timingMethod, snapshotVisualizationMethod }: IProps) => {
     const [showSettings, setShowSettings] = useState(false);
     //settings animation
     const settingsRotation = useRef(new Animated.Value(0)).current;
     const translateYManual = useRef(new Animated.Value(0)).current;
-    const translateXTimed = useRef(new Animated.Value(0)).current;
     const translateYTimed = useRef(new Animated.Value(0)).current;
+    const textOpacity = useRef(new Animated.Value(0)).current;
     const translateYOs = () => {
         if (!showSettings) {
             Animated.parallel([
@@ -30,6 +35,11 @@ const SnapshotSettings = () => {
                     toValue: -60,
                     duration: 500,
                     useNativeDriver: true
+                }),
+                Animated.timing(textOpacity, {
+                    toValue: 1,
+                    duration: 500,
+                    useNativeDriver: true,
                 })
             ]).start(() => {
                 setShowSettings(!showSettings);
@@ -51,6 +61,11 @@ const SnapshotSettings = () => {
                     toValue: 0,
                     duration: 500,
                     useNativeDriver: true
+                }),
+                Animated.timing(textOpacity, {
+                    toValue: 0,
+                    duration: 500,
+                    useNativeDriver: true
                 })
             ]).start(() => {
                 setShowSettings(!showSettings);
@@ -61,23 +76,32 @@ const SnapshotSettings = () => {
         inputRange: [0, 1],
         outputRange: ['0deg', '50deg']
     })
+    const getColor = (method: string) => {
+        return method === snapshotVisualizationMethod ? "#008080" : "#000";
+    }
     return (
         <>
-            <Animated.View style={[styles.snapshotSettingsContainer, { transform: [{ rotate: rotateIcon }], zIndex: 1 }]}>
-                <Ionicons name="md-settings-outline" size={40} onPress={translateYOs} />
+            <Animated.View style={[styles.snapshotSettingsContainer, { backgroundColor: '#fff', transform: [{ rotate: rotateIcon }], zIndex: 1 }]}>
+                <Ionicons name="md-settings-outline" size={ICON_SIZE} onPress={translateYOs} />
             </Animated.View>
             <Animated.View style={[styles.snapshotSettingsContainer, { transform: [{ translateY: translateYManual }] }]}>
-                <TouchableScale activeScale={0.7}>
-                    <Ionicons name="timer-outline" size={40} />
-                </TouchableScale>
+                <TouchableOpacity style={styles.methodContainer}>
+                    <Animated.Text style={[styles.textStyle, { color: getColor(TIMING), opacity: textOpacity }]}>Timing</Animated.Text>
+                    <Ionicons name="timer-outline" size={ICON_SIZE} onPress={() => {
+                        timingMethod();
+                        translateYOs();
+                    }} color={getColor(TIMING)} />
+                </TouchableOpacity>
             </Animated.View>
             <Animated.View style={[styles.snapshotSettingsContainer, { transform: [{ translateY: translateYTimed }] }]}>
-                <TouchableScale activeScale={0.7}>
-                    <FontAwesome name="hand-pointer-o" size={40} />
-                </TouchableScale>
+                <TouchableOpacity style={styles.methodContainer}>
+                    <Animated.Text style={[styles.textStyle, { color: getColor(MANUAL), opacity: textOpacity }]}>Manual</Animated.Text>
+                    <FontAwesome name="hand-pointer-o" size={ICON_SIZE} onPress={() => {
+                        manualMethod();
+                        translateYOs();
+                    }} color={getColor(MANUAL)} />
+                </TouchableOpacity>
             </Animated.View>
-
-
         </>
     )
 }
@@ -86,12 +110,23 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 10,
         right: 10,
-        width: ICON_SIZE,
-        height: ICON_SIZE,
-        borderRadius: 25,
-        backgroundColor: '#fff',
+        width: ICON_CONTAINER,
+        height: ICON_CONTAINER,
+        borderRadius: ICON_CONTAINER / 2,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    methodContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        right: 15
+    },
+    textStyle: {
+        right: 10,
+        fontSize: 14,
+        fontFamily: 'Sura-Regular',
+        color: '#000'
     }
 })
 export default SnapshotSettings;

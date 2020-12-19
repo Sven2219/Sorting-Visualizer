@@ -1,5 +1,5 @@
 import { IBubble, IQuickCharts, IQuickSnapshots } from "../components/helpers/interfaces"
-import { SNAPSHOTS, TREE, HEAP_SORT, BUBBLE_SORT, QUICK_SORT, MERGE_SORT } from "../components/helpers/types"
+import { SNAPSHOTS, BUBBLE_SORT, QUICK_SORT, MERGE_SORT } from "../components/helpers/types"
 
 export interface IState {
     isTheoryModalOpen: boolean;
@@ -12,6 +12,7 @@ export interface IState {
     isVisualizationFinished: boolean;
     isChoseSortModalOpen: boolean;
     visualizationMethod: string;
+    snapshotVisualizationMethod: string;
 }
 type setIsTheoryModalOpen = {
     readonly type: "setIsTheoryModalOpen";
@@ -53,9 +54,12 @@ type setQuickSortProcedureSnapshots = {
 type setQuitVisualization = {
     readonly type: "setQuitVisualization";
 }
-
+type setSnapshotVisualizationMethod = {
+    readonly type: "setSnapshotVisualizationMethod";
+    readonly payload: string;
+}
 export type Actions = setIsTheoryModalOpen | setArrayForSort | setBubbleSortProcedure | setIsPaused | setQuickSortProcedureCharts
-    | setChosenSort | setIsChoseSortModalOpen | setVisualizationMethod | setQuickSortProcedureSnapshots | setQuitVisualization ;
+    | setChosenSort | setIsChoseSortModalOpen | setVisualizationMethod | setQuickSortProcedureSnapshots | setQuitVisualization | setSnapshotVisualizationMethod;
 
 export const reducer = (state: IState, actions: Actions): IState => {
     switch (actions.type) {
@@ -84,9 +88,6 @@ export const reducer = (state: IState, actions: Actions): IState => {
             if (actions.payload === SNAPSHOTS) {
                 return { ...state, visualizationMethod: actions.payload, chosenSort: MERGE_SORT };
             }
-            else if (actions.payload === TREE) {
-                return { ...state, visualizationMethod: actions.payload, chosenSort: HEAP_SORT };
-            }
             else {
                 return { ...state, visualizationMethod: actions.payload, chosenSort: BUBBLE_SORT };
             }
@@ -97,6 +98,8 @@ export const reducer = (state: IState, actions: Actions): IState => {
                 return { ...state, isVisualizationFinished: true, isVisualizationPaused: true, quickSortProcedureSnapshots: { snapshots: [], pivotIndexes: [], snapshotPosition: { start: [], levels: [] } } }
             }
             return { ...state, isVisualizationFinished: true };
+        case "setSnapshotVisualizationMethod":
+            return { ...state, snapshotVisualizationMethod: actions.payload };
         default:
             return state;
     }

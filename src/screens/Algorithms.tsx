@@ -1,17 +1,16 @@
-import React, { useReducer, useRef, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Animated } from 'react-native';
+import React, { useReducer } from 'react';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Actions, IState, reducer } from '../reducers/algorithms';
 import Feather from 'react-native-vector-icons/Feather';
 import InputArray from '../components/InputArray';
 import Theory from '../components/Theory';
-import { BUBBLE_SORT, CHARTS, SNAPSHOTS } from '../components/helpers/types';
+import { BUBBLE_SORT, CHARTS, MANUAL, SNAPSHOTS, TIMING } from '../components/helpers/types';
 import AlgoMenu from '../components/menu/AlgoMenu';
 import { AlgorithmsDispatch } from '../context/AlgorithmsDispatch';
 import { AlgorithmsState } from '../context/AlgorithmsState';
 import Vizualization from '../components/vizualization/Visualization';
 import VizualizationManagment from '../components/VisualizationManagment';
-import { Easing } from 'react-native-reanimated';
 import SnapshotSettings from '../components/SnapshotSettings';
 const ICON_SIZE = 50;
 
@@ -21,10 +20,11 @@ const Algorithms = (): JSX.Element => {
         isTheoryModalOpen: false, arrayForSort: "", isVisualizationFinished: true,
         bubbleSortProcedure: { indexes: [], procedure: [] },
         visualizationMethod: CHARTS,
+        snapshotVisualizationMethod: MANUAL,
         quickSortProcedureCharts: { indexes: [], procedure: [], pivotIndex: [] },
         quickSortProcedureSnapshots: { snapshots: [], pivotIndexes: [], snapshotPosition: { levels: [], start: [] } }
     })
-    
+
     const getMenuIcon = (): JSX.Element => {
         if (state.isVisualizationFinished) {
             return (
@@ -37,7 +37,7 @@ const Algorithms = (): JSX.Element => {
             size={35}
             color="#d3d3d3" />
     }
-    
+
     return (
         <View style={styles.mainContainer}>
             <ScrollView >
@@ -76,7 +76,11 @@ const Algorithms = (): JSX.Element => {
                     />
                 }
             </ScrollView >
-            {(state.visualizationMethod === SNAPSHOTS && state.isVisualizationFinished) && < SnapshotSettings />}
+            {(state.visualizationMethod === SNAPSHOTS && state.isVisualizationFinished) &&
+                <SnapshotSettings manualMethod={() => dispatch({ type: "setSnapshotVisualizationMethod", payload: MANUAL })}
+                    snapshotVisualizationMethod={state.snapshotVisualizationMethod}
+                    timingMethod={() => dispatch({ type: "setSnapshotVisualizationMethod", payload: TIMING })}
+                />}
 
         </View>
     )
@@ -121,6 +125,6 @@ const styles = StyleSheet.create({
         zIndex: 2,
         justifyContent: 'space-between'
     },
-    
+
 })
 export default Algorithms;

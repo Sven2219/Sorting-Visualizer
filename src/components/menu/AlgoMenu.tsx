@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { View, Modal, StyleSheet, TouchableWithoutFeedback, Text } from 'react-native';
 import { AlgorithmsDispatch } from '../../context/AlgorithmsDispatch';
 import Algorithm from './Algorithm';
-import { BUBBLE_SORT, QUICK_SORT, MERGE_SORT, HEAP_SORT, CHARTS, SNAPSHOTS, TREE } from '../helpers/types';
+import { BUBBLE_SORT, QUICK_SORT, MERGE_SORT, CHARTS, SNAPSHOTS } from '../helpers/types';
 import { OrientationState } from '../../context/OrientationState';
 import { getItemHeight, getItemWidth, getModalHeight, getModalWidth } from './getMethods';
 import VizualizationMethod from './VisualizationMethod';
@@ -27,16 +27,14 @@ const AlgoMenu = (): JSX.Element => {
                     <View style={styles.vizualizationMethod}>
                         <VizualizationMethod methodName={CHARTS} />
                         <VizualizationMethod methodName={SNAPSHOTS} />
-                        <VizualizationMethod methodName={TREE} />
                     </View>
                     <Text style={[styles.title, { top: 10 }]}>
                         ALGORITHMS
                     </Text>
                     <View style={styles.algorithmContainer}>
                         {state.visualizationMethod === CHARTS && <Algorithm title={BUBBLE_SORT} onPress={() => dispatch({ type: "setChosenSort", payload: BUBBLE_SORT })} />}
-                        {state.visualizationMethod !== TREE && <Algorithm title={MERGE_SORT} onPress={() => dispatch({ type: "setChosenSort", payload: MERGE_SORT })} />}
-                        {state.visualizationMethod !== TREE && <Algorithm title={QUICK_SORT} onPress={() => dispatch({ type: "setChosenSort", payload: QUICK_SORT })} />}
-                        {state.visualizationMethod !== SNAPSHOTS && <Algorithm title={HEAP_SORT} onPress={() => dispatch({ type: "setChosenSort", payload: HEAP_SORT })} />}
+                        {<Algorithm title={MERGE_SORT} onPress={() => dispatch({ type: "setChosenSort", payload: MERGE_SORT })} />}
+                        {<Algorithm title={QUICK_SORT} onPress={() => dispatch({ type: "setChosenSort", payload: QUICK_SORT })} />}
                     </View>
                 </View>
             </View>

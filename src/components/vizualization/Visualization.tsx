@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { AlgorithmsDispatch } from '../../context/AlgorithmsDispatch';
 import { AlgorithmsState } from '../../context/AlgorithmsState';
-import { BUBBLE_SORT, CHARTS, QUICK_SORT, SNAPSHOTS } from '../helpers/types';
+import { BUBBLE_SORT, CHARTS, MANUAL, QUICK_SORT, SNAPSHOTS, TIMING } from '../helpers/types';
 import BubbleChartsMethod from './Charts/BubbleSort/BubbleChartsMethod';
 import QuickChartsMethod from './Charts/QuickSort/QuickChartsMethod';
 import ManualQSSnapshots from './Snapshots/QuickSort/Manual/ManualQSSnapshots';
@@ -25,7 +25,13 @@ const Visualization = (): JSX.Element => {
                 }
             case SNAPSHOTS:
                 if (state.chosenSort === QUICK_SORT) {
-                    return <ManualQSSnapshots quickSortProcedureSnapshot={state.quickSortProcedureSnapshots} isVizualizationFinished={state.isVisualizationFinished} />
+                    if (state.snapshotVisualizationMethod === MANUAL) {
+                        return <ManualQSSnapshots quickSortProcedureSnapshot={state.quickSortProcedureSnapshots}
+                            isVizualizationFinished={state.isVisualizationFinished} />
+                    }
+                    else if (state.snapshotVisualizationMethod === TIMING) {
+                        return <View><Text>TIMING METHOD</Text></View>;
+                    }
                 }
             default:
                 break;
