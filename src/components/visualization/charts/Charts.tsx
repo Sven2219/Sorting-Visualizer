@@ -5,13 +5,13 @@ import { getScaledHeight } from '../../helpers/scalingCharts';
 interface IProps {
     currentFieldIndex: number;
     currentField: number[];
-    maxRange: number;
-    minRange: number;
+    maxElement: number;
+    minElement: number;
     procedure: number[][];
     backgroundColor: (element: number, index: number) => string
 
 }
-const Charts = ({ currentFieldIndex, currentField, maxRange, minRange, procedure, backgroundColor }: IProps): JSX.Element => {
+const Charts = ({ currentFieldIndex, currentField, maxElement, minElement, procedure, backgroundColor }: IProps): JSX.Element => {
 
     return (
         <View style={styles.mainContainer}>
@@ -20,7 +20,7 @@ const Charts = ({ currentFieldIndex, currentField, maxRange, minRange, procedure
                     <View key={index}>
                         <View style={[styles.oneChartContainer,
                         {
-                            height: getScaledHeight(element, minRange, maxRange, procedure[currentFieldIndex].length),
+                            height: getScaledHeight(element, minElement, maxElement, procedure[currentFieldIndex].length),
                             backgroundColor: backgroundColor(element, index)
                         }]}
                         />

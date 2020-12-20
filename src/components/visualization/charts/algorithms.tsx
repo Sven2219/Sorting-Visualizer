@@ -1,16 +1,16 @@
 import { IQuickCharts } from "../../helpers/interfaces";
-import { quickSortCharts } from "../../quick/quickSort";
+import { quickSortCharts } from "../../quick/quickSortAlgorithm";
 
 
 export const quickSortChartProcedure = (elements: number[]): IQuickCharts => {
-    const quick: IQuickCharts = { procedure: [], pivotIndex:[], indexes: [] };
-    const { procedure, pivotIndex, indexes } = quick;
+    const quick: IQuickCharts = { procedure: [], pivotIndexes:[], indexes: [] };
+    const { procedure, pivotIndexes, indexes } = quick;
     const high: number = elements.length - 1;
 
     //initial 
     procedure.push([...elements]);
     indexes.push({ index: 0 });
-    pivotIndex.push(high);
+    pivotIndexes.push(high);
 
     quickSortCharts(elements, 0, high, quick);
 

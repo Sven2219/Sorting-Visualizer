@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { SNAPSHOT_BOX_SIZE } from '../../../Constants';
+import { SNAPSHOT_BOX_SIZE } from '../../../helpers/Constants';
 import { getBackgroundColor } from './getMethods';
 
 interface IProps {

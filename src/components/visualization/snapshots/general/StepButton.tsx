@@ -5,7 +5,7 @@ interface IProps {
     iconName: string;
     onPress: () => void;
 }
-const StepButton = ({ iconName, onPress }: IProps) => {
+const StepButton = ({ iconName, onPress }: IProps): JSX.Element => {
     return (
         <>
             <TouchableOpacity>

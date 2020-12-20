@@ -6,23 +6,23 @@ import Feather from 'react-native-vector-icons/Feather';
 import InputArray from '../components/InputArray';
 import Theory from '../components/Theory';
 import { BUBBLE_SORT, CHARTS, MANUAL, SNAPSHOTS, TIMING } from '../components/helpers/types';
-import AlgoMenu from '../components/menu/AlgoMenu';
+import Menu from '../components/menu/Menu';
 import { AlgorithmsDispatch } from '../context/AlgorithmsDispatch';
 import { AlgorithmsState } from '../context/AlgorithmsState';
-import Vizualization from '../components/vizualization/Visualization';
-import VizualizationManagment from '../components/VisualizationManagment';
+import Vizualization from '../components/visualization/Visualization';
+import VizualizationManagment from '../components/visualization/managment/VisualizationManagment';
 import SnapshotSettings from '../components/SnapshotSettings';
 const ICON_SIZE = 50;
 
 const Algorithms = (): JSX.Element => {
     const [state, dispatch] = useReducer<React.Reducer<IState, Actions>>(reducer, {
-        isVisualizationPaused: true, chosenSort: BUBBLE_SORT, isChoseSortModalOpen: false,
+        isVisualizationPaused: true, sortingAlgorithm: BUBBLE_SORT, isMenuModalOpen: false,
         isTheoryModalOpen: false, arrayForSort: "", isVisualizationFinished: true,
         bubbleSortProcedure: { indexes: [], procedure: [] },
         visualizationMethod: CHARTS,
-        snapshotVisualizationMethod: MANUAL,
-        quickSortProcedureCharts: { indexes: [], procedure: [], pivotIndex: [] },
-        quickSortProcedureSnapshots: { snapshots: [], pivotIndexes: [], snapshotPosition: { levels: [], start: [] } }
+        snapshotDisplayMethod: MANUAL,
+        quickSortProcedureCharts: { indexes: [], procedure: [], pivotIndexes: [] },
+        quickSortSnapshotsProcedure: { snapshots: [], pivotIndexes: [], snapshotPosition: { levels: [], startIndexes: [] } }
     })
 
     const getMenuIcon = (): JSX.Element => {
@@ -30,7 +30,7 @@ const Algorithms = (): JSX.Element => {
             return (
                 <Ionicons name="menu" size={35}
                     color="#000"
-                    onPress={() => dispatch({ type: "setIsChoseSortModalOpen", payload: true })} />
+                    onPress={() => dispatch({ type: "setIsMenuModalOpen", payload: true })} />
             )
         }
         return <Ionicons name="menu"
@@ -43,7 +43,7 @@ const Algorithms = (): JSX.Element => {
             <ScrollView >
                 <View style={styles.headerContainer}>
                     {getMenuIcon()}
-                    <Text style={styles.headerText}>{state.chosenSort}</Text>
+                    <Text style={styles.headerText}>{state.sortingAlgorithm}</Text>
                     <Feather name="book" size={35} color="#000"
                         onPress={() => dispatch({ type: "setIsTheoryModalOpen", payload: true })} />
                 </View>
@@ -62,24 +62,24 @@ const Algorithms = (): JSX.Element => {
                     </AlgorithmsState.Provider>
                 </AlgorithmsDispatch.Provider>
                 {
-                    state.isChoseSortModalOpen &&
+                    state.isMenuModalOpen &&
                     <AlgorithmsDispatch.Provider value={{ dispatch }}>
                         <AlgorithmsState.Provider value={{ state }}>
-                            <AlgoMenu />
+                            <Menu />
                         </AlgorithmsState.Provider>
                     </AlgorithmsDispatch.Provider>
                 }
                 {
                     state.isTheoryModalOpen &&
                     <Theory onPress={() => dispatch({ type: "setIsTheoryModalOpen", payload: false })}
-                        chosenSort={state.chosenSort}
+                        chosenSort={state.sortingAlgorithm}
                     />
                 }
             </ScrollView >
             {(state.visualizationMethod === SNAPSHOTS && state.isVisualizationFinished) &&
-                <SnapshotSettings manualMethod={() => dispatch({ type: "setSnapshotVisualizationMethod", payload: MANUAL })}
-                    snapshotVisualizationMethod={state.snapshotVisualizationMethod}
-                    timingMethod={() => dispatch({ type: "setSnapshotVisualizationMethod", payload: TIMING })}
+                <SnapshotSettings manualMethod={() => dispatch({ type: "setSnapshotDisplayMethod", payload: MANUAL })}
+                    snapshotVisualizationMethod={state.snapshotDisplayMethod}
+                    timingMethod={() => dispatch({ type: "setSnapshotDisplayMethod", payload: TIMING })}
                 />}
 
         </View>

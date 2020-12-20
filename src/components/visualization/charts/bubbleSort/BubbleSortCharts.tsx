@@ -1,63 +1,67 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { CHARTS_CONTAINER_HEIGHT } from '../../../Constants';
+import { CHARTS_CONTAINER_HEIGHT } from '../../../helpers/Constants';
+import { IBubble } from '../../../helpers/interfaces'
 import Charts from '../Charts';
-import { getQuickSwapedValues } from '../getSwapedValues';
-import { IQuickCharts } from '../../../helpers/interfaces';
-import { getQuickBg } from '../../../helpers/chartsBackgroundColor';
+import { getBubbleSwapedValues } from '../getSwapedValues';
+import { getBubbleBg } from '../../../helpers/chartsBackgroundColor';
 interface IProps {
-    quickSortProcedure: IQuickCharts;
+    bubbleSortProcedure: IBubble;
     isVizualizationPaused: boolean;
     vizualizationFinished: () => void;
 }
 
-const QuickChartsMethod = ({ quickSortProcedure, isVizualizationPaused, vizualizationFinished }: IProps): JSX.Element => {
-    const { procedure } = quickSortProcedure;
+const BubbleSortCharts = ({ bubbleSortProcedure, isVizualizationPaused, vizualizationFinished }: IProps): JSX.Element => {
+    const { procedure } = bubbleSortProcedure;
     const [currentField, setCurrentField] = useState<number[]>([]);
     const currentFieldIndex = useRef<number>(0);
     const timers = useRef<NodeJS.Timeout[]>([]);
-    const swapedValue = useRef<number[][]>([]);
-    const maxRange = useRef<number>(0);
-    const minRange = useRef<number>(0);
+    const swapedValues = useRef<number[][]>([]);
+    const maxElement = useRef<number>(0);
+    const minElement = useRef<number>(0);
     useEffect(() => {
         if (procedure.length > 0) {
             timers.current = startProcedure();
         }
         return () => {
-            for (let i = 0; i < procedure.length; i++) {
+            //cleanup 
+            const procedureLength: number = procedure.length;
+            for (let i = 0; i < procedureLength; i++) {
                 clearTimeout(timers.current[i]);
             }
         }
     }, [procedure])
     useEffect(() => {
-        maxRange.current = Math.max.apply(Math, procedure[0]);
-        minRange.current = Math.min.apply(Math, procedure[0]);
+        maxElement.current = Math.max.apply(Math, procedure[0]);
+        minElement.current = Math.min.apply(Math, procedure[0]);
         if (isVizualizationPaused) {
-            for (let i = 0; i < procedure.length; i++) {
+            const procedureLength: number = procedure.length;
+            for (let i = 0; i < procedureLength; i++) {
                 clearTimeout(timers.current[i]);
             }
         }
     }, [isVizualizationPaused])
 
     useEffect(() => {
-        const swapedValues: number[] = getQuickSwapedValues(currentField, quickSortProcedure, currentFieldIndex.current);
-        if (swapedValues.length > 0) {
-            swapedValue.current = [...swapedValue.current, swapedValues]
+        const swaped: number[] = getBubbleSwapedValues(currentField, procedure[currentFieldIndex.current - 1]);;
+        if (swaped.length > 0) {
+            swapedValues.current = [...swapedValues.current, swaped]
         }
     }, [currentField])
 
-
     const startProcedure = (): NodeJS.Timeout[] => {
         if (currentFieldIndex.current === 0) {
-            swapedValue.current = [];
+            swapedValues.current = [];
         }
-        const start: number = currentFieldIndex.current > 0 ? currentFieldIndex.current + 1 : currentFieldIndex.current;
-        const slicedData: number[][] = procedure.slice(start, procedure.length);
-        return (slicedData.map((field, index) => {
+        //Used for knowing where to resume when visualization is paused.(startIndex)
+        const startIndex: number = currentFieldIndex.current > 0 ? currentFieldIndex.current + 1 : currentFieldIndex.current;
+        const procedureLength: number = procedure.length;
+        const slicedProcedure: number[][] = procedure.slice(startIndex, procedureLength);
+        return (slicedProcedure.map((field, index) => {
             return setTimeout(() => {
                 if (!isVizualizationPaused) {
-                    if (index !== procedure.length - 1 - start) {
-                        if (start > 0) {
+                    if (index !== procedureLength - 1 - startIndex) {
+                        if (startIndex > 0) {
                             currentFieldIndex.current = currentFieldIndex.current + 1;
                             setCurrentField(field);
                         }
@@ -71,11 +75,17 @@ const QuickChartsMethod = ({ quickSortProcedure, isVizualizationPaused, vizualiz
                         vizualizationFinished();
                     }
                 }
-            }, 700 * (index !== procedure.length - 1 - start ? index : index - 0.9))
+            }, 700 * (index !== procedureLength - 1 - startIndex ? index : index - 0.9))
         }))
     }
-    const showSwapingText = (field: number[]): string => {
-        return field.length > 1 ? `Swapping ${field.join(" and ")}` : `Swapping ${field[0]} by itself`
+
+    const getSwapingText = (field: number[]): string => {
+        return `Swapping ${field.join(" and ")}`;
+    }
+    const getOriginalArray = (): string | undefined => {
+        if (currentField.length > 0) {
+            return procedure[0].join(", ");
+        }
     }
     return (
         <View style={styles.mainContainer}>
@@ -83,20 +93,20 @@ const QuickChartsMethod = ({ quickSortProcedure, isVizualizationPaused, vizualiz
                 {currentField.length > 0 && <Charts
                     currentFieldIndex={currentFieldIndex.current}
                     currentField={currentField}
-                    minRange={minRange.current}
-                    maxRange={maxRange.current}
+                    minElement={minElement.current}
+                    maxElement={maxElement.current}
                     procedure={procedure}
-                    backgroundColor={(element: number, index: number) => getQuickBg(element, index, currentFieldIndex.current, quickSortProcedure)}
+                    backgroundColor={(element: number, index: number) => getBubbleBg(element, index, currentFieldIndex.current, bubbleSortProcedure)}
                 />}
             </View>
             <View style={styles.procedureContainer}>
                 <Text style={styles.originalArrayText}>
-                    Original array: [{currentField.length > 0 && procedure[0].join(", ")}]
+                    Original array: [{getOriginalArray()}]
                 </Text>
-                {swapedValue.current.length > 0 && swapedValue.current.map((field, index) => {
+                {swapedValues.current.length > 0 && swapedValues.current.map((field, index) => {
                     return (
                         <Text key={index} style={styles.swapingText}>
-                            {showSwapingText(field)}
+                            {getSwapingText(field)}
                         </Text>
                     )
                 })
@@ -127,20 +137,6 @@ const styles = StyleSheet.create({
         shadowRadius: 4.65,
         elevation: 3,
     },
-    oneChartContainer: {
-        width: 20,
-        marginLeft: 2.5,
-        marginRight: 5,
-        borderWidth: 1,
-        borderRadius: 3,
-        backgroundColor: 'green'
-    },
-    chartLabelText: {
-        fontSize: 14,
-        fontFamily: 'Sura-Bold',
-        marginTop: 5,
-        alignSelf: 'center'
-    },
     procedureContainer: {
         margin: 10
     },
@@ -155,6 +151,6 @@ const styles = StyleSheet.create({
         marginTop: 5
     }
 })
-export default React.memo(QuickChartsMethod, (prevState, currentState) => {
-    return prevState.isVizualizationPaused == currentState.isVizualizationPaused;
+export default React.memo(BubbleSortCharts, (prevProps, currentProps) => {
+    return prevProps.isVizualizationPaused == currentProps.isVizualizationPaused;
 });

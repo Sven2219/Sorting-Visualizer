@@ -10,13 +10,13 @@ import { AlgorithmsState } from '../../context/AlgorithmsState';
 
 
 
-const AlgoMenu = (): JSX.Element => {
+const Menu = (): JSX.Element => {
     const { state } = useContext(AlgorithmsState);
     const { dispatch } = useContext(AlgorithmsDispatch);
     const { orientation } = useContext(OrientationState);
     return (
         <Modal transparent>
-            <TouchableWithoutFeedback onPress={() => dispatch({ type: "setIsChoseSortModalOpen", payload: false })}>
+            <TouchableWithoutFeedback onPress={() => dispatch({ type: "setIsMenuModalOpen", payload: false })}>
                 <View style={[styles.modalOverlay, { width: getModalWidth(orientation), height: getModalHeight(orientation) }]} />
             </TouchableWithoutFeedback>
             <View style={[styles.itemPosition, { top: (getModalHeight(orientation) - getItemHeight(orientation)) / 1.8 }]}>
@@ -32,9 +32,9 @@ const AlgoMenu = (): JSX.Element => {
                         ALGORITHMS
                     </Text>
                     <View style={styles.algorithmContainer}>
-                        {state.visualizationMethod === CHARTS && <Algorithm title={BUBBLE_SORT} onPress={() => dispatch({ type: "setChosenSort", payload: BUBBLE_SORT })} />}
-                        {<Algorithm title={MERGE_SORT} onPress={() => dispatch({ type: "setChosenSort", payload: MERGE_SORT })} />}
-                        {<Algorithm title={QUICK_SORT} onPress={() => dispatch({ type: "setChosenSort", payload: QUICK_SORT })} />}
+                        {state.visualizationMethod === CHARTS && <Algorithm title={BUBBLE_SORT} onPress={() => dispatch({ type: "setSortingAlgorithm", payload: BUBBLE_SORT })} />}
+                        {<Algorithm title={MERGE_SORT} onPress={() => dispatch({ type: "setSortingAlgorithm", payload: MERGE_SORT })} />}
+                        {<Algorithm title={QUICK_SORT} onPress={() => dispatch({ type: "setSortingAlgorithm", payload: QUICK_SORT })} />}
                     </View>
                 </View>
             </View>
@@ -72,4 +72,4 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
     }
 })
-export default AlgoMenu;
+export default Menu;

@@ -1,4 +1,4 @@
-import { SNAPSHOT_BOX_SIZE } from "../../../Constants";
+import { SNAPSHOT_BOX_SIZE } from "../../../helpers/Constants";
 
 
 export const getTopPosition = (index: number, levels: number[]):number => {

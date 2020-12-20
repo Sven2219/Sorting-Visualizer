@@ -3,9 +3,9 @@ import { PORTRAIT } from "./types";
 
 export const transformTextToArray = (arrayForSort: string, orientation: string): number[] => {
     if (arrayForSort !== "") {
-        const matchedElements: RegExpMatchArray | null = arrayForSort.match(/\d+/g);
+        const matchedElements: RegExpMatchArray | null = arrayForSort.match(/\d+/g);//matching only numbers
         if (matchedElements !== null) {
-            const transformedElements:number[] = matchedElements.map(Number);
+            const transformedElements:number[] = matchedElements.map(Number);//transforming into array of numbers
             if (orientation === PORTRAIT) {
                 if (transformedElements.length < 12) {
                     return transformedElements;

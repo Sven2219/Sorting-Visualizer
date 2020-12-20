@@ -1,6 +1,6 @@
 export interface IQuickCharts {
     procedure: number[][];
-    pivotIndex: number[];
+    pivotIndexes: number[];
     indexes: IIndexCharts[];
 }
 export interface IIndexCharts {
@@ -11,15 +11,15 @@ export interface IIndexCharts {
     high?: number;
 }
 
-export interface IQuickPosition {
+export interface IQuickSnapshotPosition {
     levels: number[];
-    start: number[];
+    startIndexes: number[];
 }
 
 export interface IQuickSnapshots {
     snapshots: number[][];
     pivotIndexes: number[];
-    snapshotPosition: IQuickPosition;
+    snapshotPosition: IQuickSnapshotPosition;
 }
 export interface IBubble {
     procedure: number[][];

@@ -2,14 +2,14 @@ import React, { useContext } from 'react';
 import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { AlgorithmsState } from '../../context/AlgorithmsState';
 import { AlgorithmsDispatch } from '../../context/AlgorithmsDispatch';
-import { VIZUALIZATION_METHOD_WIDTH } from '../Constants';
+import { VIZUALIZATION_METHOD_WIDTH } from '../helpers/Constants';
 import { getBackgroundColor } from './getMethods';
 
 interface IProps {
     methodName: string;
 }
 
-const VizualizationMethod = ({ methodName }: IProps): JSX.Element => {
+const VisualizationMethod = ({ methodName }: IProps): JSX.Element => {
     const { state } = useContext(AlgorithmsState);
     const { dispatch } = useContext(AlgorithmsDispatch)
     return (
@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
         borderRadius: 5
     }
 })
-export default VizualizationMethod;
+export default VisualizationMethod;

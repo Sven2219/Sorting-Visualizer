@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        top: 40
+        top: 30
     },
     manualText: {
         fontFamily: 'Sura-Bold'

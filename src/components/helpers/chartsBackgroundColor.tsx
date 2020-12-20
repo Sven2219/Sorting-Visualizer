@@ -1,6 +1,6 @@
 import { IBubble, IQuickCharts } from "./interfaces";
 
-export const getBubbleBg = (element: number, index: number, currentFieldIndex: number, bubbleSortProcedure: IBubble): string => {
+export const getBubbleBg = (currentElement: number, currentIndex: number, currentFieldIndex: number, bubbleSortProcedure: IBubble): string => {
     const { procedure, indexes } = bubbleSortProcedure
     if (currentFieldIndex < 1) {//start
         return "#228b22";//green
@@ -8,37 +8,37 @@ export const getBubbleBg = (element: number, index: number, currentFieldIndex: n
     else if (currentFieldIndex + 1 === procedure.length) {//end
         return "#228b22"//green
     }
-    else if (element != procedure[currentFieldIndex - 1][index]) {
+    else if (currentElement != procedure[currentFieldIndex - 1][currentIndex]) {
         return "#b22222";//red
     }
-    else if (index == indexes[currentFieldIndex]) {
+    else if (currentIndex == indexes[currentFieldIndex]) {
         return "#483d8b";//blue
     }
     else {
         return "#228b22";
     }
 }
-export const getQuickBg = (element: number, index: number, currentFieldIndex: number, quickSortProcedure: IQuickCharts): string => {
-    const { procedure, indexes, pivotIndex } = quickSortProcedure;
+export const getQuickBg = (currentElement: number, currentIndex: number, currentFieldIndex: number, quickSortProcedure: IQuickCharts): string => {
+    const { procedure, indexes, pivotIndexes } = quickSortProcedure;
     if (currentFieldIndex < 1) {//start
-        return "#228b22";//zelena
+        return "#228b22";//green
     }
     else if (currentFieldIndex + 2 === procedure.length) {//end
-        return "#228b22";//zelena
+        return "#228b22";//green
     }
     //swap two different numbers
-    else if (element !== procedure[currentFieldIndex - 1][index] ||
-        (indexes[currentFieldIndex].isSame && (index === indexes[currentFieldIndex].low || index === indexes[currentFieldIndex].high))) {
+    else if (currentElement !== procedure[currentFieldIndex - 1][currentIndex] ||
+        (indexes[currentFieldIndex].isSame && (currentIndex === indexes[currentFieldIndex].low || currentIndex === indexes[currentFieldIndex].high))) {
 
-        return "#b22222";//crvena
+        return "#b22222";//red
     }
-    else if (pivotIndex !== undefined && pivotIndex[currentFieldIndex] === index) {
-        return "#daa520";//pivot-zuta
+    else if (pivotIndexes !== undefined && pivotIndexes[currentFieldIndex] === currentIndex) {
+        return "#daa520";//pivot-yellow
     }
-    else if (index === indexes[currentFieldIndex - 1].index && index === indexes[currentFieldIndex].index && currentFieldIndex >= 2) {
+    else if (currentIndex === indexes[currentFieldIndex - 1].index && currentIndex === indexes[currentFieldIndex].index && currentFieldIndex >= 2) {
         return "#b22222";
     }
-    else if (index === indexes[currentFieldIndex].index) {
+    else if (currentIndex === indexes[currentFieldIndex].index) {
         return "#483d8b";//blue
     }
     return "#228b22";

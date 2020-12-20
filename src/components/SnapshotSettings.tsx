@@ -11,7 +11,7 @@ interface IProps {
     timingMethod: () => void;
     snapshotVisualizationMethod: string;
 }
-const SnapshotSettings = ({ manualMethod, timingMethod, snapshotVisualizationMethod }: IProps) => {
+const SnapshotSettings = ({ manualMethod, timingMethod, snapshotVisualizationMethod }: IProps): JSX.Element => {
     const [showSettings, setShowSettings] = useState(false);
     //settings animation
     const settingsRotation = useRef(new Animated.Value(0)).current;
@@ -76,8 +76,8 @@ const SnapshotSettings = ({ manualMethod, timingMethod, snapshotVisualizationMet
         inputRange: [0, 1],
         outputRange: ['0deg', '50deg']
     })
-    const getColor = (method: string) => {
-        return method === snapshotVisualizationMethod ? "#008080" : "#000";
+    const getColor = (method: string): string => {
+        return method === snapshotVisualizationMethod ? "rgba(34,139,34,0.9)" : "#000";
     }
     return (
         <>

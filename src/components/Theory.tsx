@@ -2,9 +2,9 @@ import React from 'react';
 import { View, Text, Modal, StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import BubbleTheory from './bubble/BubbleTheory';
-import { BUBBLE_SORT, HEAP_SORT, MERGE_SORT, QUICK_SORT } from './helpers/types';
-import QuickTheroy from './quick/QuickTheroy';
+import BubbleTheory from './bubble/BubbleSortTheory';
+import { BUBBLE_SORT, MERGE_SORT, QUICK_SORT } from './helpers/types';
+import QuickTheroy from './quick/QuickSortTheory';
 
 interface IProps {
     onPress: () => void;
@@ -19,8 +19,6 @@ const Theory = ({ onPress, chosenSort }: IProps): JSX.Element => {
             case QUICK_SORT:
                 return <QuickTheroy />;
             case MERGE_SORT:
-                return <BubbleTheory />;
-            case HEAP_SORT:
                 return <BubbleTheory />;
             default:
                 return <BubbleTheory />;

@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { OrientationState } from '../../context/OrientationState';
+import { COMMENT_LEFT_POSITION } from '../helpers/Constants';
 import { getCodeExampleContainerWidth, getCodeExampleLeftPosition } from '../helpers/theoryGetters';
 
-const QuickTheroy = (): JSX.Element => {
+const QuickSortTheory = (): JSX.Element => {
     const { orientation } = useContext(OrientationState);
 
     return (
@@ -104,7 +105,7 @@ const styles = StyleSheet.create({
     },
     comment: {
         color: '#228b22',
-        left: -115
+        left: COMMENT_LEFT_POSITION
     }
 })
-export default QuickTheroy;
+export default QuickSortTheory;
