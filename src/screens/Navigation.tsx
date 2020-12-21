@@ -1,26 +1,11 @@
-import 'react-native-gesture-handler';
 import React, { useEffect, useState } from 'react';
-//@ts-ignore
-import { NavigationContainer } from '@react-navigation/native';
-//@ts-ignore
-import { createStackNavigator } from '@react-navigation/stack';
-import Splash from './Splash';
 import Algorithms from './Algorithms';
 import { Dimensions } from 'react-native';
 import { OrientationState } from '../context/OrientationState';
 import { LANDSCAPE, PORTRAIT } from '../components/helpers/types';
 
-const Stack = createStackNavigator();
 
 
-const Navigation = (): JSX.Element => {
-    return (<NavigationContainer >
-        <Stack.Navigator initialRouteName={"Splash"} headerMode="none">
-            <Stack.Screen component={Splash} name="Splash" />
-            <Stack.Screen component={Algorithms} name="Algorithms" />
-        </Stack.Navigator>
-    </NavigationContainer>)
-}
 const App = (): JSX.Element => {
     const [orientation, setOrientation] = useState<string>("");
     useEffect(() => {
@@ -45,7 +30,7 @@ const App = (): JSX.Element => {
     }
     return (
         <OrientationState.Provider value={{ orientation }}>
-            <Navigation />
+            <Algorithms />
         </OrientationState.Provider>
     )
 }

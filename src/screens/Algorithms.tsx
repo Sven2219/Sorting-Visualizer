@@ -1,10 +1,10 @@
 import React, { useReducer } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, StatusBar } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Actions, IState, reducer } from '../reducers/algorithms';
 import Feather from 'react-native-vector-icons/Feather';
 import InputArray from '../components/InputArray';
-import Theory from '../components/Theory';
+import Theory from '../components/theory/Theory';
 import { BUBBLE_SORT, CHARTS, MANUAL, SNAPSHOTS, TIMING } from '../components/helpers/types';
 import Menu from '../components/menu/Menu';
 import { AlgorithmsDispatch } from '../context/AlgorithmsDispatch';
@@ -40,6 +40,7 @@ const Algorithms = (): JSX.Element => {
 
     return (
         <View style={styles.mainContainer}>
+            <StatusBar hidden/>
             <ScrollView >
                 <View style={styles.headerContainer}>
                     {getMenuIcon()}

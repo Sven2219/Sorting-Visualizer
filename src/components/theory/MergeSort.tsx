@@ -4,25 +4,20 @@ import { OrientationState } from '../../context/OrientationState';
 import { COMMENT_LEFT_POSITION } from '../helpers/Constants';
 import { getCodeExampleContainerWidth, getCodeExampleLeftPosition } from '../helpers/theoryGetters';
 
-const QuickSortTheory = (): JSX.Element => {
+const MergeSort = (): JSX.Element => {
     const { orientation } = useContext(OrientationState);
 
     return (
         <View style={styles.theoryContainer}>
             <Text style={styles.generalTheory}>
-                Like Merge Sort, QuickSort is a Divide and Conquer algorithm. It picks an element as pivot and partitions the given array around the picked pivot.
+                Like Quick Sort, Merge Sort is a Divide and Conquer algorithm. It divides the input array into two halves, calls itself for the two halves, and then merges the two sorted halves.
+                The merge() function is used for merging two halves. The merge(arr, l, m, r) is a key process that assumes that arr[l..m] and arr[m+1..r] are sorted and merges the two sorted sub-arrays into one.
             </Text>
             <View style={styles.complexityContainer}>
-                <Text style={styles.complexityText}>
-                    <Text style={styles.boldText}>Worst Time Complexity: O(n*n). </Text>
-                    The worst case occurs when the partition process always picks greatest or smallest element as pivot.
-                </Text>
-                <Text style={styles.complexityText}>
-                    <Text style={styles.boldText}>Best Case Time Complexity: O(nLog(n)). </Text>
-                            The best case occurs when the partition process always picks the middle element as pivot. Following is recurrence for best case.
-                    </Text>
+                <Text style={styles.boldText}>Worst Time Complexity: O(nLog(n)). </Text>
+                <Text style={styles.boldText}>Best Case Time Complexity: O(nLog(n)). </Text>
                 <Text style={[styles.complexityText, styles.boldText]}>
-                    Auxiliary Space: O(1)
+                    Auxiliary Space: O(n)
                 </Text>
             </View>
             <ScrollView style={[styles.codeExampleContainer, styles.shadow, {
@@ -108,4 +103,4 @@ const styles = StyleSheet.create({
         left: COMMENT_LEFT_POSITION
     }
 })
-export default QuickSortTheory;
+export default MergeSort;

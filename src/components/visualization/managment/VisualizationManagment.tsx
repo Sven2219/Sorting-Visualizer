@@ -3,13 +3,13 @@ import { View, StyleSheet } from 'react-native';
 import { AlgorithmsDispatch } from '../../../context/AlgorithmsDispatch';
 import { AlgorithmsState } from '../../../context/AlgorithmsState';
 import { OrientationState } from '../../../context/OrientationState';
-import { bubbleSort } from '../../bubble/bubbleSortAlgorithm';
+import { bubbleSort } from '../../algorithms/bubbleSort';
 import { IBubble, IQuickSnapshots, IQuickCharts } from '../../helpers/interfaces';
 import { transfromTextToArray } from '../../helpers/transformInputedArray';
 
 import { BUBBLE_SORT, CHARTS, MANUAL, MERGE_SORT, QUICK_SORT, SNAPSHOTS } from '../../helpers/types';
 import ManualButton from './ManualButton';
-import { quickSortSnapshots } from '../../quick/quickSortAlgorithm';
+import { quickSortSnapshots } from '../../algorithms/quickSort';
 import StartPauseButton from './TimedButton';
 import { quickSortChartProcedure } from '../charts/algorithms';
 

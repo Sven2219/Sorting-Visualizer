@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { OrientationState } from '../context/OrientationState';
 import { INPUT_ARRAY_WIDTH_LANDSCAPE, INPUT_ARRAY_WIDTH_PORTRAIT, INPUT_ARRAY_MARGIN_LEFT_LANDSCAPE, INPUT_ARRAY_MARGIN_LEFT_PORTRAIT } from './helpers/Constants';
 import { PORTRAIT } from './helpers/types';
@@ -21,7 +20,7 @@ const InputArray = ({ onPress, arrayForSort, editable }: IProps): JSX.Element =>
     }
     return (
         <View style={[styles.inputArrayContainer, { width: getInputTextWidth(), marginLeft: getLeftMargin() }]}>
-            <Text style={[styles.labelText,{color:editable?"#000":"#d3d3d3"}]}>Array: </Text>
+            <Text style={[styles.labelText, { color: editable ? "#000" : "#d3d3d3" }]}>Array: </Text>
             <TextInput editable={editable} value={arrayForSort} onChangeText={(arrayForSort) => onPress(arrayForSort)} style={styles.textInput} placeholder={"1, 2, 3, 4, 5, 6"} />
         </View>
     )

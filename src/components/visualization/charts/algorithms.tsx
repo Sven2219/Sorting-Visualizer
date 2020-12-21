@@ -1,5 +1,5 @@
 import { IQuickCharts } from "../../helpers/interfaces";
-import { quickSortCharts } from "../../quick/quickSortAlgorithm";
+import { quickSortCharts } from "../../algorithms/quickSort";
 
 
 export const quickSortChartProcedure = (elements: number[]): IQuickCharts => {

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { OrientationState } from '../../context/OrientationState';
 import { getCodeExampleContainerWidth, getCodeExampleLeftPosition } from '../helpers/theoryGetters';
 
-const BubbleSortTheory = (): JSX.Element => {
+const BubbleSort = (): JSX.Element => {
     const { orientation } = useContext(OrientationState)
     return (
         <View style={styles.theoryContainer}>
@@ -98,4 +98,4 @@ const styles = StyleSheet.create({
         color: '#228b22',
     }
 })
-export default BubbleSortTheory;
+export default BubbleSort;

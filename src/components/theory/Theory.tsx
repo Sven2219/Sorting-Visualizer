@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text, Modal, StyleSheet } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { View, Text, Modal, StyleSheet,ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import BubbleTheory from './bubble/BubbleSortTheory';
-import { BUBBLE_SORT, MERGE_SORT, QUICK_SORT } from './helpers/types';
-import QuickTheroy from './quick/QuickSortTheory';
+import { BUBBLE_SORT, MERGE_SORT, QUICK_SORT } from '../helpers/types';
+import MergeSort from './MergeSort';
+import QuickSort from './QuickSort';
 
+import BubbleSort from './BubbleSort';
 interface IProps {
     onPress: () => void;
     chosenSort: string;
@@ -15,13 +15,13 @@ const Theory = ({ onPress, chosenSort }: IProps): JSX.Element => {
     const getSortingInfromation = (): JSX.Element => {
         switch (chosenSort) {
             case BUBBLE_SORT:
-                return <BubbleTheory />;
+                return <BubbleSort />;
             case QUICK_SORT:
-                return <QuickTheroy />;
+                return <QuickSort />;
             case MERGE_SORT:
-                return <BubbleTheory />;
+                return <MergeSort />;
             default:
-                return <BubbleTheory />;
+                return <BubbleSort />;
         }
     }
 
@@ -63,5 +63,6 @@ const styles = StyleSheet.create({
     },
 
 })
+
 
 export default Theory;
