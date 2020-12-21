@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { IQuickSnapshots } from '../../../helpers/interfaces';
-import { TIMING } from '../../../helpers/types';
-import NumberBox from './NumberBox';
+import { MANUAL, TIMING } from '../../../helpers/types';
+import ElementBox from './ElementBox';
 import { getBoxContainerWidth, getTextTopPosition, getTopPosition } from './getMethods';
 
 interface IProps {
@@ -20,14 +20,31 @@ const Snapshot = ({ currentFieldIndex, quickSortSnapshotsProcedure, snapshotDisp
             ? <Text style={{ top: getTextTopPosition(levels), fontFamily: 'Sura-Bold' }}>Sorted Array</Text>
             : null;
     }
+    const checkIsSorted = (index: number) => {
+        if (snapshotDisplayMethod === MANUAL) {
+            return snapshots.length - 1 === index;
+        }
+        else {
+            return snapshots.length - 2 === index;
+        }
+    }
     return (
         <View style={[styles.mainContainer, { height: (levels[snapshots.length - 1] * 30) + 200 }]}>
             {slicedSnapshot.length > 0 && slicedSnapshot.map((snapshot, index) => {
                 return (
-                    <View key={index} style={[styles.boxContainer, { width: getBoxContainerWidth(snapshots[0].length), top: getTopPosition(index, levels) }]}>
-                        {snapshot.map((number, ind) => {
+                    <View key={index}
+                        style={[styles.boxContainer, {
+                            width: getBoxContainerWidth(snapshots[0].length),
+                            top: getTopPosition(index, levels)
+                        }]}>
+                        {snapshot.map((element, i) => {
                             return (
-                                <NumberBox currentNumber={number} currentIndex={ind} key={ind} pivotIndex={pivotIndexes[index]} startIndex={startIndexes[index]} />
+                                <ElementBox isSorted={checkIsSorted(index)}
+                                    currentElement={element}
+                                    currentIndex={i}
+                                    key={i}
+                                    pivotIndex={pivotIndexes[index]}
+                                    startIndex={startIndexes[index]} />
                             )
                         })}
                     </View>

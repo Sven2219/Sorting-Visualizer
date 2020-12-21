@@ -6,15 +6,15 @@ import { getBackgroundColor, getLeftPosition } from './getMethods';
 interface IProps {
     currentIndex: number;
     pivotIndex: number;
-    currentNumber: number;
+    currentElement: number;
     startIndex: number;
-
+    isSorted: boolean;
 }
 
-const NumberBox = ({ currentNumber, pivotIndex, currentIndex, startIndex }: IProps): JSX.Element => {
+const ElementBox = ({ currentElement, pivotIndex, currentIndex, startIndex, isSorted }: IProps): JSX.Element => {
     return (
-        <View style={[styles.numberContainer, { backgroundColor: getBackgroundColor(pivotIndex, currentIndex), left: getLeftPosition(startIndex)}]}>
-            <Text style={styles.boldedText}>{currentNumber}</Text>
+        <View style={[styles.numberContainer, { backgroundColor: getBackgroundColor(pivotIndex, currentIndex, isSorted), left: getLeftPosition(startIndex) }]}>
+            <Text style={styles.boldedText}>{currentElement}</Text>
         </View>
     )
 }
@@ -28,11 +28,11 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center',
-        marginLeft:1,
+        marginLeft: 1,
     },
     boldedText: {
         fontFamily: 'Sura-Bold'
     }
 })
 
-export default NumberBox;
+export default ElementBox;

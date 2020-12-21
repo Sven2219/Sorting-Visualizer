@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     },
     snapshotContainer: {
-        bottom: 30
+        bottom: 50
     }
 })
 export default React.memo(TimedQSSnapshots, (prevProps, currentProps) => {

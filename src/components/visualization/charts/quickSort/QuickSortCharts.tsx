@@ -84,7 +84,7 @@ const QuickSortCharts = ({ quickSortProcedure, isVizualizationPaused, vizualizat
         }))
     }
     const showSwapingText = (field: number[]): string => {
-        return field.length > 1 ? `Swapping ${field.join(" and ")}` : `Swapping ${field[0]} by itself`
+        return field.length > 1 ? `Swapping ${field.join(" and ")}` : `Swapping ${field[0]} by itself`;
     }
 
     return (

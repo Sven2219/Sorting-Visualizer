@@ -7,7 +7,10 @@ export const getTopPosition = (index: number, levels: number[]): number => {
 export const getLeftPosition = (start: number): number => {
     return (start * SNAPSHOT_BOX_SIZE);
 }
-export const getBackgroundColor = (pivotIndex: number, currentIndex: number): string => {
+export const getBackgroundColor = (pivotIndex: number, currentIndex: number, isSorted: boolean): string => {
+    if (isSorted) {
+        return "#006400";
+    }
     return pivotIndex === currentIndex ? "#006400" : "#fff";
 }
 export const getBoxContainerWidth = (fullLength: number): number => {
