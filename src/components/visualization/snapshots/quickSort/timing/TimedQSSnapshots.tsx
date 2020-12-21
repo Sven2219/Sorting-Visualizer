@@ -55,7 +55,7 @@ const TimedQSSnapshots = ({ quickSortSnapshotsProcedure, isVizualizationPaused, 
                         vizualizationFinished();
                     }
                 }
-            }, 700 * (index !== snapshots.length - start ? index : index - 0.9))
+            }, 700 * (index !== snapshots.length - 1 - start ? index : index - 0.9))
         }))
     }
     return (

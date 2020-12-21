@@ -5,9 +5,9 @@ import { AlgorithmsState } from '../../../context/AlgorithmsState';
 import { OrientationState } from '../../../context/OrientationState';
 import { bubbleSort } from '../../bubble/bubbleSortAlgorithm';
 import { IBubble, IQuickSnapshots, IQuickCharts } from '../../helpers/interfaces';
-import { transformTextToArray } from '../../helpers/transformInputedArray';
+import { transfromTextToArray } from '../../helpers/transformInputedArray';
 
-import { BUBBLE_SORT, CHARTS, MANUAL, MERGE_SORT, QUICK_SORT, SNAPSHOTS, TIMING } from '../../helpers/types';
+import { BUBBLE_SORT, CHARTS, MANUAL, MERGE_SORT, QUICK_SORT, SNAPSHOTS } from '../../helpers/types';
 import ManualButton from './ManualButton';
 import { quickSortSnapshots } from '../../quick/quickSortAlgorithm';
 import StartPauseButton from './TimedButton';
@@ -27,7 +27,6 @@ const VisualizationManagment = (): JSX.Element => {
     }
     const quickSortCharts = (elements: number[]): void => {
         const quick: IQuickCharts = quickSortChartProcedure(elements);
-
         dispatch({ type: "setQuickSortProcedureCharts", payload: quick })
     }
 
@@ -52,7 +51,7 @@ const VisualizationManagment = (): JSX.Element => {
 
 
     const callSortingAlgorithm = (): void => {
-        const elements: number[] = transformTextToArray(state.arrayForSort, orientation);
+        const elements: number[] = transfromTextToArray(state.arrayForSort, orientation, state.visualizationMethod);
         if (elements.length > 0) {
             switch (state.sortingAlgorithm) {
                 case BUBBLE_SORT:
