@@ -84,6 +84,12 @@ export const reducer = (state: IState, actions: Actions): IState => {
                 sortingAlgorithm: actions.payload, isMenuModalOpen: false, isVisualizationFinished: true
             };
         case "setIsMenuModalOpen":
+            if (state.sortingAlgorithm === BUBBLE_SORT) {
+                return { ...state, isMenuModalOpen: actions.payload, bubbleSortProcedure: { procedure: [], indexes: [] } };
+            }
+            else if (state.sortingAlgorithm === QUICK_SORT) {
+                return { ...state, isMenuModalOpen: actions.payload, quickSortProcedureCharts: { pivotIndexes: [], procedure: [], indexes: [] } }
+            }
             return { ...state, isMenuModalOpen: actions.payload };
         case "setVisualizationMethod":
             if (actions.payload === SNAPSHOTS) {

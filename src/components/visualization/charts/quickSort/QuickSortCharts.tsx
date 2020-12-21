@@ -2,16 +2,17 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { CHARTS_CONTAINER_HEIGHT } from '../../../helpers/Constants';
 import Charts from '../Charts';
-import { getQuickSwapedValues } from '../getSwapedValues';
+import { getOriginalArray, getQuickSwapedValues } from '../getMethods';
 import { IQuickCharts } from '../../../helpers/interfaces';
 import { getQuickBg } from '../../../helpers/chartsBackgroundColor';
 interface IProps {
     quickSortProcedure: IQuickCharts;
     isVizualizationPaused: boolean;
     vizualizationFinished: () => void;
+    isMenuModalOpen: boolean;
 }
 
-const QuickSortCharts = ({ quickSortProcedure, isVizualizationPaused, vizualizationFinished }: IProps): JSX.Element => {
+const QuickSortCharts = ({ quickSortProcedure, isVizualizationPaused, vizualizationFinished, isMenuModalOpen }: IProps): JSX.Element => {
     const { procedure } = quickSortProcedure;
     const [currentField, setCurrentField] = useState<number[]>([]);
     const currentFieldIndex = useRef<number>(0);
@@ -30,6 +31,11 @@ const QuickSortCharts = ({ quickSortProcedure, isVizualizationPaused, vizualizat
             }
         }
     }, [procedure])
+    useEffect(() => {
+
+        swapedValues.current = []
+        setCurrentField([]);
+    }, [isMenuModalOpen])
     useEffect(() => {
         maxElement.current = Math.max.apply(Math, procedure[0]);
         minElement.current = Math.min.apply(Math, procedure[0]);
@@ -80,6 +86,7 @@ const QuickSortCharts = ({ quickSortProcedure, isVizualizationPaused, vizualizat
     const showSwapingText = (field: number[]): string => {
         return field.length > 1 ? `Swapping ${field.join(" and ")}` : `Swapping ${field[0]} by itself`
     }
+
     return (
         <View style={styles.mainContainer}>
             <View style={[styles.chartsContainer, styles.shadow]}>
@@ -94,7 +101,7 @@ const QuickSortCharts = ({ quickSortProcedure, isVizualizationPaused, vizualizat
             </View>
             <View style={styles.procedureContainer}>
                 <Text style={styles.originalArrayText}>
-                    Original array: [{currentField.length > 0 && procedure[0].join(", ")}]
+                    Original array: [{getOriginalArray(currentField.length, procedure[0])}]
                 </Text>
                 {swapedValues.current.length > 0 && swapedValues.current.map((field, index) => {
                     return (
@@ -158,6 +165,6 @@ const styles = StyleSheet.create({
         marginTop: 5
     }
 })
-export default React.memo(QuickSortCharts, (prevState, currentState) => {
-    return prevState.isVizualizationPaused == currentState.isVizualizationPaused;
+export default React.memo(QuickSortCharts, (prevProps, currentProps) => {
+    return (prevProps.isVizualizationPaused == currentProps.isVizualizationPaused && prevProps.isMenuModalOpen == currentProps.isMenuModalOpen)
 });

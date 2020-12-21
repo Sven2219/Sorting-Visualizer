@@ -3,15 +3,16 @@ import { View, StyleSheet, Text } from 'react-native';
 import { CHARTS_CONTAINER_HEIGHT } from '../../../helpers/Constants';
 import { IBubble } from '../../../helpers/interfaces'
 import Charts from '../Charts';
-import { getBubbleSwapedValues } from '../getSwapedValues';
+import { getBubbleSwapedValues, getOriginalArray } from '../getMethods';
 import { getBubbleBg } from '../../../helpers/chartsBackgroundColor';
 interface IProps {
     bubbleSortProcedure: IBubble;
     isVizualizationPaused: boolean;
     vizualizationFinished: () => void;
+    isMenuModalOpen: boolean;
 }
 
-const BubbleSortCharts = ({ bubbleSortProcedure, isVizualizationPaused, vizualizationFinished }: IProps): JSX.Element => {
+const BubbleSortCharts = ({ bubbleSortProcedure, isVizualizationPaused, vizualizationFinished, isMenuModalOpen }: IProps): JSX.Element => {
     const { procedure } = bubbleSortProcedure;
     const [currentField, setCurrentField] = useState<number[]>([]);
     const currentFieldIndex = useRef<number>(0);
@@ -31,6 +32,11 @@ const BubbleSortCharts = ({ bubbleSortProcedure, isVizualizationPaused, vizualiz
             }
         }
     }, [procedure])
+    //When modal is open => (menu)
+    useEffect(() => {
+        swapedValues.current = [];
+        setCurrentField([]);
+    }, [isMenuModalOpen])
     useEffect(() => {
         maxElement.current = Math.max.apply(Math, procedure[0]);
         minElement.current = Math.min.apply(Math, procedure[0]);
@@ -82,11 +88,7 @@ const BubbleSortCharts = ({ bubbleSortProcedure, isVizualizationPaused, vizualiz
     const getSwapingText = (field: number[]): string => {
         return `Swapping ${field.join(" and ")}`;
     }
-    const getOriginalArray = (): string | undefined => {
-        if (currentField.length > 0) {
-            return procedure[0].join(", ");
-        }
-    }
+
     return (
         <View style={styles.mainContainer}>
             <View style={[styles.chartsContainer, styles.shadow]}>
@@ -101,7 +103,7 @@ const BubbleSortCharts = ({ bubbleSortProcedure, isVizualizationPaused, vizualiz
             </View>
             <View style={styles.procedureContainer}>
                 <Text style={styles.originalArrayText}>
-                    Original array: [{getOriginalArray()}]
+                    Original array: [{getOriginalArray(currentField.length, procedure[0])}]
                 </Text>
                 {swapedValues.current.length > 0 && swapedValues.current.map((field, index) => {
                     return (
@@ -152,5 +154,6 @@ const styles = StyleSheet.create({
     }
 })
 export default React.memo(BubbleSortCharts, (prevProps, currentProps) => {
-    return prevProps.isVizualizationPaused == currentProps.isVizualizationPaused;
+    //isMenuModal open to avoid flickering when navigating because it is all one screen!!
+    return prevProps.isVizualizationPaused == currentProps.isVizualizationPaused && prevProps.isMenuModalOpen == currentProps.isMenuModalOpen;
 });

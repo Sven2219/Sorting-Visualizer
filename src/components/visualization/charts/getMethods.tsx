@@ -40,3 +40,9 @@ export const getQuickSwapedValues = (currentField: number[], quickSortProcedure:
     }
     return [];
 }
+export const getOriginalArray = (currentFieldLength: number, procedure: number[]): string | undefined => {
+
+    if (currentFieldLength > 0 && procedure !== undefined) {
+        return procedure.join(", ");
+    }
+}

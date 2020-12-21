@@ -15,11 +15,13 @@ const Visualization = (): JSX.Element => {
             case CHARTS:
                 if (state.sortingAlgorithm === BUBBLE_SORT) {
                     return <BubbleChartsMethod bubbleSortProcedure={state.bubbleSortProcedure}
+                        isMenuModalOpen={state.isMenuModalOpen}
                         isVizualizationPaused={state.isVisualizationPaused}
                         vizualizationFinished={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true, isVizualizationFinished: true })} />
                 }
                 else if (state.sortingAlgorithm === QUICK_SORT) {
                     return <QuickChartsMethod quickSortProcedure={state.quickSortProcedureCharts}
+                        isMenuModalOpen={state.isMenuModalOpen}
                         isVizualizationPaused={state.isVisualizationPaused}
                         vizualizationFinished={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true, isVizualizationFinished: true })} />
                 }

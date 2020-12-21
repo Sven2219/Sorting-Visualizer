@@ -41,7 +41,7 @@ const Algorithms = (): JSX.Element => {
     return (
         <View style={styles.mainContainer}>
             <StatusBar hidden/>
-            <ScrollView >
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.headerContainer}>
                     {getMenuIcon()}
                     <Text style={styles.headerText}>{state.sortingAlgorithm}</Text>
