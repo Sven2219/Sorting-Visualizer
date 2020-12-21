@@ -1,17 +1,19 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { SNAPSHOT_BOX_SIZE } from '../../../helpers/Constants';
-import { getBackgroundColor } from './getMethods';
+import { getBackgroundColor, getLeftPosition } from './getMethods';
 
 interface IProps {
     currentIndex: number;
     pivotIndex: number;
     currentNumber: number;
+    startIndex: number;
+
 }
 
-const BoxForNumber = ({ currentNumber, pivotIndex, currentIndex }: IProps): JSX.Element => {
+const NumberBox = ({ currentNumber, pivotIndex, currentIndex, startIndex }: IProps): JSX.Element => {
     return (
-        <View style={[styles.numberContainer, { backgroundColor: getBackgroundColor(pivotIndex, currentIndex) }]}>
+        <View style={[styles.numberContainer, { backgroundColor: getBackgroundColor(pivotIndex, currentIndex), left: getLeftPosition(startIndex)}]}>
             <Text style={styles.boldedText}>{currentNumber}</Text>
         </View>
     )
@@ -26,11 +28,11 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center',
-        marginLeft: 0.2
+        marginLeft:1,
     },
     boldedText: {
         fontFamily: 'Sura-Bold'
     }
 })
 
-export default BoxForNumber;
+export default NumberBox;

@@ -8,9 +8,10 @@ import Snapshot from '../Snapshot';
 interface IProps {
     quickSortSnapshotsProcedure: IQuickSnapshots;
     isVizualizationFinished: boolean;
+    snapshotDisplayMethod:string;
 }
 
-const ManualQSSnapshots = ({ quickSortSnapshotsProcedure, isVizualizationFinished }: IProps): JSX.Element => {
+const ManualQSSnapshots = ({ quickSortSnapshotsProcedure, isVizualizationFinished,snapshotDisplayMethod }: IProps): JSX.Element => {
     const [currentFieldIndex, setCurrentFieldIndex] = useState<number>(0);
     const { snapshots } = quickSortSnapshotsProcedure;
     useEffect(() => {
@@ -34,29 +35,32 @@ const ManualQSSnapshots = ({ quickSortSnapshotsProcedure, isVizualizationFinishe
             return previouseIndex + 1;
         })
     }
+
     return (
-        <>
+        <View style={{ flex: 1, }}>
             <View style={styles.stepButtonsContainer}>
                 <StepButton iconName="ios-chevron-back-outline" onPress={decrementIndex} />
                 <StepButton iconName="chevron-forward-sharp" onPress={incrementIndex} />
             </View>
-            <View style={styles.mainContainer}>
-                {snapshots.length > 0 && <Snapshot currentFieldIndex={currentFieldIndex} quickSortSnapshotsProcedure={quickSortSnapshotsProcedure} />}
+            <View style={styles.snapshotContainer}>
+                {snapshots.length > 0 && <Snapshot snapshotDisplayMethod={snapshotDisplayMethod} currentFieldIndex={currentFieldIndex} quickSortSnapshotsProcedure={quickSortSnapshotsProcedure} />}
             </View>
-        </>
+        </View>
     )
 }
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        height: 300,
-        top:-50
+        backgroundColor: '#fff'
     },
     stepButtonsContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         padding: 5,
-        bottom:10
+        bottom: 10
+    },
+    snapshotContainer: {
+        bottom: 30
     }
 })
 export default React.memo(ManualQSSnapshots, (prevProps, currentProps) => {

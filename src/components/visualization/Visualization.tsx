@@ -26,11 +26,14 @@ const Visualization = (): JSX.Element => {
             case SNAPSHOTS:
                 if (state.sortingAlgorithm === QUICK_SORT) {
                     if (state.snapshotDisplayMethod === MANUAL) {
-                        return <ManualQSSnapshots quickSortSnapshotsProcedure={state.quickSortSnapshotsProcedure}
+                        return <ManualQSSnapshots
+                            snapshotDisplayMethod={state.snapshotDisplayMethod}
+                            quickSortSnapshotsProcedure={state.quickSortSnapshotsProcedure}
                             isVizualizationFinished={state.isVisualizationFinished} />
                     }
                     else if (state.snapshotDisplayMethod === TIMING) {
                         return <TimedQSSnapshots
+                            snapshotDisplayMethod={state.snapshotDisplayMethod}
                             isVizualizationPaused={state.isVisualizationPaused}
                             quickSortSnapshotsProcedure={state.quickSortSnapshotsProcedure}
                             vizualizationFinished={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true, isVizualizationFinished: true })} />

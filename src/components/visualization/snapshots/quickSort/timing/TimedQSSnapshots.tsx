@@ -1,16 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { IQuickSnapshots } from '../../../../helpers/interfaces';
-
-import Snapshots from './TimingSnapshots';
+import TimingSnapshots from './TimingSnapshots';
 
 interface IProps {
     quickSortSnapshotsProcedure: IQuickSnapshots;
     isVizualizationPaused: boolean;
     vizualizationFinished: () => void;
+    snapshotDisplayMethod: string;
 }
 
-const TimedQSSnapshots = ({ quickSortSnapshotsProcedure, isVizualizationPaused, vizualizationFinished }: IProps): JSX.Element => {
+const TimedQSSnapshots = ({ quickSortSnapshotsProcedure, isVizualizationPaused, vizualizationFinished, snapshotDisplayMethod }: IProps): JSX.Element => {
     const { snapshots } = quickSortSnapshotsProcedure;
     const [currentField, setCurrentField] = useState<number[]>([]);
     const currentFieldIndex = useRef<number>(0);
@@ -35,7 +35,6 @@ const TimedQSSnapshots = ({ quickSortSnapshotsProcedure, isVizualizationPaused, 
 
 
     const startProcedure = (): NodeJS.Timeout[] => {
-
         const start: number = currentFieldIndex.current > 0 ? currentFieldIndex.current + 1 : currentFieldIndex.current;
         const slicedData: number[][] = snapshots.slice(start, snapshots.length);
         return (slicedData.map((field, index) => {
@@ -61,8 +60,8 @@ const TimedQSSnapshots = ({ quickSortSnapshotsProcedure, isVizualizationPaused, 
     }
     return (
         <View style={styles.mainContainer}>
-            <View>
-                {currentField.length > 0 && <Snapshots currentFieldIndex={currentFieldIndex.current}
+            <View style={styles.snapshotContainer}>
+                {currentField.length > 0 && <TimingSnapshots snapshotDisplayMethod={snapshotDisplayMethod} currentFieldIndex={currentFieldIndex.current}
                     quickSortProcedureSnapshots={quickSortSnapshotsProcedure}
                     currentField={currentField}
                 />}
@@ -73,7 +72,10 @@ const TimedQSSnapshots = ({ quickSortSnapshotsProcedure, isVizualizationPaused, 
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        height: 300
+        backgroundColor: '#fff'
+    },
+    snapshotContainer: {
+        bottom: 30
     }
 })
 export default React.memo(TimedQSSnapshots, (prevProps, currentProps) => {

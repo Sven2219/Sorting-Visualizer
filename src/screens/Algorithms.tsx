@@ -88,7 +88,7 @@ const Algorithms = (): JSX.Element => {
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        backgroundColor: '#fff'
+        backgroundColor:'#fff'
     },
     headerContainer: {
         flexDirection: 'row',
