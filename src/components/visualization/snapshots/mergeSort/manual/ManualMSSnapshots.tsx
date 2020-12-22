@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { IQuickSnapshots } from '../../../../helpers/interfaces';
+import { IMergeSnapshots } from '../../../../helpers/interfaces';
 import StepButton from '../../general/StepButton';
-import Snapshot from '../Snapshot';
+
 
 interface IProps {
-    quickSortSnapshotsProcedure: IQuickSnapshots;
+    mergeSortSnapshotsProcedure: IMergeSnapshots;
     isVisualizationFinished: boolean;
-    snapshotDisplayMethod:string;
+    snapshotDisplayMethod: string;
 }
 
-const ManualQSSnapshots = ({ quickSortSnapshotsProcedure, isVisualizationFinished,snapshotDisplayMethod }: IProps): JSX.Element => {
+const ManualQSSnapshots = ({ mergeSortSnapshotsProcedure, isVisualizationFinished, snapshotDisplayMethod }: IProps): JSX.Element => {
     const [currentFieldIndex, setCurrentFieldIndex] = useState<number>(0);
-    const { snapshots } = quickSortSnapshotsProcedure;
+    const { snapshots } = mergeSortSnapshotsProcedure;
     useEffect(() => {
         if (isVisualizationFinished === true) {
             setCurrentFieldIndex(0);
@@ -42,7 +42,7 @@ const ManualQSSnapshots = ({ quickSortSnapshotsProcedure, isVisualizationFinishe
                 <StepButton iconName="chevron-forward-sharp" onPress={incrementIndex} />
             </View>
             <View style={styles.snapshotContainer}>
-                {snapshots.length > 0 && <Snapshot snapshotDisplayMethod={snapshotDisplayMethod} currentFieldIndex={currentFieldIndex} quickSortSnapshotsProcedure={quickSortSnapshotsProcedure} />}
+
             </View>
         </View>
     )

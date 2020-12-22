@@ -1,45 +1,6 @@
-import { IQuickCharts, IQuickSnapshots } from "../helpers/interfaces";
+import { IQuickSnapshots } from "../helpers/interfaces";
+import { MANUAL } from "../helpers/types";
 
-const partitionCharts = (elements: number[], low: number, high: number, quickProcedure: IQuickCharts): number => {
-    const pivot: number = elements[high];
-    const { pivotIndexes, indexes, procedure } = quickProcedure;
-    let i: number = low - 1;
-    for (let j = low; j < high; j++) {
-        if (elements[j] < pivot) {
-            //The that are replaced must be pushed into the field in order to be displayed.
-            procedure.push([...elements]);
-            indexes.push({ index: j });
-            pivotIndexes.push(high);
-            i++;
-            let temp: number = elements[i];
-            elements[i] = elements[j];
-            elements[j] = temp;
-        }
-        indexes.push({ index: j });
-        pivotIndexes.push(high);
-        procedure.push([...elements]);
-    }
-    let temp: number = elements[i + 1];
-    elements[i + 1] = elements[high];
-    elements[high] = temp;
-    pivotIndexes.push(high);
-    if (elements[high] === elements[i + 1] ) {
-        indexes.push({ index: (i + 1), low: i + 1, high: high, isSame: true })
-    }
-    else {
-        indexes.push({ index: (i + 1) })
-    }
-    procedure.push([...elements])
-    return i + 1;
-}
-
-export const quickSortCharts = (elements: number[], low: number, high: number, quickProcedure: IQuickCharts): void => {
-    if (low < high) {
-        let pivotPosition: number = partitionCharts(elements, low, high, quickProcedure);
-        quickSortCharts(elements, low, (pivotPosition - 1), quickProcedure);
-        quickSortCharts(elements, pivotPosition + 1, high, quickProcedure)
-    }
-}
 const areArraySame = (currentSnapshot: number[], prevSnapshot: number[]): boolean => {
     const currentSnapshotLength: number = currentSnapshot.length;
     const prevSnapshotLength: number = prevSnapshot.length;
@@ -59,7 +20,7 @@ const isElementsInSamePosition = (currentSnapshot: number[], prevSnapshot: numbe
     }
     return !(currentSnapshot.every((element) => element === prevSnapshot[0]));
 }
-const partitionSnapshots = (elements: number[], low: number, high: number, quickProcedure: IQuickSnapshots, level: number): number => {
+const partition= (elements: number[], low: number, high: number, quickProcedure: IQuickSnapshots, level: number): number => {
     const { snapshots, pivotIndexes, snapshotPosition: { startIndexes, levels } } = quickProcedure;
     const pivot: number = elements[high];
     let i: number = low - 1;
@@ -97,7 +58,7 @@ const partitionSnapshots = (elements: number[], low: number, high: number, quick
     return i + 1;
 }
 
-export const quickSortSnapshots = (elements: number[], low: number, high: number, quickProcedure: IQuickSnapshots, level: number): void => {
+export const quickSort = (elements: number[], low: number, high: number, quickProcedure: IQuickSnapshots, level: number): void => {
     level = level + 1;
     const currentSnapshot: number[] = elements.slice(low, high + 1);
     if (currentSnapshot.length > 0) {
@@ -114,8 +75,25 @@ export const quickSortSnapshots = (elements: number[], low: number, high: number
         }
     }
     if (low < high) {
-        let pivotPosition: number = partitionSnapshots(elements, low, high, quickProcedure, level);
-        quickSortSnapshots(elements, low, (pivotPosition - 1), quickProcedure, level);
-        quickSortSnapshots(elements, pivotPosition + 1, high, quickProcedure, level)
+        let pivotPosition: number = partition(elements, low, high, quickProcedure, level);
+        quickSort(elements, low, (pivotPosition - 1), quickProcedure, level);
+        quickSort(elements, pivotPosition + 1, high, quickProcedure, level)
     }
+}
+
+export const quickSortSnapshots = (elements: number[], displayMethod: string) => {
+    const quick: IQuickSnapshots = { snapshots: [], pivotIndexes: [], snapshotPosition: { levels: [], startIndexes: [] } }
+    const level: number = 0;
+    quickSort(elements, 0, elements.length - 1, quick, level);
+    const maxLevel = Math.max(...quick.snapshotPosition.levels);
+
+    quick.snapshots.push([...elements]);
+    quick.snapshotPosition.levels.push(maxLevel + 1);
+    quick.snapshotPosition.startIndexes.push(0);
+    if (displayMethod !== MANUAL) {
+        quick.snapshots.push([...elements]);
+        quick.snapshotPosition.levels.push(maxLevel + 1);
+        quick.snapshotPosition.startIndexes.push(0);
+    }
+    return quick;
 }

@@ -7,12 +7,12 @@ import { getBubbleSwapedValues, getOriginalArray } from '../getMethods';
 import { getBubbleBg } from '../../../helpers/chartsBackgroundColor';
 interface IProps {
     bubbleSortProcedure: IBubble;
-    isVizualizationPaused: boolean;
-    vizualizationFinished: () => void;
+    isVisualizationPaused: boolean;
+    visualizationFinished: () => void;
     isMenuModalOpen: boolean;
 }
 
-const BubbleSortCharts = ({ bubbleSortProcedure, isVizualizationPaused, vizualizationFinished, isMenuModalOpen }: IProps): JSX.Element => {
+const BubbleSortCharts = ({ bubbleSortProcedure, isVisualizationPaused, visualizationFinished, isMenuModalOpen }: IProps): JSX.Element => {
     const { procedure } = bubbleSortProcedure;
     const [currentField, setCurrentField] = useState<number[]>([]);
     const currentFieldIndex = useRef<number>(0);
@@ -40,13 +40,13 @@ const BubbleSortCharts = ({ bubbleSortProcedure, isVizualizationPaused, vizualiz
     useEffect(() => {
         maxElement.current = Math.max.apply(Math, procedure[0]);
         minElement.current = Math.min.apply(Math, procedure[0]);
-        if (isVizualizationPaused) {
+        if (isVisualizationPaused) {
             const procedureLength: number = procedure.length;
             for (let i = 0; i < procedureLength; i++) {
                 clearTimeout(timers.current[i]);
             }
         }
-    }, [isVizualizationPaused])
+    }, [isVisualizationPaused])
 
     useEffect(() => {
         const swaped: number[] = getBubbleSwapedValues(currentField, procedure[currentFieldIndex.current - 1]);;
@@ -65,7 +65,7 @@ const BubbleSortCharts = ({ bubbleSortProcedure, isVizualizationPaused, vizualiz
         const slicedProcedure: number[][] = procedure.slice(startIndex, procedureLength);
         return (slicedProcedure.map((field, index) => {
             return setTimeout(() => {
-                if (!isVizualizationPaused) {
+                if (!isVisualizationPaused) {
                     if (index !== procedureLength - 1 - startIndex) {
                         if (startIndex > 0) {
                             currentFieldIndex.current = currentFieldIndex.current + 1;
@@ -78,7 +78,7 @@ const BubbleSortCharts = ({ bubbleSortProcedure, isVizualizationPaused, vizualiz
                     }
                     else {
                         currentFieldIndex.current = 0;
-                        vizualizationFinished();
+                        visualizationFinished();
                     }
                 }
             }, 700 * (index !== procedureLength - 1 - startIndex ? index : index - 0.9))
@@ -155,5 +155,5 @@ const styles = StyleSheet.create({
 })
 export default React.memo(BubbleSortCharts, (prevProps, currentProps) => {
     //isMenuModal open to avoid flickering when navigating because it is all one screen!!
-    return prevProps.isVizualizationPaused == currentProps.isVizualizationPaused && prevProps.isMenuModalOpen == currentProps.isMenuModalOpen;
+    return prevProps.isVisualizationPaused == currentProps.isVisualizationPaused && prevProps.isMenuModalOpen == currentProps.isMenuModalOpen;
 });

@@ -25,3 +25,7 @@ export interface IBubble {
     procedure: number[][];
     indexes: number[];
 }
+export interface IMergeSnapshots {
+    snapshots: (number | undefined)[][];
+    levels: number[];
+}

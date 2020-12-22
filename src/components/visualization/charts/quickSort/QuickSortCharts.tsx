@@ -7,12 +7,12 @@ import { IQuickCharts } from '../../../helpers/interfaces';
 import { getQuickBg } from '../../../helpers/chartsBackgroundColor';
 interface IProps {
     quickSortProcedure: IQuickCharts;
-    isVizualizationPaused: boolean;
-    vizualizationFinished: () => void;
+    isVisualizationPaused: boolean;
+    visualizationFinished: () => void;
     isMenuModalOpen: boolean;
 }
 
-const QuickSortCharts = ({ quickSortProcedure, isVizualizationPaused, vizualizationFinished, isMenuModalOpen }: IProps): JSX.Element => {
+const QuickSortCharts = ({ quickSortProcedure, isVisualizationPaused, visualizationFinished, isMenuModalOpen }: IProps): JSX.Element => {
     const { procedure } = quickSortProcedure;
     const [currentField, setCurrentField] = useState<number[]>([]);
     const currentFieldIndex = useRef<number>(0);
@@ -39,13 +39,13 @@ const QuickSortCharts = ({ quickSortProcedure, isVizualizationPaused, vizualizat
     useEffect(() => {
         maxElement.current = Math.max.apply(Math, procedure[0]);
         minElement.current = Math.min.apply(Math, procedure[0]);
-        if (isVizualizationPaused) {
+        if (isVisualizationPaused) {
             const procedureLength: number = procedure.length;
             for (let i = 0; i < procedureLength; i++) {
                 clearTimeout(timers.current[i]);
             }
         }
-    }, [isVizualizationPaused])
+    }, [isVisualizationPaused])
 
     useEffect(() => {
         const swaped: number[] = getQuickSwapedValues(currentField, quickSortProcedure, currentFieldIndex.current);
@@ -64,7 +64,7 @@ const QuickSortCharts = ({ quickSortProcedure, isVizualizationPaused, vizualizat
         const slicedProcedure: number[][] = procedure.slice(startIndex, procedureLength);
         return (slicedProcedure.map((field, index) => {
             return setTimeout(() => {
-                if (!isVizualizationPaused) {
+                if (!isVisualizationPaused) {
                     if (index !== procedureLength - 1 - startIndex) {
                         if (startIndex > 0) {
                             currentFieldIndex.current = currentFieldIndex.current + 1;
@@ -77,7 +77,7 @@ const QuickSortCharts = ({ quickSortProcedure, isVizualizationPaused, vizualizat
                     }
                     else {
                         currentFieldIndex.current = 0;
-                        vizualizationFinished();
+                        visualizationFinished();
                     }
                 }
             }, 700 * (index !== procedureLength - 1 - startIndex ? index : index - 0.9))
@@ -166,5 +166,5 @@ const styles = StyleSheet.create({
     }
 })
 export default React.memo(QuickSortCharts, (prevProps, currentProps) => {
-    return (prevProps.isVizualizationPaused == currentProps.isVizualizationPaused && prevProps.isMenuModalOpen == currentProps.isMenuModalOpen)
+    return (prevProps.isVisualizationPaused == currentProps.isVisualizationPaused && prevProps.isMenuModalOpen == currentProps.isMenuModalOpen)
 });

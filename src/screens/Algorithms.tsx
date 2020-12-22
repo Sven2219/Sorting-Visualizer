@@ -21,6 +21,7 @@ const Algorithms = (): JSX.Element => {
         bubbleSortProcedure: { indexes: [], procedure: [] },
         visualizationMethod: CHARTS,
         snapshotDisplayMethod: MANUAL,
+        mergeSortSnapshotsProcedure:{levels:[],snapshots:[]},
         quickSortProcedureCharts: { indexes: [], procedure: [], pivotIndexes: [] },
         quickSortSnapshotsProcedure: { snapshots: [], pivotIndexes: [], snapshotPosition: { levels: [], startIndexes: [] } }
     })

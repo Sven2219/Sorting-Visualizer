@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { OrientationState } from '../../context/OrientationState';
-import { COMMENT_LEFT_POSITION } from '../helpers/Constants';
 import { getCodeExampleContainerWidth, getCodeExampleLeftPosition } from '../helpers/theoryGetters';
 
 const MergeSort = (): JSX.Element => {
@@ -25,29 +24,28 @@ const MergeSort = (): JSX.Element => {
                 left: getCodeExampleLeftPosition(orientation)
             }]} horizontal showsHorizontalScrollIndicator={false}>
                 <View style={{ alignItems: 'center' }}>
-                    <Text style={styles.comment}>{`\\\\Always pick last element as pivot`}</Text>
+
                     <Text style={styles.codeExampleText}>
-                        const<Text style={styles.functionName}> partition</Text>{` = (elements, low, high) => {\n`}
-                        {`     const pivot = elements[high];\n`}
-                        {`     let i = (low-1);\n`}
-                        <Text style={styles.loopsOrCondition}>     for</Text>{`(let j = 0; j < high; j++) {\n`}
-                        <Text style={styles.loopsOrCondition}>          if</Text>{`(elements[j] < pivot) {\n`}
-                        {`               let temp = elements[i+1];\n`}
-                        {`               elements[i+1] = elements[high] ;\n`}
-                        {`               elements[high] = temp;\n`}
+                        const<Text style={styles.functionName}> merge</Text>{` = (left, right) => {\n`}
+                        {`     let sorted = [];\n`}
+                        <Text style={styles.loopsOrCondition}>     while</Text>{`(left.length && right.length) {\n`}
+                        <Text style={styles.loopsOrCondition}>          if</Text>{`(left[0] < right[0]) {\n`}
+                        {`               sorted.`}<Text style={styles.loopsOrCondition}>push</Text>{`(left.`}<Text style={styles.loopsOrCondition}>shift</Text>{`());\n`}
+                        {`          }\n`}
+                        <Text style={styles.loopsOrCondition}>          else</Text>{'{\n'}
+                        {`               sorted.`}<Text style={styles.loopsOrCondition}>push</Text>{`(right.`}<Text style={styles.loopsOrCondition}>shift</Text>{`());\n`}
                         {`          }\n`}
                         {`     }\n`}
-                        {`     let temp = elements[i+1];\n`}
-                        {`     elements[i+1] = elements[high];\n`}
-                        {`     elements[high] = temp;\n`}
-                        {`     return i+1;\n`}
+                        {`     return sorted.`}<Text style={styles.loopsOrCondition}>concat</Text>{`(left.`}<Text style={styles.loopsOrCondition}>slice</Text>{`().`}<Text style={styles.loopsOrCondition}>concat</Text>{`(right.`}<Text style={styles.loopsOrCondition}>slice</Text>{`()));\n`}
                         {`}\n`}
-                        const<Text style={styles.functionName}> quickSort</Text>{`= (elements, low, high) => {\n`}
-                        <Text style={styles.loopsOrCondition}>     if</Text>{`(low < high) {\n`}
-                        {`              let pivotPosition = `}<Text style={styles.functionName}>partition</Text>{`(elements, low, high);\n`}
-                        <Text style={styles.functionName}>              quickSort</Text>{`(elements, low, pivotPostion-1);\n`}
-                        <Text style={styles.functionName}>              quickSort</Text>{`(elements, pivotPostion+1, high);\n`}
-                        {`     }\n`}
+                        const<Text style={styles.functionName}> mergeSort</Text>{`= (elements) => {\n`}
+                        <Text style={styles.loopsOrCondition}>     if</Text>{`(elements.length <= 1) {\n`}
+                        {`            return elements;\n`}
+                        {`    }\n`}
+                        {`    let mid = Math.`}<Text style={styles.loopsOrCondition}>floor</Text>{`(elements.length/2);\n`}
+                        {`    let left = `}<Text style={styles.functionName}>mergeSort</Text>{`(elements.`}<Text style={styles.loopsOrCondition}>slice</Text>{`(0, mid));\n`}
+                        {`    let right = `}<Text style={styles.functionName}>mergeSort</Text>{`(elements.`}<Text style={styles.loopsOrCondition}>slice</Text>{`(mid));\n`}
+                        {`    return `}<Text style={styles.functionName}>merge</Text>{`(left, right);\n`}
                         {`}\n`}
                     </Text>
                 </View>
@@ -98,9 +96,5 @@ const styles = StyleSheet.create({
     functionName: {
         color: '#4b0082'
     },
-    comment: {
-        color: '#228b22',
-        left: COMMENT_LEFT_POSITION
-    }
 })
 export default MergeSort;

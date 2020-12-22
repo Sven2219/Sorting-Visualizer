@@ -4,6 +4,8 @@ import { AlgorithmsState } from '../../context/AlgorithmsState';
 import { BUBBLE_SORT, CHARTS, MANUAL, QUICK_SORT, SNAPSHOTS, TIMING } from '../helpers/types';
 import BubbleChartsMethod from './charts/bubbleSort/BubbleSortCharts';
 import QuickChartsMethod from './charts/quickSort/QuickSortCharts';
+import ManualMSSnapshots from './snapshots/mergeSort/manual/ManualMSSnapshots';
+import TimedMSSnapshots from './snapshots/mergeSort/timed/TimedMSSnapshots';
 import ManualQSSnapshots from './snapshots/quickSort/manual/ManualQSSnapshots';
 import TimedQSSnapshots from './snapshots/quickSort/timing/TimedQSSnapshots';
 
@@ -16,14 +18,14 @@ const Visualization = (): JSX.Element => {
                 if (state.sortingAlgorithm === BUBBLE_SORT) {
                     return <BubbleChartsMethod bubbleSortProcedure={state.bubbleSortProcedure}
                         isMenuModalOpen={state.isMenuModalOpen}
-                        isVizualizationPaused={state.isVisualizationPaused}
-                        vizualizationFinished={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true, isVizualizationFinished: true })} />
+                        isVisualizationPaused={state.isVisualizationPaused}
+                        visualizationFinished={() => dispatch({ type: "setIsPaused", isVisualizationPaused: true, isVisualizationFinished: true })} />
                 }
                 else if (state.sortingAlgorithm === QUICK_SORT) {
                     return <QuickChartsMethod quickSortProcedure={state.quickSortProcedureCharts}
                         isMenuModalOpen={state.isMenuModalOpen}
-                        isVizualizationPaused={state.isVisualizationPaused}
-                        vizualizationFinished={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true, isVizualizationFinished: true })} />
+                        isVisualizationPaused={state.isVisualizationPaused}
+                        visualizationFinished={() => dispatch({ type: "setIsPaused", isVisualizationPaused: true, isVisualizationFinished: true })} />
                 }
             case SNAPSHOTS:
                 if (state.sortingAlgorithm === QUICK_SORT) {
@@ -31,14 +33,25 @@ const Visualization = (): JSX.Element => {
                         return <ManualQSSnapshots
                             snapshotDisplayMethod={state.snapshotDisplayMethod}
                             quickSortSnapshotsProcedure={state.quickSortSnapshotsProcedure}
-                            isVizualizationFinished={state.isVisualizationFinished} />
+                            isVisualizationFinished={state.isVisualizationFinished} />
                     }
-                    else if (state.snapshotDisplayMethod === TIMING) {
+                    else {
                         return <TimedQSSnapshots
                             snapshotDisplayMethod={state.snapshotDisplayMethod}
-                            isVizualizationPaused={state.isVisualizationPaused}
+                            isVisualizationPaused={state.isVisualizationPaused}
                             quickSortSnapshotsProcedure={state.quickSortSnapshotsProcedure}
-                            vizualizationFinished={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true, isVizualizationFinished: true })} />
+                            visualizationFinished={() => dispatch({ type: "setIsPaused", isVisualizationPaused: true, isVisualizationFinished: true })} />
+                    }
+                }
+                else {
+                    if (state.snapshotDisplayMethod === MANUAL) {
+                        return <ManualMSSnapshots mergeSortSnapshotsProcedure={state.mergeSortSnapshotsProcedure}
+                            isVisualizationFinished={state.isVisualizationFinished}
+                            snapshotDisplayMethod={state.snapshotDisplayMethod}
+                        />
+                    }
+                    else {
+                        return <TimedMSSnapshots />
                     }
                 }
             default:

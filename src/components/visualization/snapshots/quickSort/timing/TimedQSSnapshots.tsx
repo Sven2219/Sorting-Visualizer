@@ -5,12 +5,12 @@ import TimingSnapshots from './TimingSnapshots';
 
 interface IProps {
     quickSortSnapshotsProcedure: IQuickSnapshots;
-    isVizualizationPaused: boolean;
-    vizualizationFinished: () => void;
+    isVisualizationPaused: boolean;
+    visualizationFinished: () => void;
     snapshotDisplayMethod: string;
 }
 
-const TimedQSSnapshots = ({ quickSortSnapshotsProcedure, isVizualizationPaused, vizualizationFinished, snapshotDisplayMethod }: IProps): JSX.Element => {
+const TimedQSSnapshots = ({ quickSortSnapshotsProcedure, isVisualizationPaused, visualizationFinished, snapshotDisplayMethod }: IProps): JSX.Element => {
     const { snapshots } = quickSortSnapshotsProcedure;
     const [currentField, setCurrentField] = useState<number[]>([]);
     const currentFieldIndex = useRef<number>(0);
@@ -26,12 +26,12 @@ const TimedQSSnapshots = ({ quickSortSnapshotsProcedure, isVizualizationPaused, 
         }
     }, [snapshots])
     useEffect(() => {
-        if (isVizualizationPaused) {
+        if (isVisualizationPaused) {
             for (let i = 0; i < snapshots.length; i++) {
                 clearTimeout(timers.current[i]);
             }
         }
-    }, [isVizualizationPaused])
+    }, [isVisualizationPaused])
 
 
     const startProcedure = (): NodeJS.Timeout[] => {
@@ -39,7 +39,7 @@ const TimedQSSnapshots = ({ quickSortSnapshotsProcedure, isVizualizationPaused, 
         const slicedData: number[][] = snapshots.slice(start, snapshots.length);
         return (slicedData.map((field, index) => {
             return setTimeout(() => {
-                if (!isVizualizationPaused) {
+                if (!isVisualizationPaused) {
                     if (index !== snapshots.length - 1 - start) {
                         if (start > 0) {
                             currentFieldIndex.current = currentFieldIndex.current + 1;
@@ -52,7 +52,7 @@ const TimedQSSnapshots = ({ quickSortSnapshotsProcedure, isVizualizationPaused, 
                     }
                     else {
                         currentFieldIndex.current = 0;
-                        vizualizationFinished();
+                        visualizationFinished();
                     }
                 }
             }, 700 * (index !== snapshots.length - 1 - start ? index : index - 0.9))
@@ -79,5 +79,5 @@ const styles = StyleSheet.create({
     }
 })
 export default React.memo(TimedQSSnapshots, (prevProps, currentProps) => {
-    return prevProps.isVizualizationPaused == currentProps.isVizualizationPaused;
+    return prevProps.isVisualizationPaused == currentProps.isVisualizationPaused;
 });

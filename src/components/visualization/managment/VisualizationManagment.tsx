@@ -4,14 +4,16 @@ import { AlgorithmsDispatch } from '../../../context/AlgorithmsDispatch';
 import { AlgorithmsState } from '../../../context/AlgorithmsState';
 import { OrientationState } from '../../../context/OrientationState';
 import { bubbleSort } from '../../algorithms/bubbleSort';
-import { IBubble, IQuickSnapshots, IQuickCharts } from '../../helpers/interfaces';
+import { quickSortCharts } from '../../algorithms/quickSortCharts';
+import { quickSortSnapshots } from '../../algorithms/quickSortSnapshots';
+import { IBubble, IQuickSnapshots, IQuickCharts, IMergeSnapshots } from '../../helpers/interfaces';
 import { transfromTextToArray } from '../../helpers/transformInputedArray';
-
+import { mergeSortSnapshots } from '../../algorithms/mergeSort';
 import { BUBBLE_SORT, CHARTS, MANUAL, MERGE_SORT, QUICK_SORT, SNAPSHOTS } from '../../helpers/types';
 import ManualButton from './ManualButton';
-import { quickSortSnapshots } from '../../algorithms/quickSort';
+
 import StartPauseButton from './TimedButton';
-import { quickSortChartProcedure } from '../charts/algorithms';
+
 
 
 const BUTTON_SIZE = 50;
@@ -25,30 +27,20 @@ const VisualizationManagment = (): JSX.Element => {
         const bubble: IBubble = bubbleSort(elements);
         dispatch({ type: "setBubbleSortProcedure", payload: bubble });
     }
-    const quickSortCharts = (elements: number[]): void => {
-        const quick: IQuickCharts = quickSortChartProcedure(elements);
+    const quickSortChartsProcedure = (elements: number[]): void => {
+        const quick: IQuickCharts = quickSortCharts(elements);
         dispatch({ type: "setQuickSortProcedureCharts", payload: quick })
     }
 
-
     //Snapshots
-    const quickSortSnapshotsProcedure = (elements: number[]): void => {
-        const quick: IQuickSnapshots = { snapshots: [], pivotIndexes: [], snapshotPosition: { levels: [], startIndexes: [] } }
-        const level: number = 0;
-        quickSortSnapshots(elements, 0, elements.length - 1, quick, level);
-        const maxLevel = Math.max(...quick.snapshotPosition.levels);
-
-        quick.snapshots.push([...elements]);
-        quick.snapshotPosition.levels.push(maxLevel + 1);
-        quick.snapshotPosition.startIndexes.push(0);
-        if (state.snapshotDisplayMethod !== MANUAL) {
-            quick.snapshots.push([...elements]);
-            quick.snapshotPosition.levels.push(maxLevel + 1);
-            quick.snapshotPosition.startIndexes.push(0);
-        }
+    const quickSortSnapshotProcedure = (elements: number[]): void => {
+        const quick: IQuickSnapshots = quickSortSnapshots(elements, state.snapshotDisplayMethod)
         dispatch({ type: "setQuickSortSnapshotsProcedure", payload: quick });
     }
-
+    const mergeSortSnapshotProcedure = (elements: number[]): void => {
+        const merge: IMergeSnapshots = mergeSortSnapshots(elements);
+        dispatch({ type: "setMergeSortSnapshotsProcedure", payload: merge });
+    }
 
     const callSortingAlgorithm = (): void => {
         const elements: number[] = transfromTextToArray(state.arrayForSort, orientation, state.visualizationMethod);
@@ -59,12 +51,16 @@ const VisualizationManagment = (): JSX.Element => {
                     break;
                 case QUICK_SORT:
                     if (state.visualizationMethod === CHARTS) {
-                        quickSortCharts(elements);
+                        quickSortChartsProcedure(elements);
                         break;
                     }
-                    quickSortSnapshotsProcedure(elements);
+                    quickSortSnapshotProcedure(elements);
                     break;
                 case MERGE_SORT:
+                    if (state.visualizationMethod === CHARTS) {
+                        break;
+                    }
+                    mergeSortSnapshotProcedure(elements)
                     break;
                 default:
                     break;
@@ -78,7 +74,7 @@ const VisualizationManagment = (): JSX.Element => {
             return <StartPauseButton onPress={callSortingAlgorithm}
                 iconName={"caret-forward"} />
         }
-        return <StartPauseButton onPress={() => dispatch({ type: "setIsPaused", isVizualizationPaused: true })} iconName={"pause"} />
+        return <StartPauseButton onPress={() => dispatch({ type: "setIsPaused", isVisualizationPaused: true })} iconName={"pause"} />
     }
 
     const getManagmentMethod = (): JSX.Element => {
