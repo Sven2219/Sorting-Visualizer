@@ -1,4 +1,5 @@
 import { ToastAndroid } from "react-native";
+import { IMerge } from "./interfaces";
 import { CHARTS, PORTRAIT } from "./types";
 
 const isLengthValid = (length: number, orientation: string, visualizationMethod: string): boolean => {
@@ -44,6 +45,7 @@ const toastErrorMessageLandscape = (numberOfElements: number): void => {
 export const transfromTextToArray = (arrayForSort: string, orientation: string, visualizationMethod: string): number[] => {
     if (arrayForSort !== "") {
         const matchedElements: RegExpMatchArray | null = arrayForSort.match(/\d+/g);//matching only numbers
+
         if (matchedElements !== null) {
             const transformedElements: number[] = matchedElements.map(Number);//transforming into array of numbers
             const isValid: boolean = isLengthValid(transformedElements.length, orientation, visualizationMethod);
@@ -54,4 +56,15 @@ export const transfromTextToArray = (arrayForSort: string, orientation: string, 
         }
     }
     return [];
+}
+//Transformation into an object because we want to have access to the original indexes while the merge sort is executed
+export const transformToObject = (arrayForSort: string): IMerge[] => {
+    const matchedElements: RegExpMatchArray | null = arrayForSort.match(/\d+/g);//matching only numbers
+    let transformedElements: IMerge[] = []
+    if (matchedElements !== null) {
+        transformedElements = matchedElements.map((element, index) => {
+            return { element: Number(element), index }
+        })
+    }
+    return transformedElements;
 }

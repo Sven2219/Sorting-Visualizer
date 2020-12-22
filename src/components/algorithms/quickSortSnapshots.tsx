@@ -1,7 +1,7 @@
 import { IQuickSnapshots } from "../helpers/interfaces";
 import { MANUAL } from "../helpers/types";
 
-const areArraySame = (currentSnapshot: number[], prevSnapshot: number[]): boolean => {
+const isArraySame = (currentSnapshot: number[], prevSnapshot: number[]): boolean => {
     const currentSnapshotLength: number = currentSnapshot.length;
     const prevSnapshotLength: number = prevSnapshot.length;
     if (currentSnapshotLength === prevSnapshotLength) {
@@ -13,8 +13,8 @@ const areArraySame = (currentSnapshot: number[], prevSnapshot: number[]): boolea
     }
     return false;
 }
-
-const isElementsInSamePosition = (currentSnapshot: number[], prevSnapshot: number[]): boolean => {
+//To check the edge case when the user enters all the same elements
+const areElementsInSamePosition = (currentSnapshot: number[], prevSnapshot: number[]): boolean => {
     if (currentSnapshot.length !== prevSnapshot.length) {
         return false;
     }
@@ -41,12 +41,12 @@ const partition= (elements: number[], low: number, high: number, quickProcedure:
     let areSnapshotsSame: boolean = false;
     let areAllElementsSame: boolean = false;
     if (snapshots[snapshots.length - 1] !== undefined) {
-        areAllElementsSame = isElementsInSamePosition(currentSnapshot, snapshots[snapshots.length - 1]);
+        areAllElementsSame = areElementsInSamePosition(currentSnapshot, snapshots[snapshots.length - 1]);
         if (!areAllElementsSame) {
             areSnapshotsSame = false;
         }
         else {
-            areSnapshotsSame = areArraySame(currentSnapshot, snapshots[snapshots.length - 1]);
+            areSnapshotsSame = isArraySame(currentSnapshot, snapshots[snapshots.length - 1]);
         }
     }
     if (!areSnapshotsSame) {
@@ -63,11 +63,11 @@ export const quickSort = (elements: number[], low: number, high: number, quickPr
     const currentSnapshot: number[] = elements.slice(low, high + 1);
     if (currentSnapshot.length > 0) {
         const { snapshots, pivotIndexes, snapshotPosition: { startIndexes, levels } } = quickProcedure;
-        let areSnapshotsSmae: boolean = false;
+        let areSnapshotsSame: boolean = false;
         if (snapshots[snapshots.length - 1] !== undefined) {
-            areSnapshotsSmae = areArraySame(currentSnapshot, snapshots[snapshots.length - 1]);
+            areSnapshotsSame = isArraySame(currentSnapshot, snapshots[snapshots.length - 1]);
         }
-        if (!areSnapshotsSmae) {
+        if (!areSnapshotsSame) {
             snapshots.push(currentSnapshot);
             pivotIndexes.push(currentSnapshot.length - 1);
             levels.push(level);

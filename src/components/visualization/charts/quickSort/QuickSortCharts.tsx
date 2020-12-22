@@ -32,7 +32,6 @@ const QuickSortCharts = ({ quickSortProcedure, isVisualizationPaused, visualizat
         }
     }, [procedure])
     useEffect(() => {
-
         swapedValues.current = []
         setCurrentField([]);
     }, [isMenuModalOpen])

@@ -6,17 +6,15 @@ import { OrientationState } from '../../../context/OrientationState';
 import { bubbleSort } from '../../algorithms/bubbleSort';
 import { quickSortCharts } from '../../algorithms/quickSortCharts';
 import { quickSortSnapshots } from '../../algorithms/quickSortSnapshots';
-import { IBubble, IQuickSnapshots, IQuickCharts, IMergeSnapshots } from '../../helpers/interfaces';
-import { transfromTextToArray } from '../../helpers/transformInputedArray';
+import { IBubble, IQuickSnapshots, IQuickCharts, IMergeSnapshots, IMerge } from '../../helpers/interfaces';
+import { transformToObject, transfromTextToArray } from '../../helpers/transformInputedArray';
 import { mergeSortSnapshots } from '../../algorithms/mergeSort';
-import { BUBBLE_SORT, CHARTS, MANUAL, MERGE_SORT, QUICK_SORT, SNAPSHOTS } from '../../helpers/types';
+import { BUBBLE_SORT, CHARTS, MANUAL, MERGE_SORT, SNAPSHOTS } from '../../helpers/types';
 import ManualButton from './ManualButton';
-
 import StartPauseButton from './TimedButton';
+import { START_BUTTON_SIZE } from '../../helpers/Constants';
 
 
-
-const BUTTON_SIZE = 50;
 const VisualizationManagment = (): JSX.Element => {
     const { state } = useContext(AlgorithmsState);
     const { dispatch } = useContext(AlgorithmsDispatch);
@@ -37,37 +35,34 @@ const VisualizationManagment = (): JSX.Element => {
         const quick: IQuickSnapshots = quickSortSnapshots(elements, state.snapshotDisplayMethod)
         dispatch({ type: "setQuickSortSnapshotsProcedure", payload: quick });
     }
-    const mergeSortSnapshotProcedure = (elements: number[]): void => {
+    const mergeSortSnapshotProcedure = (elements: IMerge[]): void => {
         const merge: IMergeSnapshots = mergeSortSnapshots(elements);
         dispatch({ type: "setMergeSortSnapshotsProcedure", payload: merge });
     }
-
     const callSortingAlgorithm = (): void => {
-        const elements: number[] = transfromTextToArray(state.arrayForSort, orientation, state.visualizationMethod);
-        if (elements.length > 0) {
-            switch (state.sortingAlgorithm) {
-                case BUBBLE_SORT:
-                    bubbleSortCharts(elements);
-                    break;
-                case QUICK_SORT:
-                    if (state.visualizationMethod === CHARTS) {
-                        quickSortChartsProcedure(elements);
-                        break;
-                    }
-                    quickSortSnapshotProcedure(elements);
-                    break;
-                case MERGE_SORT:
-                    if (state.visualizationMethod === CHARTS) {
-                        break;
-                    }
-                    mergeSortSnapshotProcedure(elements)
-                    break;
-                default:
-                    break;
+        if (state.sortingAlgorithm !== MERGE_SORT) {
+            const elements: number[] = transfromTextToArray(state.arrayForSort, orientation, state.visualizationMethod);
+            if (state.sortingAlgorithm === BUBBLE_SORT) {
+                bubbleSortCharts(elements);
+            }
+            else {
+                if (state.visualizationMethod === CHARTS) {
+                    quickSortChartsProcedure(elements);
+                }
+                quickSortSnapshotProcedure(elements);
+            }
+        }
+        else {
+            const transformedElements: IMerge[] = transformToObject(state.arrayForSort);
+            if (transformedElements.length > 0) {
+                if (state.visualizationMethod === CHARTS) {
+                }
+                else {
+                    mergeSortSnapshotProcedure(transformedElements)
+                }
             }
         }
     }
-
 
     const getTimedButton = (): JSX.Element => {
         if (state.isVisualizationPaused) {
@@ -85,22 +80,14 @@ const VisualizationManagment = (): JSX.Element => {
             return (<ManualButton onPress={() => dispatch({ type: "setQuitVisualization" })} text={"QUIT VISUALISING"} />)
 
         }
-        else if (state.visualizationMethod === CHARTS) {
-            return (<View style={styles.buttonPosition}>
-                <View style={[styles.buttonContainer, styles.shadow,
-                { backgroundColor: state.isVisualizationPaused ? "rgba(34,139,34,0.8)" : "rgba(178,34,34,0.8)" }]}>
-                    {getTimedButton()}
-                </View>
-            </View>)
-
-        }
-        return (<View style={[styles.buttonPosition, { marginBottom: 30 }]}>
-            <View style={[styles.buttonContainer, styles.smallerShadow,
+        return (<View style={[styles.buttonPosition, { marginBottom: state.visualizationMethod === CHARTS ? 0 : 30 }]}>
+            <View style={[styles.buttonContainer, state.visualizationMethod === CHARTS ? styles.shadow : styles.smallerShadow,
             { backgroundColor: state.isVisualizationPaused ? "rgba(34,139,34,0.8)" : "rgba(178,34,34,0.8)" }]}>
                 {getTimedButton()}
             </View>
         </View>)
     }
+
     return (
         <>
             {getManagmentMethod()}
@@ -110,7 +97,7 @@ const VisualizationManagment = (): JSX.Element => {
 const styles = StyleSheet.create({
     buttonPosition: {
         alignItems: 'flex-end',
-        top: BUTTON_SIZE / 2 - 10,
+        top: START_BUTTON_SIZE / 2 - 10,
         zIndex: 2,
         justifyContent: 'space-between'
     },
@@ -136,10 +123,10 @@ const styles = StyleSheet.create({
         elevation: 20,
     },
     buttonContainer: {
-        width: BUTTON_SIZE,
-        height: BUTTON_SIZE,
-        borderRadius: BUTTON_SIZE / 2,
-        right: BUTTON_SIZE / 2 - 5,
+        width: START_BUTTON_SIZE,
+        height: START_BUTTON_SIZE,
+        borderRadius: START_BUTTON_SIZE / 2,
+        right: START_BUTTON_SIZE / 2 - 5,
         alignItems: 'center',
         justifyContent: 'center',
     },

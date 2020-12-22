@@ -1,30 +1,36 @@
-import { IMergeSnapshots } from '../helpers/interfaces';
+import { IMerge, IMergeSnapshots } from '../helpers/interfaces';
 
-const merge = (left: number[], right: number[], level: number, mergeProcedure: IMergeSnapshots) => {
+const merge = (left: (IMerge | undefined)[] | undefined, right: (IMerge | undefined)[] | undefined, level: number, mergeProcedure: IMergeSnapshots): (IMerge | undefined)[] | undefined => {
     const { snapshots, levels } = mergeProcedure;
     let sorted = [];
-    while (left.length && right.length) {
-        if (left[0] < right[0]) sorted.push(left.shift());
-        else sorted.push(right.shift());
-    };
-    snapshots.push([...sorted.concat(left.slice().concat(right.slice()))]);
-    levels.push(level);
-    return sorted.concat(left.slice().concat(right.slice()));
+    if (left !== undefined && right !== undefined) {
+        if (left[0] !== undefined && right[0] !== undefined) {
+            while (left.length && right.length) {
+                if (left[0].element < right[0].element) sorted.push(left.shift());
+                else sorted.push(right.shift());
+            };
+            snapshots.push([...sorted.concat(left.slice().concat(right.slice()))]);
+            levels.push(level);
+            return sorted.concat(left.slice().concat(right.slice()));
+        }
+    }
 };
 
 
-export const mergeSort = (unsortedArray: number[], level: number, mergeProcedure: IMergeSnapshots) => {
+export const mergeSort = (unsortedArray: IMerge[], level: number, mergeProcedure: IMergeSnapshots): (IMerge | undefined)[] | undefined => {
     level = level + 1;
+
     const { snapshots, levels } = mergeProcedure;
     snapshots.push([...unsortedArray]);
     levels.push(level);
     if (unsortedArray.length <= 1) return unsortedArray;
+    //dividing the field in halfs
     let mid = Math.floor(unsortedArray.length / 2);
-    let left: any = mergeSort(unsortedArray.slice(0, mid), level, mergeProcedure);
-    let right: any = mergeSort(unsortedArray.slice(mid), level, mergeProcedure);
+    let left: (IMerge | undefined)[] | undefined = mergeSort(unsortedArray.slice(0, mid), level, mergeProcedure);
+    let right: (IMerge | undefined)[] | undefined = mergeSort(unsortedArray.slice(mid), level, mergeProcedure);
     return merge(left, right, level, mergeProcedure);
 };
-export const mergeSortSnapshots = (elements: number[]) => {
+export const mergeSortSnapshots = (elements: IMerge[]) => {
     const mergeProcedure: IMergeSnapshots = { snapshots: [], levels: [] };
     const level: number = 0;
     mergeSort(elements, level, mergeProcedure);

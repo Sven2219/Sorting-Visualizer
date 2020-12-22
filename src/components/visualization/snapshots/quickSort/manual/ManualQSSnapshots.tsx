@@ -7,10 +7,10 @@ import Snapshot from '../Snapshot';
 interface IProps {
     quickSortSnapshotsProcedure: IQuickSnapshots;
     isVisualizationFinished: boolean;
-    snapshotDisplayMethod:string;
+    snapshotDisplayMethod: string;
 }
 
-const ManualQSSnapshots = ({ quickSortSnapshotsProcedure, isVisualizationFinished,snapshotDisplayMethod }: IProps): JSX.Element => {
+const ManualQSSnapshots = ({ quickSortSnapshotsProcedure, isVisualizationFinished, snapshotDisplayMethod }: IProps): JSX.Element => {
     const [currentFieldIndex, setCurrentFieldIndex] = useState<number>(0);
     const { snapshots } = quickSortSnapshotsProcedure;
     useEffect(() => {
@@ -36,21 +36,25 @@ const ManualQSSnapshots = ({ quickSortSnapshotsProcedure, isVisualizationFinishe
     }
 
     return (
-        <View style={{ flex: 1, }}>
+        <View style={styles.mainContainer}>
             <View style={styles.stepButtonsContainer}>
                 <StepButton iconName="ios-chevron-back-outline" onPress={decrementIndex} />
                 <StepButton iconName="chevron-forward-sharp" onPress={incrementIndex} />
             </View>
             <View style={styles.snapshotContainer}>
-                {snapshots.length > 0 && <Snapshot snapshotDisplayMethod={snapshotDisplayMethod} currentFieldIndex={currentFieldIndex} quickSortSnapshotsProcedure={quickSortSnapshotsProcedure} />}
+
+                {snapshots.length > 0 && <Snapshot
+                    snapshotDisplayMethod={snapshotDisplayMethod}
+                    currentFieldIndex={currentFieldIndex}
+                    quickSortSnapshotsProcedure={quickSortSnapshotsProcedure}
+                />}
             </View>
         </View>
     )
 }
 const styles = StyleSheet.create({
     mainContainer: {
-        flex: 1,
-        backgroundColor: '#fff'
+        flex: 1
     },
     stepButtonsContainer: {
         flexDirection: 'row',

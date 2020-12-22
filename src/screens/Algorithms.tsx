@@ -21,7 +21,7 @@ const Algorithms = (): JSX.Element => {
         bubbleSortProcedure: { indexes: [], procedure: [] },
         visualizationMethod: CHARTS,
         snapshotDisplayMethod: MANUAL,
-        mergeSortSnapshotsProcedure:{levels:[],snapshots:[]},
+        mergeSortSnapshotsProcedure: { levels: [], snapshots: [] },
         quickSortProcedureCharts: { indexes: [], procedure: [], pivotIndexes: [] },
         quickSortSnapshotsProcedure: { snapshots: [], pivotIndexes: [], snapshotPosition: { levels: [], startIndexes: [] } }
     })
@@ -41,7 +41,7 @@ const Algorithms = (): JSX.Element => {
 
     return (
         <View style={styles.mainContainer}>
-            <StatusBar hidden/>
+            <StatusBar hidden />
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.headerContainer}>
                     {getMenuIcon()}
@@ -53,16 +53,19 @@ const Algorithms = (): JSX.Element => {
                     onPress={(arrayForSort: string) => dispatch({ type: "setArrayForSort", payload: arrayForSort })}
                     editable={state.isVisualizationFinished}
                 />
+
                 <AlgorithmsDispatch.Provider value={{ dispatch }}>
                     <AlgorithmsState.Provider value={{ state }}>
                         <VizualizationManagment />
                     </AlgorithmsState.Provider>
                 </AlgorithmsDispatch.Provider>
+
                 <AlgorithmsDispatch.Provider value={{ dispatch }}>
                     <AlgorithmsState.Provider value={{ state }}>
                         <Vizualization />
                     </AlgorithmsState.Provider>
                 </AlgorithmsDispatch.Provider>
+
                 {
                     state.isMenuModalOpen &&
                     <AlgorithmsDispatch.Provider value={{ dispatch }}>
@@ -71,12 +74,14 @@ const Algorithms = (): JSX.Element => {
                         </AlgorithmsState.Provider>
                     </AlgorithmsDispatch.Provider>
                 }
+
                 {
                     state.isTheoryModalOpen &&
                     <Theory onPress={() => dispatch({ type: "setIsTheoryModalOpen", payload: false })}
                         chosenSort={state.sortingAlgorithm}
                     />
                 }
+                
             </ScrollView >
             {(state.visualizationMethod === SNAPSHOTS && state.isVisualizationFinished) &&
                 <SnapshotSettings manualMethod={() => dispatch({ type: "setSnapshotDisplayMethod", payload: MANUAL })}
@@ -90,7 +95,7 @@ const Algorithms = (): JSX.Element => {
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        backgroundColor:'#fff'
+        backgroundColor: '#fff'
     },
     headerContainer: {
         flexDirection: 'row',

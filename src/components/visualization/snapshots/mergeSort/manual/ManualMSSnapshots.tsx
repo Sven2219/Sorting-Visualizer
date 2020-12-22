@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { IMergeSnapshots } from '../../../../helpers/interfaces';
 import StepButton from '../../general/StepButton';
+import Snapshot from '../../mergeSort/Snapshot';
 
 
 interface IProps {
@@ -34,23 +35,25 @@ const ManualQSSnapshots = ({ mergeSortSnapshotsProcedure, isVisualizationFinishe
             return previouseIndex + 1;
         })
     }
-
     return (
-        <View style={{ flex: 1, }}>
+        <View style={styles.mainContainer}>
             <View style={styles.stepButtonsContainer}>
                 <StepButton iconName="ios-chevron-back-outline" onPress={decrementIndex} />
                 <StepButton iconName="chevron-forward-sharp" onPress={incrementIndex} />
             </View>
             <View style={styles.snapshotContainer}>
-
+                {snapshots.length > 0 && <Snapshot
+                    snapshotDisplayMethod={snapshotDisplayMethod}
+                    currentFieldIndex={currentFieldIndex}
+                    mergeSortSnapshotProcedure={mergeSortSnapshotsProcedure} />
+                }
             </View>
         </View>
     )
 }
 const styles = StyleSheet.create({
     mainContainer: {
-        flex: 1,
-        backgroundColor: '#fff'
+        flex: 1
     },
     stepButtonsContainer: {
         flexDirection: 'row',

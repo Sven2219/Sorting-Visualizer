@@ -23,6 +23,7 @@ const partition = (elements: number[], low: number, high: number, quickProcedure
     elements[i + 1] = elements[high];
     elements[high] = temp;
     pivotIndexes.push(high);
+    //if the pivot is equal to the element to be replaced set flag isSame as true and remember high and low.
     if (elements[high] === elements[i + 1] ) {
         indexes.push({ index: (i + 1), low: i + 1, high: high, isSame: true })
     }

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { AlgorithmsDispatch } from '../../context/AlgorithmsDispatch';
 import { AlgorithmsState } from '../../context/AlgorithmsState';
-import { BUBBLE_SORT, CHARTS, MANUAL, QUICK_SORT, SNAPSHOTS, TIMING } from '../helpers/types';
+import { BUBBLE_SORT, CHARTS, MANUAL, QUICK_SORT, SNAPSHOTS } from '../helpers/types';
 import BubbleChartsMethod from './charts/bubbleSort/BubbleSortCharts';
 import QuickChartsMethod from './charts/quickSort/QuickSortCharts';
 import ManualMSSnapshots from './snapshots/mergeSort/manual/ManualMSSnapshots';

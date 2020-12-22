@@ -3,14 +3,13 @@ import { StyleSheet, Animated, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { MANUAL, TIMING } from './helpers/types';
-
-const ICON_SIZE = 40;
-const ICON_CONTAINER = 50;
+import { ANIMATION_DURATION, SETTINGS_ICON_CONTAINER, SETTINGS_ICON_SIZE } from './helpers/Constants';
 interface IProps {
     manualMethod: () => void;
     timingMethod: () => void;
     snapshotVisualizationMethod: string;
 }
+
 const SnapshotSettings = ({ manualMethod, timingMethod, snapshotVisualizationMethod }: IProps): JSX.Element => {
     const [showSettings, setShowSettings] = useState(false);
     //settings animation
@@ -18,58 +17,40 @@ const SnapshotSettings = ({ manualMethod, timingMethod, snapshotVisualizationMet
     const translateYManual = useRef(new Animated.Value(0)).current;
     const translateYTimed = useRef(new Animated.Value(0)).current;
     const textOpacity = useRef(new Animated.Value(0)).current;
+    const startAnimation = (yManualValue: number, rotationValue: number, yTimedValue: number, textOpacityValue: number) => {
+        Animated.parallel([
+            Animated.timing(translateYManual, {
+                toValue: yManualValue,
+                duration: ANIMATION_DURATION,
+                useNativeDriver: true,
+            }),
+            Animated.timing(settingsRotation, {
+                toValue: rotationValue,
+                duration: ANIMATION_DURATION,
+                useNativeDriver: true
+            }),
+            Animated.timing(translateYTimed, {
+                toValue: yTimedValue,
+                duration: ANIMATION_DURATION,
+                useNativeDriver: true
+            }),
+            Animated.timing(textOpacity, {
+                toValue: textOpacityValue,
+                duration: ANIMATION_DURATION,
+                useNativeDriver: true
+            })
+        ]).start(() => {
+            setShowSettings(!showSettings);
+        });
+    }
     const translateYOs = () => {
         if (!showSettings) {
-            Animated.parallel([
-                Animated.timing(translateYManual, {
-                    toValue: -115,
-                    duration: 500,
-                    useNativeDriver: true,
-                }),
-                Animated.timing(settingsRotation, {
-                    toValue: 1,
-                    duration: 500,
-                    useNativeDriver: true
-                }),
-                Animated.timing(translateYTimed, {
-                    toValue: -60,
-                    duration: 500,
-                    useNativeDriver: true
-                }),
-                Animated.timing(textOpacity, {
-                    toValue: 1,
-                    duration: 500,
-                    useNativeDriver: true,
-                })
-            ]).start(() => {
-                setShowSettings(!showSettings);
-            });
+            //open settings
+            startAnimation(-115, 1, -60, 1);
         }
         else {
-            Animated.parallel([
-                Animated.timing(translateYManual, {
-                    toValue: 0,
-                    duration: 500,
-                    useNativeDriver: true,
-                }),
-                Animated.timing(settingsRotation, {
-                    toValue: 0,
-                    duration: 500,
-                    useNativeDriver: true
-                }),
-                Animated.timing(translateYTimed, {
-                    toValue: 0,
-                    duration: 500,
-                    useNativeDriver: true
-                }),
-                Animated.timing(textOpacity, {
-                    toValue: 0,
-                    duration: 500,
-                    useNativeDriver: true
-                })
-            ]).start(() => {
-                setShowSettings(!showSettings);
-            });
+            //close settings
+            startAnimation(0, 0, 0, 0);
         }
     };
     const rotateIcon = settingsRotation.interpolate({
@@ -81,13 +62,13 @@ const SnapshotSettings = ({ manualMethod, timingMethod, snapshotVisualizationMet
     }
     return (
         <>
-            <Animated.View style={[styles.snapshotSettingsContainer, { backgroundColor: '#fff', transform: [{ rotate: rotateIcon }], zIndex: 1 }]}>
-                <Ionicons name="md-settings-outline" size={ICON_SIZE} onPress={translateYOs} />
+            <Animated.View style={[styles.snapshotSettingsContainer,styles.mainContainer, {  transform: [{ rotate: rotateIcon }] }]}>
+                <Ionicons name="md-settings-outline" size={SETTINGS_ICON_SIZE} onPress={translateYOs} />
             </Animated.View>
             <Animated.View style={[styles.snapshotSettingsContainer, { transform: [{ translateY: translateYManual }] }]}>
                 <TouchableOpacity style={styles.methodContainer}>
                     <Animated.Text style={[styles.textStyle, { color: getColor(TIMING), opacity: textOpacity }]}>Timing</Animated.Text>
-                    <Ionicons name="timer-outline" size={ICON_SIZE} onPress={() => {
+                    <Ionicons name="timer-outline" size={SETTINGS_ICON_CONTAINER} onPress={() => {
                         timingMethod();
                         translateYOs();
                     }} color={getColor(TIMING)} />
@@ -96,7 +77,7 @@ const SnapshotSettings = ({ manualMethod, timingMethod, snapshotVisualizationMet
             <Animated.View style={[styles.snapshotSettingsContainer, { transform: [{ translateY: translateYTimed }] }]}>
                 <TouchableOpacity style={styles.methodContainer}>
                     <Animated.Text style={[styles.textStyle, { color: getColor(MANUAL), opacity: textOpacity }]}>Manual</Animated.Text>
-                    <FontAwesome name="hand-pointer-o" size={ICON_SIZE} onPress={() => {
+                    <FontAwesome name="hand-pointer-o" size={SETTINGS_ICON_SIZE} onPress={() => {
                         manualMethod();
                         translateYOs();
                     }} color={getColor(MANUAL)} />
@@ -106,13 +87,17 @@ const SnapshotSettings = ({ manualMethod, timingMethod, snapshotVisualizationMet
     )
 }
 const styles = StyleSheet.create({
+    mainContainer:{
+        zIndex:1,
+        backgroundColor:'#fff'
+    },
     snapshotSettingsContainer: {
         position: 'absolute',
         bottom: 10,
         right: 10,
-        width: ICON_CONTAINER,
-        height: ICON_CONTAINER,
-        borderRadius: ICON_CONTAINER / 2,
+        width: SETTINGS_ICON_CONTAINER,
+        height: SETTINGS_ICON_CONTAINER,
+        borderRadius: SETTINGS_ICON_CONTAINER / 2,
         justifyContent: 'center',
         alignItems: 'center'
     },

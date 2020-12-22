@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { OrientationState } from '../context/OrientationState';
-import { INPUT_ARRAY_WIDTH_LANDSCAPE, INPUT_ARRAY_WIDTH_PORTRAIT, INPUT_ARRAY_MARGIN_LEFT_LANDSCAPE, INPUT_ARRAY_MARGIN_LEFT_PORTRAIT } from './helpers/Constants';
+import { INPUT_ARRAY_WIDTH_LANDSCAPE, INPUT_ARRAY_WIDTH_PORTRAIT, INPUT_ARRAY_MARGIN_LEFT_LANDSCAPE, INPUT_ARRAY_MARGIN_LEFT_PORTRAIT, LABEL_TEXT_WIDTH, INPUT_ARRAY_HEIGHT } from './helpers/Constants';
 import { PORTRAIT } from './helpers/types';
 
 interface IProps {
@@ -21,7 +21,13 @@ const InputArray = ({ onPress, arrayForSort, editable }: IProps): JSX.Element =>
     return (
         <View style={[styles.inputArrayContainer, { width: getInputTextWidth(), marginLeft: getLeftMargin() }]}>
             <Text style={[styles.labelText, { color: editable ? "#000" : "#d3d3d3" }]}>Array: </Text>
-            <TextInput editable={editable} value={arrayForSort} onChangeText={(arrayForSort) => onPress(arrayForSort)} style={styles.textInput} placeholder={"1, 2, 3, 4, 5, 6"} />
+            <TextInput
+                editable={editable}
+                value={arrayForSort}
+                onChangeText={(arrayForSort) => onPress(arrayForSort)}
+                style={styles.textInput}
+                placeholder={"1, 2, 3, 4, 5, 6"}
+            />
         </View>
     )
 }
@@ -29,7 +35,7 @@ const styles = StyleSheet.create({
     inputArrayContainer: {
         borderWidth: 1,
         borderRadius: 10,
-        height: 50,
+        height: INPUT_ARRAY_HEIGHT,
         alignItems: 'center',
         flexDirection: 'row',
         overflow: 'hidden'
@@ -39,7 +45,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         letterSpacing: 1.4,
         marginLeft: 10,
-        width: 60,
+        width: LABEL_TEXT_WIDTH,
     },
     textInput: {
         fontSize: 18,

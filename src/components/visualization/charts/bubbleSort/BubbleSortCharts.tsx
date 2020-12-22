@@ -18,6 +18,7 @@ const BubbleSortCharts = ({ bubbleSortProcedure, isVisualizationPaused, visualiz
     const currentFieldIndex = useRef<number>(0);
     const timers = useRef<NodeJS.Timeout[]>([]);
     const swapedValues = useRef<number[][]>([]);
+    //for scaling
     const maxElement = useRef<number>(0);
     const minElement = useRef<number>(0);
     useEffect(() => {
@@ -37,6 +38,7 @@ const BubbleSortCharts = ({ bubbleSortProcedure, isVisualizationPaused, visualiz
         swapedValues.current = [];
         setCurrentField([]);
     }, [isMenuModalOpen])
+    //every time when visualization is paused clear all timers!!!
     useEffect(() => {
         maxElement.current = Math.max.apply(Math, procedure[0]);
         minElement.current = Math.min.apply(Math, procedure[0]);

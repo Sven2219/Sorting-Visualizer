@@ -32,3 +32,11 @@ export const CODE_EXAMPLE_LEFT_LANDSCAPE = (portraitHeight - CODE_EXAMPLE_CONTAI
 
 export const COMMENT_LEFT_POSITION = -115;
 export const SNAPSHOT_BOX_SIZE = 35;
+export const ANIMATION_DURATION = 500;
+export const SETTINGS_ICON_SIZE = 40;
+export const SETTINGS_ICON_CONTAINER = 50;
+
+export const INPUT_ARRAY_HEIGHT = 50;
+export const LABEL_TEXT_WIDTH = 60;
+
+export const START_BUTTON_SIZE = 50;

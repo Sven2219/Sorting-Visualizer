@@ -8,10 +8,10 @@ export const getBubbleBg = (currentElement: number, currentIndex: number, curren
     else if (currentFieldIndex + 1 === procedure.length) {//end
         return "#228b22"//green
     }
-    else if (currentElement != procedure[currentFieldIndex - 1][currentIndex]) {
+    else if (currentElement != procedure[currentFieldIndex - 1][currentIndex]) {//if the current element differs from the past
         return "#b22222";//red
     }
-    else if (currentIndex == indexes[currentFieldIndex]) {
+    else if (currentIndex == indexes[currentFieldIndex]) {//this allows us to track current element
         return "#483d8b";//blue
     }
     else {
@@ -26,18 +26,26 @@ export const getQuickBg = (currentElement: number, currentIndex: number, current
     else if (currentFieldIndex + 2 === procedure.length) {//end
         return "#228b22";//green
     }
-    //swap two different numbers
+    //first part of if statement literally says [5] !==[1] 
+    //if the past field on the same index has a different value, color them red
+
+    //second part is edge scenario when pivot is same as the element to be replaced
+    //for example if array is [1,4,1] and pivot is 1, I want to show that swap with 1 and 1 
+    //because this is the way how original quicksort works 
     else if (currentElement !== procedure[currentFieldIndex - 1][currentIndex] ||
         (indexes[currentFieldIndex].isSame && (currentIndex === indexes[currentFieldIndex].low || currentIndex === indexes[currentFieldIndex].high))) {
 
         return "#b22222";//red
     }
+    //tracking pivot
     else if (pivotIndexes !== undefined && pivotIndexes[currentFieldIndex] === currentIndex) {
         return "#daa520";//pivot-yellow
     }
+
     else if (currentIndex === indexes[currentFieldIndex - 1].index && currentIndex === indexes[currentFieldIndex].index && currentFieldIndex >= 2) {
         return "#b22222";
     }
+    //tracking current element
     else if (currentIndex === indexes[currentFieldIndex].index) {
         return "#483d8b";//blue
     }
