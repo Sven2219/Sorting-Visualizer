@@ -23,7 +23,7 @@ const partitionCharts = (elements: number[], low: number, high: number, quickPro
     elements[i + 1] = elements[high];
     elements[high] = temp;
     pivotIndexes.push(high);
-    if (elements[high] === elements[i + 1]) {
+    if (elements[high] === elements[i + 1] ) {
         indexes.push({ index: (i + 1), low: i + 1, high: high, isSame: true })
     }
     else {
@@ -41,18 +41,19 @@ export const quickSortCharts = (elements: number[], low: number, high: number, q
     }
 }
 const areArraySame = (currentSnapshot: number[], prevSnapshot: number[]): boolean => {
-    const currentSnapshotLength = currentSnapshot.length;
-    const prevSnapshotLength = prevSnapshot.length;
+    const currentSnapshotLength: number = currentSnapshot.length;
+    const prevSnapshotLength: number = prevSnapshot.length;
     if (currentSnapshotLength === prevSnapshotLength) {
         if (currentSnapshot[0] === prevSnapshot[0] && currentSnapshot[0] === currentSnapshot[currentSnapshotLength - 1] && currentSnapshot[currentSnapshotLength - 1] === prevSnapshot[prevSnapshotLength - 1]) {
             return false;
         }
+        //If nothing has changed and not first case !
         return (currentSnapshot.every((element, index) => element === prevSnapshot[index]));
     }
     return false;
 }
 
-const isAllElementsSame = (currentSnapshot: number[], prevSnapshot: number[]) => {
+const isElementsInSamePosition = (currentSnapshot: number[], prevSnapshot: number[]): boolean => {
     if (currentSnapshot.length !== prevSnapshot.length) {
         return false;
     }
@@ -74,10 +75,12 @@ const partitionSnapshots = (elements: number[], low: number, high: number, quick
     elements[i + 1] = elements[high];
     elements[high] = temp;
     const currentSnapshot: number[] = elements.slice(low, high + 1);
+
+    //edge scenario !!
     let areSnapshotsSame: boolean = false;
     let areAllElementsSame: boolean = false;
     if (snapshots[snapshots.length - 1] !== undefined) {
-        areAllElementsSame = isAllElementsSame(currentSnapshot, snapshots[snapshots.length - 1]);
+        areAllElementsSame = isElementsInSamePosition(currentSnapshot, snapshots[snapshots.length - 1]);
         if (!areAllElementsSame) {
             areSnapshotsSame = false;
         }

@@ -27,6 +27,10 @@ export const getQuickSwapedValues = (currentField: number[], quickSortProcedure:
             if (currentField[i] !== procedure[currentFieldIndex - 1][i]) {
                 swaped.push(currentField[i]);
             }
+            //when we come to the last element and first and last are same!!! they swap in original quick sort algorithm.
+            else if (indexes[currentFieldIndex].isSame === true && i === currentFieldLength - 1) {
+                swaped.push(currentField[i]);
+            }
             else if (i === indexes[currentFieldIndex - 1].index && i === indexes[currentFieldIndex].index && currentFieldIndex >= 2) {
                 swaped.push(currentField[i]);
             }
