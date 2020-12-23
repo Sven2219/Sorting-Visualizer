@@ -15,11 +15,12 @@ const ElementBox = ({ currentElement, startIndex, isHighlited, level }: IProps):
     const getBackgroundColor = (): string => {
         return isHighlited ? "#006400" : "#fff"
     }
-    const getLeftPosition = (start: number): number => {
-        return start*(SNAPSHOT_BOX_SIZE+8+level*2)
+    const getLeftPosition = (): number => {
+        return startIndex !== undefined ? startIndex * (SNAPSHOT_BOX_SIZE+SNAPSHOT_BOX_SIZE) : 0
     }
+
     return (
-        <View style={[styles.numberContainer, { backgroundColor: getBackgroundColor(), left: startIndex !== undefined ? getLeftPosition(startIndex) : 0 }]}>
+        <View style={[styles.numberContainer, { backgroundColor: getBackgroundColor(), left: getLeftPosition() }]}>
             <Text style={styles.boldedText}>{currentElement && currentElement.element}</Text>
         </View>
     )

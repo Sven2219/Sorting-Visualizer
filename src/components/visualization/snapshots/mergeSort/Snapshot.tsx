@@ -23,7 +23,7 @@ const Snapshot = ({ currentFieldIndex, mergeSortSnapshotProcedure }: IProps): JS
         }))
     }
     const getWidth = (index: number) => {
-        return (snapshots[0].length * (SNAPSHOT_BOX_SIZE+2)+(levels[index]-1)*30)
+        return (snapshots[0].length * (SNAPSHOT_BOX_SIZE+2)+(levels[index]-1)*SNAPSHOT_BOX_SIZE)
     }
     return (
         <View style={[styles.mainContainer, { height: (levels[snapshots.length - 1] * 30) + 200, }]}>
