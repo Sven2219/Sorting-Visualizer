@@ -8,15 +8,15 @@ interface IProps {
     isHighlited: boolean;
     currentElement: IMerge | undefined;
     startIndex: number | undefined;
-
+    level: number;
 }
 
-const ElementBox = ({ currentElement, startIndex, isHighlited }: IProps): JSX.Element => {
+const ElementBox = ({ currentElement, startIndex, isHighlited, level }: IProps): JSX.Element => {
     const getBackgroundColor = (): string => {
         return isHighlited ? "#006400" : "#fff"
     }
     const getLeftPosition = (start: number): number => {
-        return startIndex === 2 ? start * 1.2 * SNAPSHOT_BOX_SIZE : (start * SNAPSHOT_BOX_SIZE);
+        return start*(SNAPSHOT_BOX_SIZE+8+level*2)
     }
     return (
         <View style={[styles.numberContainer, { backgroundColor: getBackgroundColor(), left: startIndex !== undefined ? getLeftPosition(startIndex) : 0 }]}>

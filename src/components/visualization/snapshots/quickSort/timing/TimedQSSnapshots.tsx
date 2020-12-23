@@ -36,9 +36,7 @@ const TimedQSSnapshots = ({ quickSortSnapshotsProcedure, isVisualizationPaused, 
     }, [isVisualizationPaused])
 
     useEffect(() => {
-        console.log("tu smo?!");
         quitPorcedure();
-
         setCurrentField([]);
     }, [isMenuModalOpen])
     const startProcedure = (): NodeJS.Timeout[] => {

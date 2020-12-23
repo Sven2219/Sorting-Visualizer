@@ -22,8 +22,8 @@ const Snapshot = ({ currentFieldIndex, mergeSortSnapshotProcedure }: IProps): JS
             return -1;
         }))
     }
-    const getWidth = (index:number) => {
-        return (snapshots[0].length * (SNAPSHOT_BOX_SIZE * 1.1))
+    const getWidth = (index: number) => {
+        return (snapshots[0].length * (SNAPSHOT_BOX_SIZE+2)+(levels[index]-1)*30)
     }
     return (
         <View style={[styles.mainContainer, { height: (levels[snapshots.length - 1] * 30) + 200, }]}>
@@ -38,6 +38,7 @@ const Snapshot = ({ currentFieldIndex, mergeSortSnapshotProcedure }: IProps): JS
                             return (
                                 <ElementBox
                                     currentElement={element}
+                                    level={levels[index]}
                                     isHighlited={slicedSnapshot.length === index + 1}
                                     key={i}
                                     startIndex={getMinIndex(index)} />
@@ -52,11 +53,12 @@ const Snapshot = ({ currentFieldIndex, mergeSortSnapshotProcedure }: IProps): JS
 const styles = StyleSheet.create({
     mainContainer: {
         width: "100%",
-        alignItems: 'center'
+        alignItems: 'center',
     },
     boxContainer: {
         flexDirection: 'row',
         position: 'absolute',
+
     }
 })
 export default Snapshot;
