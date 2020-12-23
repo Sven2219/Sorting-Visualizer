@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { IQuickSnapshots } from '../../../helpers/interfaces';
 import { MANUAL, TIMING } from '../../../helpers/types';
 import ElementBox from './ElementBox';
-import { getBoxContainerWidth, getTextTopPosition, getTopPosition } from './getMethods';
+import { getRowContainerWidth, getTextTopPosition, getTopPosition } from './getMethods';
 
 interface IProps {
     currentFieldIndex: number;
@@ -33,8 +33,8 @@ const Snapshot = ({ currentFieldIndex, quickSortSnapshotsProcedure, snapshotDisp
             {slicedSnapshot.length > 0 && slicedSnapshot.map((snapshot, index) => {
                 return (
                     <View key={index}
-                        style={[styles.boxContainer, {
-                            width: getBoxContainerWidth(snapshots[0].length),
+                        style={[styles.rowContainer, {
+                            width: getRowContainerWidth(snapshots[0].length),
                             top: getTopPosition(index, levels)
                         }]}>
                         {snapshot.map((element, i) => {
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         width: "100%",
         alignItems: 'center'
     },
-    boxContainer: {
+    rowContainer: {
         flexDirection: 'row',
         marginTop: 5,
         position: 'absolute',

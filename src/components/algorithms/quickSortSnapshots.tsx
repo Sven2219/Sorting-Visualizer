@@ -20,7 +20,7 @@ const areElementsInSamePosition = (currentSnapshot: number[], prevSnapshot: numb
     }
     return !(currentSnapshot.every((element) => element === prevSnapshot[0]));
 }
-const partition= (elements: number[], low: number, high: number, quickProcedure: IQuickSnapshots, level: number): number => {
+const partition = (elements: number[], low: number, high: number, quickProcedure: IQuickSnapshots, level: number): number => {
     const { snapshots, pivotIndexes, snapshotPosition: { startIndexes, levels } } = quickProcedure;
     const pivot: number = elements[high];
     let i: number = low - 1;

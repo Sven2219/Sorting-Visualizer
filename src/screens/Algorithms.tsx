@@ -81,7 +81,7 @@ const Algorithms = (): JSX.Element => {
                         chosenSort={state.sortingAlgorithm}
                     />
                 }
-                
+
             </ScrollView >
             {(state.visualizationMethod === SNAPSHOTS && state.isVisualizationFinished) &&
                 <SnapshotSettings manualMethod={() => dispatch({ type: "setSnapshotDisplayMethod", payload: MANUAL })}

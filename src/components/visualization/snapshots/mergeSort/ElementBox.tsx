@@ -2,25 +2,24 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { SNAPSHOT_BOX_SIZE } from '../../../helpers/Constants';
 import { IMerge } from '../../../helpers/interfaces';
+import { getBackgroundColor, getLeftPosition } from './getMethods';
 
 
 interface IProps {
     isHighlited: boolean;
     currentElement: IMerge | undefined;
     startIndex: number | undefined;
-    level: number;
+    firstHalf: number;
 }
 
-const ElementBox = ({ currentElement, startIndex, isHighlited, level }: IProps): JSX.Element => {
-    const getBackgroundColor = (): string => {
-        return isHighlited ? "#006400" : "#fff"
-    }
-    const getLeftPosition = (): number => {
-        return startIndex !== undefined ? startIndex * (SNAPSHOT_BOX_SIZE+SNAPSHOT_BOX_SIZE) : 0
-    }
-
+const ElementBox = ({ currentElement, startIndex, isHighlited, firstHalf }: IProps): JSX.Element => {
     return (
-        <View style={[styles.numberContainer, { backgroundColor: getBackgroundColor(), left: getLeftPosition() }]}>
+        <View style={[styles.numberContainer,
+        {
+            backgroundColor: getBackgroundColor(isHighlited),
+            left: getLeftPosition(startIndex, firstHalf)
+        }]}
+        >
             <Text style={styles.boldedText}>{currentElement && currentElement.element}</Text>
         </View>
     )

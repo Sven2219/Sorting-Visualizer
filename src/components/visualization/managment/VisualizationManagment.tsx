@@ -49,7 +49,10 @@ const VisualizationManagment = (): JSX.Element => {
                 if (state.visualizationMethod === CHARTS) {
                     quickSortChartsProcedure(elements);
                 }
-                quickSortSnapshotProcedure(elements);
+                else {
+
+                    quickSortSnapshotProcedure(elements);
+                }
             }
         }
         else {

@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center',
-        marginLeft: 1,
+        marginLeft: 0.5,
     },
     boldedText: {
         fontFamily: 'Sura-Bold'
