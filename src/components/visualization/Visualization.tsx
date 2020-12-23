@@ -38,6 +38,8 @@ const Visualization = (): JSX.Element => {
                     else {
                         return <TimedQSSnapshots
                             snapshotDisplayMethod={state.snapshotDisplayMethod}
+                            isMenuModalOpen={state.isMenuModalOpen}
+                            quitPorcedure={() => dispatch({ type: "setQuitVisualization" })}
                             isVisualizationPaused={state.isVisualizationPaused}
                             quickSortSnapshotsProcedure={state.quickSortSnapshotsProcedure}
                             visualizationFinished={() => dispatch({ type: "setIsPaused", isVisualizationPaused: true, isVisualizationFinished: true })} />

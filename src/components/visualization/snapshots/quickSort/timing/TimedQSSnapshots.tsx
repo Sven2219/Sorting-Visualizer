@@ -8,9 +8,11 @@ interface IProps {
     isVisualizationPaused: boolean;
     visualizationFinished: () => void;
     snapshotDisplayMethod: string;
+    isMenuModalOpen: boolean;
+    quitPorcedure: () => void;
 }
 
-const TimedQSSnapshots = ({ quickSortSnapshotsProcedure, isVisualizationPaused, visualizationFinished, snapshotDisplayMethod }: IProps): JSX.Element => {
+const TimedQSSnapshots = ({ quickSortSnapshotsProcedure, isVisualizationPaused, visualizationFinished, quitPorcedure, snapshotDisplayMethod, isMenuModalOpen }: IProps): JSX.Element => {
     const { snapshots } = quickSortSnapshotsProcedure;
     const [currentField, setCurrentField] = useState<number[]>([]);
     const currentFieldIndex = useRef<number>(0);
@@ -33,7 +35,12 @@ const TimedQSSnapshots = ({ quickSortSnapshotsProcedure, isVisualizationPaused, 
         }
     }, [isVisualizationPaused])
 
+    useEffect(() => {
+        console.log("tu smo?!");
+        quitPorcedure();
 
+        setCurrentField([]);
+    }, [isMenuModalOpen])
     const startProcedure = (): NodeJS.Timeout[] => {
         const start: number = currentFieldIndex.current > 0 ? currentFieldIndex.current + 1 : currentFieldIndex.current;
         const slicedData: number[][] = snapshots.slice(start, snapshots.length);
@@ -79,5 +86,5 @@ const styles = StyleSheet.create({
     }
 })
 export default React.memo(TimedQSSnapshots, (prevProps, currentProps) => {
-    return prevProps.isVisualizationPaused == currentProps.isVisualizationPaused;
+    return (prevProps.isVisualizationPaused == currentProps.isVisualizationPaused && prevProps.isMenuModalOpen == currentProps.isMenuModalOpen);
 });
