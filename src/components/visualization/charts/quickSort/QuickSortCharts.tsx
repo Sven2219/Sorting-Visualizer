@@ -5,14 +5,17 @@ import Charts from '../Charts';
 import { getOriginalArray, getQuickSwapedValues } from '../getMethods';
 import { IQuickCharts } from '../../../helpers/interfaces';
 import { getQuickBg } from '../../../helpers/chartsBackgroundColor';
+import { PORTRAIT } from '../../../helpers/types';
 interface IProps {
     quickSortProcedure: IQuickCharts;
     isVisualizationPaused: boolean;
     visualizationFinished: () => void;
     isMenuModalOpen: boolean;
+    orientation: string;
+    invalidOrientation: () => void;
 }
 
-const QuickSortCharts = ({ quickSortProcedure, isVisualizationPaused, visualizationFinished, isMenuModalOpen }: IProps): JSX.Element => {
+const QuickSortCharts = ({ quickSortProcedure, isVisualizationPaused, visualizationFinished, isMenuModalOpen, orientation, invalidOrientation }: IProps): JSX.Element => {
     const { procedure } = quickSortProcedure;
     const [currentField, setCurrentField] = useState<number[]>([]);
     const currentFieldIndex = useRef<number>(0);
@@ -31,6 +34,20 @@ const QuickSortCharts = ({ quickSortProcedure, isVisualizationPaused, visualizat
             }
         }
     }, [procedure])
+    useEffect(() => {
+        if (orientation === PORTRAIT && procedure[0] !== undefined) {
+            if (procedure[0].length >= 10) {
+                const procedureLength: number = procedure.length;
+                for (let i = 0; i < procedureLength; i++) {
+                    clearTimeout(timers.current[i]);
+                }
+                swapedValues.current = [];
+                currentFieldIndex.current = 0;
+                invalidOrientation();
+                setCurrentField([]);
+            }
+        }
+    }, [orientation])
     useEffect(() => {
         swapedValues.current = []
         setCurrentField([]);
@@ -165,5 +182,7 @@ const styles = StyleSheet.create({
     }
 })
 export default React.memo(QuickSortCharts, (prevProps, currentProps) => {
-    return (prevProps.isVisualizationPaused == currentProps.isVisualizationPaused && prevProps.isMenuModalOpen == currentProps.isMenuModalOpen)
+    return (prevProps.isVisualizationPaused == currentProps.isVisualizationPaused && prevProps.isMenuModalOpen == currentProps.isMenuModalOpen
+        && prevProps.orientation == currentProps.orientation
+    )
 });

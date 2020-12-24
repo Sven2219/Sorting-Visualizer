@@ -33,7 +33,7 @@ const Menu = (): JSX.Element => {
                     </Text>
                     <View style={styles.algorithmContainer}>
                         {state.visualizationMethod === CHARTS && <Algorithm title={BUBBLE_SORT} onPress={() => dispatch({ type: "setSortingAlgorithm", payload: BUBBLE_SORT })} />}
-                        {<Algorithm title={MERGE_SORT} onPress={() => dispatch({ type: "setSortingAlgorithm", payload: MERGE_SORT })} />}
+                        {state.visualizationMethod === SNAPSHOTS && <Algorithm title={MERGE_SORT} onPress={() => dispatch({ type: "setSortingAlgorithm", payload: MERGE_SORT })} />}
                         {<Algorithm title={QUICK_SORT} onPress={() => dispatch({ type: "setSortingAlgorithm", payload: QUICK_SORT })} />}
                     </View>
                 </View>

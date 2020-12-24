@@ -5,10 +5,10 @@ import { CHARTS, PORTRAIT } from "./types";
 const isLengthValid = (length: number, orientation: string, visualizationMethod: string): boolean => {
     if (orientation === PORTRAIT) {
         if (visualizationMethod === CHARTS) {
-            if (length < 12) {
+            if (length < 10) {
                 return true;
             }
-            toastErrorMessagePortrait(12);
+            toastErrorMessagePortrait(10);
             return false;
         }
         else {
@@ -58,6 +58,12 @@ export const transfromTextToArray = (arrayForSort: string, orientation: string, 
     return [];
 }
 //Transformation into an object because we want to have access to the original indexes while the merge sort is executed
+
+const isMergeSortLengthValid = (length: number, orientation: string) => {
+    if (orientation === PORTRAIT && length===5) {
+
+    }
+}
 export const transformToObject = (arrayForSort: string): IMerge[] => {
     const matchedElements: RegExpMatchArray | null = arrayForSort.match(/\d+/g);//matching only numbers
     let transformedElements: IMerge[] = []

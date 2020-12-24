@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { AlgorithmsDispatch } from '../../context/AlgorithmsDispatch';
 import { AlgorithmsState } from '../../context/AlgorithmsState';
+import { OrientationState } from '../../context/OrientationState';
 import { BUBBLE_SORT, CHARTS, MANUAL, QUICK_SORT, SNAPSHOTS } from '../helpers/types';
 import BubbleChartsMethod from './charts/bubbleSort/BubbleSortCharts';
 import QuickChartsMethod from './charts/quickSort/QuickSortCharts';
@@ -12,6 +13,7 @@ import TimedQSSnapshots from './snapshots/quickSort/timing/TimedQSSnapshots';
 const Visualization = (): JSX.Element => {
     const { state } = useContext(AlgorithmsState);
     const { dispatch } = useContext(AlgorithmsDispatch);
+    const { orientation } = useContext(OrientationState);
     const getVizualizationMethod = (): JSX.Element | undefined => {
         switch (state.visualizationMethod) {
             case CHARTS:
@@ -19,11 +21,15 @@ const Visualization = (): JSX.Element => {
                     return <BubbleChartsMethod bubbleSortProcedure={state.bubbleSortProcedure}
                         isMenuModalOpen={state.isMenuModalOpen}
                         isVisualizationPaused={state.isVisualizationPaused}
+                        orientation={orientation}
+                        invalidOrientation={() => dispatch({ type: "invalidOrientation", resetBubble: true })}
                         visualizationFinished={() => dispatch({ type: "setIsPaused", isVisualizationPaused: true, isVisualizationFinished: true })} />
                 }
                 else if (state.sortingAlgorithm === QUICK_SORT) {
                     return <QuickChartsMethod quickSortProcedure={state.quickSortProcedureCharts}
                         isMenuModalOpen={state.isMenuModalOpen}
+                        orientation={orientation}
+                        invalidOrientation={() => dispatch({ type: "invalidOrientation", resetQuick: true })}
                         isVisualizationPaused={state.isVisualizationPaused}
                         visualizationFinished={() => dispatch({ type: "setIsPaused", isVisualizationPaused: true, isVisualizationFinished: true })} />
                 }
@@ -49,7 +55,6 @@ const Visualization = (): JSX.Element => {
                     if (state.snapshotDisplayMethod === MANUAL) {
                         return <ManualMSSnapshots mergeSortSnapshotsProcedure={state.mergeSortSnapshotsProcedure}
                             isVisualizationFinished={state.isVisualizationFinished}
-                            snapshotDisplayMethod={state.snapshotDisplayMethod}
                         />
                     }
                     else {

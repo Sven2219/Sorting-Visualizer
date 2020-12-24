@@ -22,8 +22,7 @@ export const bubbleSort = (elements: number[]): IBubble => {
     }
     //end scenario 
     //To display the last sorting step, I need to push it into the field twice, because I am working with timer.
-    procedure.push([...elements]);
-    procedure.push([...elements]);
+    procedure.push([...elements],[...elements]);
     const payload: { procedure: number[][], indexes: number[] } = { procedure, indexes };
     return payload;
 }

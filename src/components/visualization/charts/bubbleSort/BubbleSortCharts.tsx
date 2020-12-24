@@ -5,14 +5,17 @@ import { IBubble } from '../../../helpers/interfaces'
 import Charts from '../Charts';
 import { getBubbleSwapedValues, getOriginalArray } from '../getMethods';
 import { getBubbleBg } from '../../../helpers/chartsBackgroundColor';
+import { PORTRAIT } from '../../../helpers/types';
 interface IProps {
     bubbleSortProcedure: IBubble;
     isVisualizationPaused: boolean;
     visualizationFinished: () => void;
     isMenuModalOpen: boolean;
+    orientation: string;
+    invalidOrientation: () => void;
 }
 
-const BubbleSortCharts = ({ bubbleSortProcedure, isVisualizationPaused, visualizationFinished, isMenuModalOpen }: IProps): JSX.Element => {
+const BubbleSortCharts = ({ bubbleSortProcedure, isVisualizationPaused, visualizationFinished, isMenuModalOpen, orientation, invalidOrientation }: IProps): JSX.Element => {
     const { procedure } = bubbleSortProcedure;
     const [currentField, setCurrentField] = useState<number[]>([]);
     const currentFieldIndex = useRef<number>(0);
@@ -38,6 +41,20 @@ const BubbleSortCharts = ({ bubbleSortProcedure, isVisualizationPaused, visualiz
         swapedValues.current = [];
         setCurrentField([]);
     }, [isMenuModalOpen])
+    useEffect(() => {
+        if (orientation === PORTRAIT && procedure[0] !== undefined) {
+            if (procedure[0].length >= 10) {
+                const procedureLength: number = procedure.length;
+                for (let i = 0; i < procedureLength; i++) {
+                    clearTimeout(timers.current[i]);
+                }
+                swapedValues.current = [];
+                currentFieldIndex.current = 0;
+                invalidOrientation();
+                setCurrentField([]);
+            }
+        }
+    }, [orientation])
     //every time when visualization is paused clear all timers!!!
     useEffect(() => {
         maxElement.current = Math.max.apply(Math, procedure[0]);
@@ -157,5 +174,7 @@ const styles = StyleSheet.create({
 })
 export default React.memo(BubbleSortCharts, (prevProps, currentProps) => {
     //isMenuModal open to avoid flickering when navigating because it is all one screen!!
-    return prevProps.isVisualizationPaused == currentProps.isVisualizationPaused && prevProps.isMenuModalOpen == currentProps.isMenuModalOpen;
+    return prevProps.isVisualizationPaused == currentProps.isVisualizationPaused
+        && prevProps.isMenuModalOpen == currentProps.isMenuModalOpen
+        && prevProps.orientation == currentProps.orientation;
 });

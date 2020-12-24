@@ -8,10 +8,9 @@ import Snapshot from '../../mergeSort/Snapshot';
 interface IProps {
     mergeSortSnapshotsProcedure: IMergeSnapshots;
     isVisualizationFinished: boolean;
-    snapshotDisplayMethod: string;
 }
 
-const ManualQSSnapshots = ({ mergeSortSnapshotsProcedure, isVisualizationFinished, snapshotDisplayMethod }: IProps): JSX.Element => {
+const ManualQSSnapshots = ({ mergeSortSnapshotsProcedure, isVisualizationFinished }: IProps): JSX.Element => {
     const [currentFieldIndex, setCurrentFieldIndex] = useState<number>(0);
     const { snapshots } = mergeSortSnapshotsProcedure;
     useEffect(() => {
@@ -41,11 +40,13 @@ const ManualQSSnapshots = ({ mergeSortSnapshotsProcedure, isVisualizationFinishe
                 <StepButton iconName="ios-chevron-back-outline" onPress={decrementIndex} />
                 <StepButton iconName="chevron-forward-sharp" onPress={incrementIndex} />
             </View>
+
+
             <View style={styles.snapshotContainer}>
-                {snapshots.length > 0 && <Snapshot
-                    currentFieldIndex={currentFieldIndex}
-                    mergeSortSnapshotProcedure={mergeSortSnapshotsProcedure} />
-                }
+                    {snapshots.length > 0 && <Snapshot
+                        currentFieldIndex={currentFieldIndex}
+                        mergeSortSnapshotProcedure={mergeSortSnapshotsProcedure} />
+                    }
             </View>
         </View>
     )
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
         bottom: 10
     },
     snapshotContainer: {
-        bottom: 30
+        bottom: 30,
     }
 })
 export default React.memo(ManualQSSnapshots, (prevProps, currentProps) => {

@@ -14,6 +14,7 @@ export interface IState {
     isMenuModalOpen: boolean;
     visualizationMethod: string;//SNAPSHOT OR CHARTS
     snapshotDisplayMethod: string;//TIMING OR MANUAL
+
 }
 type setIsTheoryModalOpen = {
     readonly type: "setIsTheoryModalOpen";
@@ -63,9 +64,14 @@ type setSnapshotDisplayMethod = {
     readonly type: "setSnapshotDisplayMethod";
     readonly payload: string;
 }
+type invalidOrientation = {
+    readonly type: "invalidOrientation";
+    readonly resetBubble?: boolean;
+    readonly resetQuick?: boolean;
+}
 export type Actions = setIsTheoryModalOpen | setArrayForSort | setBubbleSortProcedure | setIsPaused | setQuickSortProcedureCharts
     | setSortingAlgoritm | setIsMenuModalOpen | setVisualizationMethod | setQuickSortSnapshotsProcedure | setQuitVisualization
-    | setSnapshotDisplayMethod | setMergeSortSnapshotsProcedure;
+    | setSnapshotDisplayMethod | setMergeSortSnapshotsProcedure | invalidOrientation;
 
 export const reducer = (state: IState, actions: Actions): IState => {
     switch (actions.type) {
@@ -109,6 +115,9 @@ export const reducer = (state: IState, actions: Actions): IState => {
             if (state.sortingAlgorithm === QUICK_SORT) {
                 return { ...state, isVisualizationFinished: true, isVisualizationPaused: true, quickSortSnapshotsProcedure: { snapshots: [], pivotIndexes: [], snapshotPosition: { startIndexes: [], levels: [] } } }
             }
+            else if (state.sortingAlgorithm === BUBBLE_SORT) {
+                return { ...state, isVisualizationFinished: true, isVisualizationPaused: true, bubbleSortProcedure: { procedure: [], indexes: [] } };
+            }
             return { ...state, isVisualizationFinished: true, isVisualizationPaused: true, mergeSortSnapshotsProcedure: { snapshots: [], levels: [] } };
         case "setSnapshotDisplayMethod":
             if (state.sortingAlgorithm === QUICK_SORT) {
@@ -119,6 +128,13 @@ export const reducer = (state: IState, actions: Actions): IState => {
             }
         case "setMergeSortSnapshotsProcedure":
             return { ...state, mergeSortSnapshotsProcedure: actions.payload, isVisualizationPaused: false, isVisualizationFinished: false };
+        case "invalidOrientation":
+            if (actions.resetBubble !== undefined) {
+                return { ...state, bubbleSortProcedure: { procedure: [], indexes: [] }, isVisualizationFinished: true, isVisualizationPaused: true };
+            }
+            else if (actions.resetQuick !== undefined) {
+                return { ...state, quickSortProcedureCharts: { procedure: [], pivotIndexes: [], indexes: [] }, isVisualizationPaused: true, isVisualizationFinished: true };
+            }
         default:
             return state;
     }

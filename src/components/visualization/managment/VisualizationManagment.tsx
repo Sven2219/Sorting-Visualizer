@@ -8,8 +8,8 @@ import { quickSortCharts } from '../../algorithms/quickSortCharts';
 import { quickSortSnapshots } from '../../algorithms/quickSortSnapshots';
 import { IBubble, IQuickSnapshots, IQuickCharts, IMergeSnapshots, IMerge } from '../../helpers/interfaces';
 import { transformToObject, transfromTextToArray } from '../../helpers/transformInputedArray';
-import { mergeSortSnapshots } from '../../algorithms/mergeSort';
-import { BUBBLE_SORT, CHARTS, MANUAL, MERGE_SORT, SNAPSHOTS } from '../../helpers/types';
+import { mergeSortSnapshots } from '../../algorithms/mergeSortSnapshots';
+import { BUBBLE_SORT, CHARTS, MANUAL, MERGE_SORT, PORTRAIT, QUICK_SORT, SNAPSHOTS } from '../../helpers/types';
 import ManualButton from './ManualButton';
 import StartPauseButton from './TimedButton';
 import { START_BUTTON_SIZE } from '../../helpers/Constants';
@@ -40,28 +40,25 @@ const VisualizationManagment = (): JSX.Element => {
         dispatch({ type: "setMergeSortSnapshotsProcedure", payload: merge });
     }
     const callSortingAlgorithm = (): void => {
-        if (state.sortingAlgorithm !== MERGE_SORT) {
-            const elements: number[] = transfromTextToArray(state.arrayForSort, orientation, state.visualizationMethod);
-            if (state.sortingAlgorithm === BUBBLE_SORT) {
-                bubbleSortCharts(elements);
-            }
-            else {
-                if (state.visualizationMethod === CHARTS) {
-                    quickSortChartsProcedure(elements);
-                }
-                else {
-
-                    quickSortSnapshotProcedure(elements);
-                }
-            }
+        if (state.visualizationMethod === SNAPSHOTS && state.sortingAlgorithm === MERGE_SORT) {
+            const transformedElements: IMerge[] = transformToObject(state.arrayForSort);
+            mergeSortSnapshotProcedure(transformedElements)
         }
         else {
-            const transformedElements: IMerge[] = transformToObject(state.arrayForSort);
-            if (transformedElements.length > 0) {
+            const elements: number[] = transfromTextToArray(state.arrayForSort, orientation, state.visualizationMethod);
+            if (state.sortingAlgorithm === BUBBLE_SORT) {
+                if (elements.length > 0) {
+                    bubbleSortCharts(elements);
+                }
+            }
+            else if (state.sortingAlgorithm === QUICK_SORT) {
                 if (state.visualizationMethod === CHARTS) {
+                    if (elements.length > 0) {
+                        quickSortChartsProcedure(elements);
+                    }
                 }
                 else {
-                    mergeSortSnapshotProcedure(transformedElements)
+                    quickSortSnapshotProcedure(elements);
                 }
             }
         }
