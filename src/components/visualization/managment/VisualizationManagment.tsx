@@ -36,7 +36,7 @@ const VisualizationManagment = (): JSX.Element => {
         dispatch({ type: "setQuickSortSnapshotsProcedure", payload: quick });
     }
     const mergeSortSnapshotProcedure = (elements: IMerge[]): void => {
-        const merge: IMergeSnapshots = mergeSortSnapshots(elements);
+        const merge: IMergeSnapshots = mergeSortSnapshots(elements, state.snapshotDisplayMethod);
         dispatch({ type: "setMergeSortSnapshotsProcedure", payload: merge });
     }
     const callSortingAlgorithm = (): void => {

@@ -1,4 +1,5 @@
 import { IMerge, IMergeSnapshots } from '../helpers/interfaces';
+import { TIMING } from '../helpers/types';
 
 const merge = (left: (IMerge | undefined)[] | undefined, right: (IMerge | undefined)[] | undefined, level: number, mergeProcedure: IMergeSnapshots): (IMerge | undefined)[] | undefined => {
     const { snapshots, levels } = mergeProcedure;
@@ -30,9 +31,15 @@ export const mergeSort = (unsortedArray: IMerge[], level: number, mergeProcedure
     let right: (IMerge | undefined)[] | undefined = mergeSort(unsortedArray.slice(mid), level, mergeProcedure);
     return merge(left, right, level, mergeProcedure);
 };
-export const mergeSortSnapshots = (elements: IMerge[]) => {
+export const mergeSortSnapshots = (elements: IMerge[], displayMethod: string) => {
     const mergeProcedure: IMergeSnapshots = { snapshots: [], levels: [] };
     const level: number = 0;
     mergeSort(elements, level, mergeProcedure);
+    const { snapshots, levels } = mergeProcedure;
+    if (displayMethod === TIMING) {
+        snapshots.push([...snapshots[snapshots.length - 1], ...snapshots[snapshots.length - 1]]);
+        levels.push(levels[levels.length - 1], levels[levels.length - 1]);
+    }
     return mergeProcedure;
+
 }

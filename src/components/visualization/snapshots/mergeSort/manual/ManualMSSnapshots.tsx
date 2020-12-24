@@ -43,7 +43,6 @@ const ManualQSSnapshots = ({ mergeSortSnapshotsProcedure, isVisualizationFinishe
             </View>
             <View style={styles.snapshotContainer}>
                 {snapshots.length > 0 && <Snapshot
-                    snapshotDisplayMethod={snapshotDisplayMethod}
                     currentFieldIndex={currentFieldIndex}
                     mergeSortSnapshotProcedure={mergeSortSnapshotsProcedure} />
                 }

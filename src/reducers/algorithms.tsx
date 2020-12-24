@@ -111,7 +111,12 @@ export const reducer = (state: IState, actions: Actions): IState => {
             }
             return { ...state, isVisualizationFinished: true, isVisualizationPaused: true, mergeSortSnapshotsProcedure: { snapshots: [], levels: [] } };
         case "setSnapshotDisplayMethod":
-            return { ...state, snapshotDisplayMethod: actions.payload, quickSortSnapshotsProcedure: { snapshots: [], pivotIndexes: [], snapshotPosition: { levels: [], startIndexes: [] } } };
+            if (state.sortingAlgorithm === QUICK_SORT) {
+                return { ...state, snapshotDisplayMethod: actions.payload, quickSortSnapshotsProcedure: { snapshots: [], pivotIndexes: [], snapshotPosition: { levels: [], startIndexes: [] } } };
+            }
+            else {
+                return { ...state, snapshotDisplayMethod: actions.payload, mergeSortSnapshotsProcedure: { levels: [], snapshots: [] } };
+            }
         case "setMergeSortSnapshotsProcedure":
             return { ...state, mergeSortSnapshotsProcedure: actions.payload, isVisualizationPaused: false, isVisualizationFinished: false };
         default:

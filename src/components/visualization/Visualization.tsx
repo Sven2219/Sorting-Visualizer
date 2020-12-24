@@ -53,7 +53,15 @@ const Visualization = (): JSX.Element => {
                         />
                     }
                     else {
-                        return <TimedMSSnapshots />
+                        return <TimedMSSnapshots
+
+                            mergeSortSnapshotsProcedure={state.mergeSortSnapshotsProcedure}
+                            isVisualizationPaused={state.isVisualizationPaused}
+                            visualizationFinished={() => dispatch({ type: "setIsPaused", isVisualizationPaused: true, isVisualizationFinished: true })}
+                            snapshotDisplayMethod={state.snapshotDisplayMethod}
+                            isMenuModalOpen={state.isMenuModalOpen}
+                            quitPorcedure={() => dispatch({ type: "setQuitVisualization" })}
+                        />
                     }
                 }
             default:

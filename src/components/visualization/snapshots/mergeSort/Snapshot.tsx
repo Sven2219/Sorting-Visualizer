@@ -8,7 +8,6 @@ import { getMinIndex, getRowContainerWidth } from './getMethods';
 interface IProps {
     currentFieldIndex: number;
     mergeSortSnapshotProcedure: IMergeSnapshots;
-    snapshotDisplayMethod: string;
 }
 
 const Snapshot = ({ currentFieldIndex, mergeSortSnapshotProcedure }: IProps): JSX.Element => {
