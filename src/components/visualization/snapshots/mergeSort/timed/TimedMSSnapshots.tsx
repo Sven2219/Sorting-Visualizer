@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { IMerge, IMergeSnapshots } from '../../../../helpers/interfaces';
+import { PORTRAIT } from '../../../../helpers/types';
 import TimingSnapshots from './TimingSnapshots';
 
 interface IProps {
@@ -10,13 +11,28 @@ interface IProps {
     snapshotDisplayMethod: string;
     isMenuModalOpen: boolean;
     quitPorcedure: () => void;
+    orientation: string;
+    invalidOrientation: () => void;
 }
 
-const TimedMSSnapshots = ({ mergeSortSnapshotsProcedure, isVisualizationPaused, visualizationFinished, quitPorcedure, isMenuModalOpen }: IProps): JSX.Element => {
+const TimedMSSnapshots = ({ mergeSortSnapshotsProcedure, isVisualizationPaused, visualizationFinished, quitPorcedure, isMenuModalOpen, orientation, invalidOrientation }: IProps): JSX.Element => {
     const { snapshots } = mergeSortSnapshotsProcedure;
     const [currentField, setCurrentField] = useState<(IMerge | undefined)[]>([]);
     const currentFieldIndex = useRef<number>(0);
     const timers = useRef<NodeJS.Timeout[]>([]);
+    useEffect(() => {
+        if (orientation === PORTRAIT && snapshots[0] !== undefined) {
+            if (snapshots[0].length > 5) {
+                const procedureLength: number = snapshots.length;
+                for (let i = 0; i < procedureLength; i++) {
+                    clearTimeout(timers.current[i]);
+                }
+                currentFieldIndex.current = 0;
+                invalidOrientation();
+                setCurrentField([]);
+            }
+        }
+    }, [orientation])
     useEffect(() => {
         if (snapshots.length > 0) {
             timers.current = startProcedure();
@@ -68,7 +84,7 @@ const TimedMSSnapshots = ({ mergeSortSnapshotsProcedure, isVisualizationPaused, 
     return (
         <View style={styles.mainContainer}>
             <View style={styles.snapshotContainer}>
-                {currentField.length > 0 && <TimingSnapshots  currentFieldIndex={currentFieldIndex.current}
+                {currentField.length > 0 && <TimingSnapshots currentFieldIndex={currentFieldIndex.current}
                     mergeSortProcedureSnapshots={mergeSortSnapshotsProcedure}
                     currentField={currentField}
                 />}
@@ -86,5 +102,6 @@ const styles = StyleSheet.create({
     }
 })
 export default React.memo(TimedMSSnapshots, (prevProps, currentProps) => {
-    return (prevProps.isVisualizationPaused == currentProps.isVisualizationPaused && prevProps.isMenuModalOpen == currentProps.isMenuModalOpen);
+    return (prevProps.isVisualizationPaused == currentProps.isVisualizationPaused && prevProps.isMenuModalOpen == currentProps.isMenuModalOpen
+        && prevProps.orientation == currentProps.orientation);
 });

@@ -41,8 +41,10 @@ const VisualizationManagment = (): JSX.Element => {
     }
     const callSortingAlgorithm = (): void => {
         if (state.visualizationMethod === SNAPSHOTS && state.sortingAlgorithm === MERGE_SORT) {
-            const transformedElements: IMerge[] = transformToObject(state.arrayForSort);
-            mergeSortSnapshotProcedure(transformedElements)
+            const transformedElements: IMerge[] = transformToObject(state.arrayForSort, orientation);
+            if (transformedElements.length > 0) {
+                mergeSortSnapshotProcedure(transformedElements)
+            }
         }
         else {
             const elements: number[] = transfromTextToArray(state.arrayForSort, orientation, state.visualizationMethod);
@@ -58,7 +60,9 @@ const VisualizationManagment = (): JSX.Element => {
                     }
                 }
                 else {
-                    quickSortSnapshotProcedure(elements);
+                    if (elements.length > 0) {
+                        quickSortSnapshotProcedure(elements);
+                    }
                 }
             }
         }

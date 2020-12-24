@@ -29,7 +29,7 @@ const Visualization = (): JSX.Element => {
                     return <QuickChartsMethod quickSortProcedure={state.quickSortProcedureCharts}
                         isMenuModalOpen={state.isMenuModalOpen}
                         orientation={orientation}
-                        invalidOrientation={() => dispatch({ type: "invalidOrientation", resetQuick: true })}
+                        invalidOrientation={() => dispatch({ type: "invalidOrientation", resetQuickCharts: true })}
                         isVisualizationPaused={state.isVisualizationPaused}
                         visualizationFinished={() => dispatch({ type: "setIsPaused", isVisualizationPaused: true, isVisualizationFinished: true })} />
                 }
@@ -39,7 +39,9 @@ const Visualization = (): JSX.Element => {
                         return <ManualQSSnapshots
                             snapshotDisplayMethod={state.snapshotDisplayMethod}
                             quickSortSnapshotsProcedure={state.quickSortSnapshotsProcedure}
-                            isVisualizationFinished={state.isVisualizationFinished} />
+                            isVisualizationFinished={state.isVisualizationFinished}
+
+                        />
                     }
                     else {
                         return <TimedQSSnapshots
@@ -55,11 +57,14 @@ const Visualization = (): JSX.Element => {
                     if (state.snapshotDisplayMethod === MANUAL) {
                         return <ManualMSSnapshots mergeSortSnapshotsProcedure={state.mergeSortSnapshotsProcedure}
                             isVisualizationFinished={state.isVisualizationFinished}
+                            orientation={orientation}
+                            invalidOrientation={() => dispatch({ type: "invalidOrientation", resetMerge: true })}
                         />
                     }
                     else {
                         return <TimedMSSnapshots
-
+                            orientation={orientation}
+                            invalidOrientation={() => dispatch({ type: "invalidOrientation", resetMerge: true })}
                             mergeSortSnapshotsProcedure={state.mergeSortSnapshotsProcedure}
                             isVisualizationPaused={state.isVisualizationPaused}
                             visualizationFinished={() => dispatch({ type: "setIsPaused", isVisualizationPaused: true, isVisualizationFinished: true })}

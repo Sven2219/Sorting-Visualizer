@@ -67,7 +67,9 @@ type setSnapshotDisplayMethod = {
 type invalidOrientation = {
     readonly type: "invalidOrientation";
     readonly resetBubble?: boolean;
-    readonly resetQuick?: boolean;
+    readonly resetQuickCharts?: boolean;
+    readonly resetQuickSnapshots?: boolean;
+    readonly resetMerge?: boolean;
 }
 export type Actions = setIsTheoryModalOpen | setArrayForSort | setBubbleSortProcedure | setIsPaused | setQuickSortProcedureCharts
     | setSortingAlgoritm | setIsMenuModalOpen | setVisualizationMethod | setQuickSortSnapshotsProcedure | setQuitVisualization
@@ -132,8 +134,14 @@ export const reducer = (state: IState, actions: Actions): IState => {
             if (actions.resetBubble !== undefined) {
                 return { ...state, bubbleSortProcedure: { procedure: [], indexes: [] }, isVisualizationFinished: true, isVisualizationPaused: true };
             }
-            else if (actions.resetQuick !== undefined) {
+            else if (actions.resetQuickCharts !== undefined) {
                 return { ...state, quickSortProcedureCharts: { procedure: [], pivotIndexes: [], indexes: [] }, isVisualizationPaused: true, isVisualizationFinished: true };
+            }
+            else if (actions.resetQuickSnapshots !== undefined) {
+                return { ...state, quickSortSnapshotsProcedure: { snapshots: [], pivotIndexes: [], snapshotPosition: { levels: [], startIndexes: [] } }, isVisualizationFinished: true, isVisualizationPaused: true };
+            }
+            else if (actions.resetMerge !== undefined) {
+                return { ...state, mergeSortSnapshotsProcedure: { snapshots: [], levels: [] }, isVisualizationPaused: true, isVisualizationFinished: true };
             }
         default:
             return state;
