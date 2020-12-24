@@ -1,9 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { SNAPSHOT_BOX_SIZE } from '../../../helpers/Constants';
+import { View, Text } from 'react-native';
 import { IMerge } from '../../../helpers/interfaces';
 import { getBackgroundColor, getLeftPosition } from './getMethods';
-
+import { elementBoxStyles as styles } from '../../../helpers/style';
 
 interface IProps {
     isHighlited: boolean;
@@ -17,7 +16,8 @@ const ElementBox = ({ currentElement, startIndex, isHighlited, firstHalf }: IPro
         <View style={[styles.numberContainer,
         {
             backgroundColor: getBackgroundColor(isHighlited),
-            left: getLeftPosition(startIndex, firstHalf)
+            left: getLeftPosition(startIndex, firstHalf),
+            marginLeft: 1
         }]}
         >
             <Text style={styles.boldedText}>{currentElement && currentElement.element}</Text>
@@ -26,19 +26,5 @@ const ElementBox = ({ currentElement, startIndex, isHighlited, firstHalf }: IPro
 }
 
 
-const styles = StyleSheet.create({
-    numberContainer: {
-        width: SNAPSHOT_BOX_SIZE,
-        height: SNAPSHOT_BOX_SIZE,
-        borderWidth: 1,
-        borderRadius: 5,
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginLeft: 1,
-    },
-    boldedText: {
-        fontFamily: 'Sura-Bold',
-    }
-})
 
 export default ElementBox;

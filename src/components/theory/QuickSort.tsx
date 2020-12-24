@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import { OrientationState } from '../../context/OrientationState';
-import { COMMENT_LEFT_POSITION } from '../helpers/Constants';
 import { getCodeExampleContainerWidth, getCodeExampleLeftPosition } from '../helpers/theoryGetters';
-
+import { theoryStyles as styles } from '../helpers/style';
+import { COMMENT_LEFT_POSITION } from '../helpers/Constants';
 const QuickSort = (): JSX.Element => {
     const { orientation } = useContext(OrientationState);
 
@@ -30,7 +30,7 @@ const QuickSort = (): JSX.Element => {
                 left: getCodeExampleLeftPosition(orientation)
             }]} horizontal showsHorizontalScrollIndicator={false}>
                 <View style={{ alignItems: 'center' }}>
-                    <Text style={styles.comment}>{`\\\\Always pick last element as pivot`}</Text>
+                    <Text style={[styles.comment, { left: COMMENT_LEFT_POSITION }]}>{`\\\\Always pick last element as pivot`}</Text>
                     <Text style={styles.codeExampleText}>
                         const<Text style={styles.functionName}> partition</Text>{` = (elements, low, high) => {\n`}
                         {`     const pivot = elements[high];\n`}
@@ -60,52 +60,5 @@ const QuickSort = (): JSX.Element => {
         </View>
     )
 }
-const styles = StyleSheet.create({
-    theoryContainer: {
-        margin: 10
-    },
-    generalTheory: {
-        fontSize: 15,
-        fontFamily: 'Sura-Regular'
-    },
-    complexityContainer: {
-        padding: 5,
-    },
-    boldText: {
-        fontFamily: 'Sura-Bold'
-    },
-    complexityText: {
-        marginTop: 10,
-        letterSpacing: 1.1,
-    },
-    codeExampleContainer: {
-        marginTop: 5,
-        borderWidth: 0.1,
-    },
-    shadow: {
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 9,
-        },
-        shadowOpacity: 0.50,
-        shadowRadius: 12.35,
-        elevation: 2,
-    },
-    codeExampleText: {
-        letterSpacing: 1.3,
-        fontSize: 15,
-        fontFamily: 'Sura-Regular'
-    },
-    loopsOrCondition: {
-        color: '#b22222'
-    },
-    functionName: {
-        color: '#4b0082'
-    },
-    comment: {
-        color: '#228b22',
-        left: COMMENT_LEFT_POSITION
-    }
-})
+
 export default QuickSort;

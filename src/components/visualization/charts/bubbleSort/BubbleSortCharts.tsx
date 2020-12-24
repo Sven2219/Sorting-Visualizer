@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import { CHARTS_CONTAINER_HEIGHT } from '../../../helpers/Constants';
+import { View, Text } from 'react-native';
 import { IBubbleCharts } from '../../../helpers/interfaces'
 import Charts from '../Charts';
 import { getBubbleSwapedValues, getOriginalArray } from '../getMethods';
 import { getBubbleBg } from '../../../helpers/chartsBackgroundColor';
 import { PORTRAIT } from '../../../helpers/types';
+import {chartStyles as styles} from '../../../helpers/style';
 interface IProps {
     bubbleSortProcedure: IBubbleCharts;
     isVisualizationPaused: boolean;
@@ -46,11 +46,11 @@ const BubbleSortCharts = ({ bubbleSortProcedure, isVisualizationPaused, visualiz
         if (orientation === PORTRAIT && procedure[0] !== undefined) {
             if (procedure[0].length >= 10) {
                 const procedureLength: number = procedure.length;
-    
+
                 for (let i = 0; i < procedureLength; i++) {
                     clearTimeout(timers.current[i]);
                 }
-                
+
                 swapedValues.current = [];
                 currentFieldIndex.current = 0;
                 invalidOrientation();
@@ -113,7 +113,13 @@ const BubbleSortCharts = ({ bubbleSortProcedure, isVisualizationPaused, visualiz
 
     return (
         <View style={styles.mainContainer}>
+
+            <View style={styles.legendTextContainer}><Text style={styles.legendText}>Legend</Text></View>
             <View style={[styles.chartsContainer, styles.shadow]}>
+                <View style={styles.legendContainer}>
+                    <Text style={[styles.legendLabelText, { borderRightWidth: 0.4, color: '#483d8b' }]}>Current </Text>
+                    <Text style={[styles.legendLabelText, { color: '#b22222' }]}>Swapping </Text>
+                </View>
                 {currentField.length > 0 && <Charts
                     currentFieldIndex={currentFieldIndex.current}
                     currentField={currentField}
@@ -139,42 +145,6 @@ const BubbleSortCharts = ({ bubbleSortProcedure, isVisualizationPaused, visualiz
         </View>
     )
 }
-const styles = StyleSheet.create({
-    mainContainer: {
-        zIndex: 1
-    },
-    chartsContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'flex-end',
-        marginTop: 0,
-        height: CHARTS_CONTAINER_HEIGHT,
-        backgroundColor: '#fff'
-    },
-    shadow: {
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.29,
-        shadowRadius: 4.65,
-        elevation: 3,
-    },
-    procedureContainer: {
-        margin: 10
-    },
-    originalArrayText: {
-        fontFamily: 'Sura-Regular',
-        fontSize: 18,
-        letterSpacing: 2
-    },
-    swapingText: {
-        fontSize: 17,
-        fontFamily: 'Sura-Regular',
-        marginTop: 5
-    }
-})
 export default React.memo(BubbleSortCharts, (prevProps, currentProps) => {
     //isMenuModal open to avoid flickering when navigating because it is all one screen!!
     return prevProps.isVisualizationPaused == currentProps.isVisualizationPaused

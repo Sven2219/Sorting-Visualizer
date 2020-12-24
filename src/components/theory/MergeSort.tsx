@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import { OrientationState } from '../../context/OrientationState';
 import { getCodeExampleContainerWidth, getCodeExampleLeftPosition } from '../helpers/theoryGetters';
-
+import {theoryStyles as styles} from '../helpers/style'
 const MergeSort = (): JSX.Element => {
     const { orientation } = useContext(OrientationState);
 
@@ -53,47 +53,5 @@ const MergeSort = (): JSX.Element => {
         </View>
     )
 }
-const styles = StyleSheet.create({
-    theoryContainer: {
-        margin: 10
-    },
-    generalTheory: {
-        fontSize: 15,
-        fontFamily: 'Sura-Regular'
-    },
-    complexityContainer: {
-        padding: 5,
-    },
-    boldText: {
-        fontFamily: 'Sura-Bold'
-    },
-    complexityText: {
-        letterSpacing: 1.1,
-    },
-    codeExampleContainer: {
-        marginTop: 5,
-        borderWidth: 0.1,
-    },
-    shadow: {
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 9,
-        },
-        shadowOpacity: 0.50,
-        shadowRadius: 12.35,
-        elevation: 2,
-    },
-    codeExampleText: {
-        letterSpacing: 1.3,
-        fontSize: 15,
-        fontFamily: 'Sura-Regular'
-    },
-    loopsOrCondition: {
-        color: '#b22222'
-    },
-    functionName: {
-        color: '#4b0082'
-    },
-})
+
 export default MergeSort;

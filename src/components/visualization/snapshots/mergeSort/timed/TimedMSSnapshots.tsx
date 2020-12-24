@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { IMerge, IMergeSnapshots } from '../../../../helpers/interfaces';
 import { PORTRAIT } from '../../../../helpers/types';
 import TimingSnapshots from './TimingSnapshots';
-
+import { timedSnapshotsStyles as styles } from '../../../../helpers/style';
 interface IProps {
     mergeSortSnapshotsProcedure: IMergeSnapshots;
     isVisualizationPaused: boolean;
@@ -92,15 +92,7 @@ const TimedMSSnapshots = ({ mergeSortSnapshotsProcedure, isVisualizationPaused, 
         </View>
     )
 }
-const styles = StyleSheet.create({
-    mainContainer: {
-        flex: 1,
-        backgroundColor: '#fff'
-    },
-    snapshotContainer: {
-        bottom: 50
-    }
-})
+
 export default React.memo(TimedMSSnapshots, (prevProps, currentProps) => {
     return (prevProps.isVisualizationPaused == currentProps.isVisualizationPaused && prevProps.isMenuModalOpen == currentProps.isMenuModalOpen
         && prevProps.orientation == currentProps.orientation);

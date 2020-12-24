@@ -87,7 +87,6 @@ const Algorithms = (): JSX.Element => {
                     snapshotVisualizationMethod={state.snapshotDisplayMethod}
                     timingMethod={() => dispatch({ type: "setSnapshotDisplayMethod", payload: TIMING })}
                 />}
-
         </View>
     )
 }

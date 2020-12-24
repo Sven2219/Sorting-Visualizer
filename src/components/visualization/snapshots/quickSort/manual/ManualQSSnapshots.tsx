@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { IQuickSnapshots } from '../../../../helpers/interfaces';
 import StepButton from '../../general/StepButton';
 import Snapshot from '../Snapshot';
-
+import { snapshotStyles as styles } from '../../../../helpers/style';
 interface IProps {
     quickSortSnapshotsProcedure: IQuickSnapshots;
     isVisualizationFinished: boolean;
@@ -51,20 +51,7 @@ const ManualQSSnapshots = ({ quickSortSnapshotsProcedure, isVisualizationFinishe
         </View>
     )
 }
-const styles = StyleSheet.create({
-    mainContainer: {
-        flex: 1
-    },
-    stepButtonsContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        padding: 5,
-        bottom: 10
-    },
-    snapshotContainer: {
-        bottom: 30
-    }
-})
+
 export default React.memo(ManualQSSnapshots, (prevProps, currentProps) => {
     return prevProps.isVisualizationFinished === currentProps.isVisualizationFinished
 });

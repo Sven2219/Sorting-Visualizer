@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import { OrientationState } from '../../context/OrientationState';
 import { getCodeExampleContainerWidth, getCodeExampleLeftPosition } from '../helpers/theoryGetters';
-
+import { theoryStyles as styles } from '../helpers/style';
 const BubbleSort = (): JSX.Element => {
     const { orientation } = useContext(OrientationState)
     return (
@@ -51,51 +51,5 @@ const BubbleSort = (): JSX.Element => {
         </View >
     )
 }
-const styles = StyleSheet.create({
-    theoryContainer: {
-        margin: 15
-    },
-    boldText: {
-        fontFamily: 'Sura-Bold'
-    },
-    generalTheory: {
-        fontSize: 15,
-        fontFamily: 'Sura-Regular'
-    },
-    complexityContainer: {
-        padding: 5,
-    },
-    complexityText: {
-        marginTop: 10,
-        letterSpacing: 1.1,
-    },
-    codeExampleContainer: {
-        marginTop: 5,
-        borderWidth: 0.1,
-    },
-    shadow: {
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 9,
-        },
-        shadowOpacity: 0.50,
-        shadowRadius: 12.35,
-        elevation: 2,
-    },
-    codeExampleText: {
-        letterSpacing: 1.3,
-        fontSize: 15,
-        fontFamily: 'Sura-Regular'
-    },
-    loopsOrCondition: {
-        color: '#b22222'
-    },
-    functionName: {
-        color: '#4b0082'
-    },
-    comment: {
-        color: '#228b22',
-    }
-})
+
 export default BubbleSort;

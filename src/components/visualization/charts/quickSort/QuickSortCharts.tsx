@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import { CHARTS_CONTAINER_HEIGHT } from '../../../helpers/Constants';
+import { View, Text } from 'react-native';
 import Charts from '../Charts';
 import { getOriginalArray, getQuickSwapedValues } from '../getMethods';
 import { IQuickCharts } from '../../../helpers/interfaces';
 import { getQuickBg } from '../../../helpers/chartsBackgroundColor';
 import { PORTRAIT } from '../../../helpers/types';
+import { chartStyles as styles } from '../../../helpers/style';
 interface IProps {
     quickSortProcedure: IQuickCharts;
     isVisualizationPaused: boolean;
@@ -105,7 +105,14 @@ const QuickSortCharts = ({ quickSortProcedure, isVisualizationPaused, visualizat
 
     return (
         <View style={styles.mainContainer}>
+
+            <View style={styles.legendTextContainer}><Text style={styles.legendText}>Legend</Text></View>
             <View style={[styles.chartsContainer, styles.shadow]}>
+                <View style={styles.legendContainer}>
+                    <Text style={[styles.legendLabelText, { borderRightWidth: 0.4,color:'#daa520' }]}>Pivot </Text>
+                    <Text style={[styles.legendLabelText, { borderRightWidth: 0.4, color: '#483d8b' }]}>Current </Text>
+                    <Text style={[styles.legendLabelText, { color: '#b22222' }]}>Swapping </Text>
+                </View>
                 {currentField.length > 0 && <Charts
                     currentFieldIndex={currentFieldIndex.current}
                     currentField={currentField}
@@ -128,59 +135,10 @@ const QuickSortCharts = ({ quickSortProcedure, isVisualizationPaused, visualizat
                 })
                 }
             </View>
-        </View>
+        </View >
     )
 }
-const styles = StyleSheet.create({
-    mainContainer: {
-        zIndex: 1
-    },
-    chartsContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'flex-end',
-        marginTop: 0,
-        height: CHARTS_CONTAINER_HEIGHT,
-        backgroundColor: '#fff'
-    },
-    shadow: {
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.29,
-        shadowRadius: 4.65,
-        elevation: 3,
-    },
-    oneChartContainer: {
-        width: 20,
-        marginLeft: 2.5,
-        marginRight: 5,
-        borderWidth: 1,
-        borderRadius: 3,
-        backgroundColor: 'green'
-    },
-    chartLabelText: {
-        fontSize: 14,
-        fontFamily: 'Sura-Bold',
-        marginTop: 5,
-        alignSelf: 'center'
-    },
-    procedureContainer: {
-        margin: 10
-    },
-    originalArrayText: {
-        fontFamily: 'Sura-Regular',
-        fontSize: 18,
-        letterSpacing: 2
-    },
-    swapingText: {
-        fontSize: 17,
-        fontFamily: 'Sura-Regular',
-        marginTop: 5
-    }
-})
+
 export default React.memo(QuickSortCharts, (prevProps, currentProps) => {
     return (prevProps.isVisualizationPaused == currentProps.isVisualizationPaused && prevProps.isMenuModalOpen == currentProps.isMenuModalOpen
         && prevProps.orientation == currentProps.orientation

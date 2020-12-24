@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { IQuickSnapshots } from '../../../../helpers/interfaces';
 import TimingSnapshots from './TimingSnapshots';
-
+import {timedSnapshotsStyles as styles} from '../../../../helpers/style';
 interface IProps {
     quickSortSnapshotsProcedure: IQuickSnapshots;
     isVisualizationPaused: boolean;
@@ -74,15 +74,7 @@ const TimedQSSnapshots = ({ quickSortSnapshotsProcedure, isVisualizationPaused, 
         </View>
     )
 }
-const styles = StyleSheet.create({
-    mainContainer: {
-        flex: 1,
-        backgroundColor: '#fff'
-    },
-    snapshotContainer: {
-        bottom: 50
-    }
-})
+
 export default React.memo(TimedQSSnapshots, (prevProps, currentProps) => {
     return (prevProps.isVisualizationPaused == currentProps.isVisualizationPaused && prevProps.isMenuModalOpen == currentProps.isMenuModalOpen);
 });
