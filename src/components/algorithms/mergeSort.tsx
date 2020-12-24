@@ -20,13 +20,12 @@ const merge = (left: (IMerge | undefined)[] | undefined, right: (IMerge | undefi
 
 export const mergeSort = (unsortedArray: IMerge[], level: number, mergeProcedure: IMergeSnapshots): (IMerge | undefined)[] | undefined => {
     level = level + 1;
-
     const { snapshots, levels } = mergeProcedure;
     snapshots.push([...unsortedArray]);
     levels.push(level);
     if (unsortedArray.length <= 1) return unsortedArray;
     //dividing the field in halfs
-    let mid = Math.floor(unsortedArray.length / 2);
+    let mid:number = Math.floor(unsortedArray.length / 2);
     let left: (IMerge | undefined)[] | undefined = mergeSort(unsortedArray.slice(0, mid), level, mergeProcedure);
     let right: (IMerge | undefined)[] | undefined = mergeSort(unsortedArray.slice(mid), level, mergeProcedure);
     return merge(left, right, level, mergeProcedure);

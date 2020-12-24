@@ -68,7 +68,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Sura-Bold'
     },
     complexityText: {
-        marginTop: 10,
         letterSpacing: 1.1,
     },
     codeExampleContainer: {

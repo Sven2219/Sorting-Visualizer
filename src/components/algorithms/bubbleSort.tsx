@@ -1,6 +1,6 @@
-import { IBubble } from "../helpers/interfaces";
+import { IBubbleCharts } from "../helpers/interfaces";
 
-export const bubbleSort = (elements: number[]): IBubble => {
+export const bubbleSort = (elements: number[]): IBubbleCharts => {
     let procedure: number[][] = [];
     let indexes: number[] = [];
     let length: number = elements.length;

@@ -1,6 +1,6 @@
-import { IBubble, IQuickCharts } from "./interfaces";
+import { IBubbleCharts, IQuickCharts } from "./interfaces";
 
-export const getBubbleBg = (currentElement: number, currentIndex: number, currentFieldIndex: number, bubbleSortProcedure: IBubble): string => {
+export const getBubbleBg = (currentElement: number, currentIndex: number, currentFieldIndex: number, bubbleSortProcedure: IBubbleCharts): string => {
     const { procedure, indexes } = bubbleSortProcedure
     if (currentFieldIndex < 1) {//start
         return "#228b22";//green

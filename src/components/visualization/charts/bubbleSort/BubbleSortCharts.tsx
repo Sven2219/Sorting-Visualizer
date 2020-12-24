@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { CHARTS_CONTAINER_HEIGHT } from '../../../helpers/Constants';
-import { IBubble } from '../../../helpers/interfaces'
+import { IBubbleCharts } from '../../../helpers/interfaces'
 import Charts from '../Charts';
 import { getBubbleSwapedValues, getOriginalArray } from '../getMethods';
 import { getBubbleBg } from '../../../helpers/chartsBackgroundColor';
 import { PORTRAIT } from '../../../helpers/types';
 interface IProps {
-    bubbleSortProcedure: IBubble;
+    bubbleSortProcedure: IBubbleCharts;
     isVisualizationPaused: boolean;
     visualizationFinished: () => void;
     isMenuModalOpen: boolean;
@@ -41,13 +41,16 @@ const BubbleSortCharts = ({ bubbleSortProcedure, isVisualizationPaused, visualiz
         swapedValues.current = [];
         setCurrentField([]);
     }, [isMenuModalOpen])
+    //when user change orientation check whether the length satisfies the condition
     useEffect(() => {
         if (orientation === PORTRAIT && procedure[0] !== undefined) {
             if (procedure[0].length >= 10) {
                 const procedureLength: number = procedure.length;
+    
                 for (let i = 0; i < procedureLength; i++) {
                     clearTimeout(timers.current[i]);
                 }
+                
                 swapedValues.current = [];
                 currentFieldIndex.current = 0;
                 invalidOrientation();

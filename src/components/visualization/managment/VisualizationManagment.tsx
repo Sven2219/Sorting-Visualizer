@@ -6,9 +6,9 @@ import { OrientationState } from '../../../context/OrientationState';
 import { bubbleSort } from '../../algorithms/bubbleSort';
 import { quickSortCharts } from '../../algorithms/quickSortCharts';
 import { quickSortSnapshots } from '../../algorithms/quickSortSnapshots';
-import { IBubble, IQuickSnapshots, IQuickCharts, IMergeSnapshots, IMerge } from '../../helpers/interfaces';
+import { IBubbleCharts, IQuickSnapshots, IQuickCharts, IMergeSnapshots, IMerge } from '../../helpers/interfaces';
 import { transformToObject, transfromTextToArray } from '../../helpers/transformInputedArray';
-import { mergeSortSnapshots } from '../../algorithms/mergeSortSnapshots';
+import { mergeSortSnapshots } from '../../algorithms/mergeSort';
 import { BUBBLE_SORT, CHARTS, MANUAL, MERGE_SORT, PORTRAIT, QUICK_SORT, SNAPSHOTS } from '../../helpers/types';
 import ManualButton from './ManualButton';
 import StartPauseButton from './TimedButton';
@@ -22,7 +22,7 @@ const VisualizationManagment = (): JSX.Element => {
 
     //Charts
     const bubbleSortCharts = (elements: number[]): void => {
-        const bubble: IBubble = bubbleSort(elements);
+        const bubble: IBubbleCharts = bubbleSort(elements);
         dispatch({ type: "setBubbleSortProcedure", payload: bubble });
     }
     const quickSortChartsProcedure = (elements: number[]): void => {

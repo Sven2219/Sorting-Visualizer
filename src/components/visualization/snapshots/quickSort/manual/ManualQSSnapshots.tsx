@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { IQuickSnapshots } from '../../../../helpers/interfaces';
-import { PORTRAIT } from '../../../../helpers/types';
 import StepButton from '../../general/StepButton';
 import Snapshot from '../Snapshot';
 

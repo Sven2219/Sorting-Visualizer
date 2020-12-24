@@ -4,8 +4,6 @@ import { Dimensions } from 'react-native';
 import { OrientationState } from '../context/OrientationState';
 import { LANDSCAPE, PORTRAIT } from '../components/helpers/types';
 
-
-
 const App = (): JSX.Element => {
     const [orientation, setOrientation] = useState<string>("");
     useEffect(() => {

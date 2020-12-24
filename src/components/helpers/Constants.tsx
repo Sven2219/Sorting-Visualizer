@@ -1,9 +1,4 @@
 import { Dimensions } from 'react-native';
-//Test purposes
-//Portrait
-//width = 360
-//height = 592
-//Landscape obrnuto
 
 export const { width, height } = Dimensions.get("window");
 

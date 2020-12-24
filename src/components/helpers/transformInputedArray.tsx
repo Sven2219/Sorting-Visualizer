@@ -40,7 +40,6 @@ const msSnapshotsErrorMessage = (low: number, high: number): void => {
 export const transfromTextToArray = (arrayForSort: string, orientation: string, visualizationMethod: string): number[] => {
     if (arrayForSort !== "") {
         const matchedElements: RegExpMatchArray | null = arrayForSort.match(/\d+/g);//matching only numbers
-
         if (matchedElements !== null) {
             const transformedElements: number[] = matchedElements.map(Number);//transforming into array of numbers
             const isValid: boolean = isLengthValid(transformedElements.length, orientation, visualizationMethod);
@@ -54,7 +53,7 @@ export const transfromTextToArray = (arrayForSort: string, orientation: string, 
 }
 //Transformation into an object because we want to have access to the original indexes while the merge sort is executed
 
-const isMergeSortLengthValid = (length: number, orientation: string) => {
+const isMergeLengthValid = (length: number, orientation: string) => {
     if (orientation === PORTRAIT) {
         if (length >= 4 && length <= 5) {
             return true;
@@ -77,8 +76,8 @@ export const transformToObject = (arrayForSort: string, orientation: string): IM
         transformedElements = matchedElements.map((element, index) => {
             return { element: Number(element), index }
         })
-        const isLengthValid = isMergeSortLengthValid(Object.keys(transformedElements).length, orientation);
-        if (isLengthValid) {
+        const isValid:boolean = isMergeLengthValid(Object.keys(transformedElements).length, orientation);
+        if (isValid) {
             return transformedElements;
         }
         return [];

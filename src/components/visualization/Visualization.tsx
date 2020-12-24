@@ -40,7 +40,6 @@ const Visualization = (): JSX.Element => {
                             snapshotDisplayMethod={state.snapshotDisplayMethod}
                             quickSortSnapshotsProcedure={state.quickSortSnapshotsProcedure}
                             isVisualizationFinished={state.isVisualizationFinished}
-
                         />
                     }
                     else {

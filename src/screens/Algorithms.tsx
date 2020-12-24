@@ -16,11 +16,15 @@ const ICON_SIZE = 50;
 
 const Algorithms = (): JSX.Element => {
     const [state, dispatch] = useReducer<React.Reducer<IState, Actions>>(reducer, {
-        isVisualizationPaused: true, sortingAlgorithm: BUBBLE_SORT, isMenuModalOpen: false,
-        isTheoryModalOpen: false, arrayForSort: "", isVisualizationFinished: true,
-        bubbleSortProcedure: { indexes: [], procedure: [] },
+        isVisualizationPaused: true,
+        sortingAlgorithm: BUBBLE_SORT,
+        isMenuModalOpen: false,
+        isTheoryModalOpen: false,
+        arrayForSort: "",
+        isVisualizationFinished: true,
         visualizationMethod: CHARTS,
         snapshotDisplayMethod: MANUAL,
+        bubbleSortProcedure: { indexes: [], procedure: [] },
         mergeSortSnapshotsProcedure: { levels: [], snapshots: [] },
         quickSortProcedureCharts: { indexes: [], procedure: [], pivotIndexes: [] },
         quickSortSnapshotsProcedure: { snapshots: [], pivotIndexes: [], snapshotPosition: { levels: [], startIndexes: [] } }
@@ -53,19 +57,16 @@ const Algorithms = (): JSX.Element => {
                     onPress={(arrayForSort: string) => dispatch({ type: "setArrayForSort", payload: arrayForSort })}
                     editable={state.isVisualizationFinished}
                 />
-
                 <AlgorithmsDispatch.Provider value={{ dispatch }}>
                     <AlgorithmsState.Provider value={{ state }}>
                         <VizualizationManagment />
                     </AlgorithmsState.Provider>
                 </AlgorithmsDispatch.Provider>
-
                 <AlgorithmsDispatch.Provider value={{ dispatch }}>
                     <AlgorithmsState.Provider value={{ state }}>
                         <Vizualization />
                     </AlgorithmsState.Provider>
                 </AlgorithmsDispatch.Provider>
-
                 {
                     state.isMenuModalOpen &&
                     <AlgorithmsDispatch.Provider value={{ dispatch }}>
@@ -74,14 +75,12 @@ const Algorithms = (): JSX.Element => {
                         </AlgorithmsState.Provider>
                     </AlgorithmsDispatch.Provider>
                 }
-
                 {
                     state.isTheoryModalOpen &&
                     <Theory onPress={() => dispatch({ type: "setIsTheoryModalOpen", payload: false })}
                         chosenSort={state.sortingAlgorithm}
                     />
                 }
-
             </ScrollView >
             {(state.visualizationMethod === SNAPSHOTS && state.isVisualizationFinished) &&
                 <SnapshotSettings manualMethod={() => dispatch({ type: "setSnapshotDisplayMethod", payload: MANUAL })}

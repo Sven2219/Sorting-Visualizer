@@ -21,7 +21,7 @@ export interface IQuickSnapshots {
     pivotIndexes: number[];
     snapshotPosition: IQuickSnapshotPosition;
 }
-export interface IBubble {
+export interface IBubbleCharts {
     procedure: number[][];
     indexes: number[];
 }

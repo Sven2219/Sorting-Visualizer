@@ -1,10 +1,10 @@
-import { IBubble, IMergeSnapshots, IQuickCharts, IQuickSnapshots } from "../components/helpers/interfaces"
+import { IBubbleCharts, IMergeSnapshots, IQuickCharts, IQuickSnapshots } from "../components/helpers/interfaces"
 import { SNAPSHOTS, BUBBLE_SORT, QUICK_SORT, MERGE_SORT } from "../components/helpers/types"
 
 export interface IState {
     isTheoryModalOpen: boolean;
     arrayForSort: string;
-    bubbleSortProcedure: IBubble;
+    bubbleSortProcedure: IBubbleCharts;
     quickSortProcedureCharts: IQuickCharts;
     quickSortSnapshotsProcedure: IQuickSnapshots;
     mergeSortSnapshotsProcedure: IMergeSnapshots;
@@ -26,7 +26,7 @@ type setArrayForSort = {
 }
 type setBubbleSortProcedure = {
     readonly type: "setBubbleSortProcedure";
-    readonly payload: IBubble;
+    readonly payload: IBubbleCharts;
 }
 type setIsPaused = {
     readonly type: "setIsPaused";

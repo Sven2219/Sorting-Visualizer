@@ -81,7 +81,7 @@ export const quickSort = (elements: number[], low: number, high: number, quickPr
     }
 }
 
-export const quickSortSnapshots = (elements: number[], displayMethod: string) => {
+export const quickSortSnapshots = (elements: number[], displayMethod: string):IQuickSnapshots => {
     const quick: IQuickSnapshots = { snapshots: [], pivotIndexes: [], snapshotPosition: { levels: [], startIndexes: [] } }
     const level: number = 0;
     quickSort(elements, 0, elements.length - 1, quick, level);

@@ -11,7 +11,7 @@ export const SNAPSHOTS = "Snapshots";
 export const PORTRAIT = "PORTRAIT";
 export const LANDSCAPE = "LANDSCAPE";
 
-
+//snapshot methods
 export const TIMING = "TIMING";
 export const MANUAL = "MANUAL";
 

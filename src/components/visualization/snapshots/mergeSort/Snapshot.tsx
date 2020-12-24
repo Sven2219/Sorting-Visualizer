@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { IMerge, IMergeSnapshots } from '../../../helpers/interfaces';
 import ElementBox from '../mergeSort/ElementBox';
 import { getTopPosition } from '../quickSort/getMethods';
