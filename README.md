@@ -1,5 +1,5 @@
 # Sorting-Visualizer
-<p>A mobile application created using react-native. 
+<p>A mobile application created using React Native but tested only on android device. 
 The goal of this application was a deep understanding of sorting algorithms(bubble, quick and merge sort). The application provides two ways of visualization: charts and snapshots.
 </p>
 <table style="width:100%">
