@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import { View, Text, StyleSheet, ScrollView, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, StatusBar, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Actions, IState, reducer } from '../reducers/algorithms';
 import Feather from 'react-native-vector-icons/Feather';
@@ -12,6 +12,8 @@ import { AlgorithmsState } from '../context/AlgorithmsState';
 import Vizualization from '../components/visualization/Visualization';
 import VizualizationManagment from '../components/visualization/managment/VisualizationManagment';
 import SnapshotSettings from '../components/SnapshotSettings';
+import { SETTINGS_ICON_SIZE } from '../components/helpers/Constants';
+import UserSettings from '../components/visualization/UserSettings';
 const ICON_SIZE = 50;
 
 const Algorithms = (): JSX.Element => {
@@ -21,9 +23,11 @@ const Algorithms = (): JSX.Element => {
         isMenuModalOpen: false,
         isTheoryModalOpen: false,
         arrayForSort: "",
+        timerValue: 700,
         isVisualizationFinished: true,
         visualizationMethod: CHARTS,
         snapshotDisplayMethod: MANUAL,
+        isUserSettingsOpen: false,
         bubbleSortProcedure: { indexes: [], procedure: [] },
         mergeSortSnapshotsProcedure: { levels: [], snapshots: [] },
         quickSortProcedureCharts: { indexes: [], procedure: [], pivotIndexes: [] },
@@ -42,6 +46,14 @@ const Algorithms = (): JSX.Element => {
             size={35}
             color="#d3d3d3" />
     }
+
+    const openSettings = React.useCallback(() => {
+        dispatch({ type: "setIsUserSettingsOpen", payload: true });
+    }, [])
+
+    const closeSettings = React.useCallback(() => {
+        dispatch({ type: "setIsUserSettingsOpen", payload: false });
+    }, [])
 
     return (
         <View style={styles.mainContainer}>
@@ -87,6 +99,12 @@ const Algorithms = (): JSX.Element => {
                     snapshotVisualizationMethod={state.snapshotDisplayMethod}
                     timingMethod={() => dispatch({ type: "setSnapshotDisplayMethod", payload: TIMING })}
                 />}
+            {(state.visualizationMethod === CHARTS && state.isVisualizationFinished) &&
+                <TouchableOpacity style={styles.settingsContainer} onPress={openSettings}>
+                    <Ionicons name="md-settings-outline" size={SETTINGS_ICON_SIZE} />
+                </TouchableOpacity>
+            }
+            {state.isUserSettingsOpen ? <UserSettings timerValue={state.timerValue} saveTimer={(value: number) => dispatch({ type: "setTimerValue", payload: value })} closeSettings={closeSettings} saveArray={(value) => dispatch({ type: "setArrayForSort", payload: value })} arrayForSort={state.arrayForSort} /> : null}
         </View>
     )
 }
@@ -130,6 +148,10 @@ const styles = StyleSheet.create({
         zIndex: 2,
         justifyContent: 'space-between'
     },
+    settingsContainer: {
+        alignItems: 'flex-end',
+        padding: 10,
+    }
 
 })
 export default Algorithms;

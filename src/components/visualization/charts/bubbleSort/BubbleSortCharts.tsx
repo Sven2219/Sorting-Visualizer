@@ -5,18 +5,20 @@ import Charts from '../Charts';
 import { getBubbleSwapedValues, getOriginalArray } from '../getMethods';
 import { getBubbleBg } from '../../../helpers/chartsBackgroundColor';
 import { PORTRAIT } from '../../../helpers/types';
-import {chartStyles as styles} from '../../../helpers/style';
+import { chartStyles as styles } from '../../../helpers/style';
 interface IProps {
     bubbleSortProcedure: IBubbleCharts;
     isVisualizationPaused: boolean;
-    visualizationFinished: () => void;
     isMenuModalOpen: boolean;
     orientation: string;
+    timerValue: number;
+    visualizationFinished: () => void;
     invalidOrientation: () => void;
 }
 
-const BubbleSortCharts = ({ bubbleSortProcedure, isVisualizationPaused, visualizationFinished, isMenuModalOpen, orientation, invalidOrientation }: IProps): JSX.Element => {
+const BubbleSortCharts = ({ bubbleSortProcedure, isVisualizationPaused, timerValue, visualizationFinished, isMenuModalOpen, orientation, invalidOrientation }: IProps): JSX.Element => {
     const { procedure } = bubbleSortProcedure;
+
     const [currentField, setCurrentField] = useState<number[]>([]);
     const currentFieldIndex = useRef<number>(0);
     const timers = useRef<NodeJS.Timeout[]>([]);
@@ -103,7 +105,7 @@ const BubbleSortCharts = ({ bubbleSortProcedure, isVisualizationPaused, visualiz
                         visualizationFinished();
                     }
                 }
-            }, 700 * (index !== procedureLength - 1 - startIndex ? index : index - 0.9))
+            }, timerValue * (index !== procedureLength - 1 - startIndex ? index : index - 0.9))
         }))
     }
 

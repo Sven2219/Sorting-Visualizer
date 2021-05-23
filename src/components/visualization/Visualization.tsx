@@ -20,6 +20,7 @@ const Visualization = (): JSX.Element => {
                 if (state.sortingAlgorithm === BUBBLE_SORT) {
                     return <BubbleChartsMethod bubbleSortProcedure={state.bubbleSortProcedure}
                         isMenuModalOpen={state.isMenuModalOpen}
+                        timerValue={state.timerValue}
                         isVisualizationPaused={state.isVisualizationPaused}
                         orientation={orientation}
                         invalidOrientation={() => dispatch({ type: "invalidOrientation", resetBubble: true })}

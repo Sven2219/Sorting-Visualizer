@@ -11,6 +11,8 @@ export interface IState {
     sortingAlgorithm: string;
     isVisualizationPaused: boolean;
     isVisualizationFinished: boolean;
+    timerValue: number;
+    isUserSettingsOpen: boolean;
     isMenuModalOpen: boolean;
     visualizationMethod: string;//SNAPSHOT OR CHARTS
     snapshotDisplayMethod: string;//TIMING OR MANUAL
@@ -49,6 +51,10 @@ type setIsMenuModalOpen = {
     readonly type: "setIsMenuModalOpen";
     readonly payload: boolean;
 }
+type setIsUserSettingsOpen = {
+    readonly type: "setIsUserSettingsOpen";
+    readonly payload: boolean;
+}
 type setVisualizationMethod = {
     readonly type: "setVisualizationMethod";
     readonly payload: string;
@@ -71,9 +77,17 @@ type invalidOrientation = {
     readonly resetQuickSnapshots?: boolean;
     readonly resetMerge?: boolean;
 }
+
+type setTimerValue = {
+    readonly type: "setTimerValue";
+    readonly payload: number;
+}
+
+
+
 export type Actions = setIsTheoryModalOpen | setArrayForSort | setBubbleSortProcedure | setIsPaused | setQuickSortProcedureCharts
     | setSortingAlgoritm | setIsMenuModalOpen | setVisualizationMethod | setQuickSortSnapshotsProcedure | setQuitVisualization
-    | setSnapshotDisplayMethod | setMergeSortSnapshotsProcedure | invalidOrientation;
+    | setSnapshotDisplayMethod | setMergeSortSnapshotsProcedure | invalidOrientation | setIsUserSettingsOpen | setTimerValue;
 
 export const reducer = (state: IState, actions: Actions): IState => {
     switch (actions.type) {
@@ -143,6 +157,11 @@ export const reducer = (state: IState, actions: Actions): IState => {
             else if (actions.resetMerge !== undefined) {
                 return { ...state, mergeSortSnapshotsProcedure: { snapshots: [], levels: [] }, isVisualizationPaused: true, isVisualizationFinished: true };
             }
+            return { ...state }
+        case "setIsUserSettingsOpen":
+            return { ...state, isUserSettingsOpen: actions.payload };
+        case "setTimerValue":
+            return { ...state, timerValue: actions.payload };
         default:
             return state;
     }
